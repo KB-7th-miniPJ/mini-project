@@ -32,8 +32,8 @@
 
 | 분류 | 기술 |
 |------|------|
-| Frontend | React |
-| 데이터 | db.json |
+| Frontend | Vue |
+| 데이터 | json-server-auth |
 | 협업 | GitHub |
 
 <br>
