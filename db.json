@@ -89,16 +89,7 @@
       "status": "예정"
     }
   ],
-  "settlements": [
-    {
-      "id": "1",
-      "travelId": "travel11",
-      "fromUserId": "2",
-      "toUserId": "1",
-      "amount": 45000,
-      "status": "requested"
-    }
-  ],
+  "settlements": [],
   "categories": [
     {
       "id": "c1",
@@ -126,38 +117,5 @@
       "icon": "📦"
     }
   ],
-  "expenses": [
-    {
-      "id": 1,
-      "travelId": "travel11",
-      "date": "2026-08-01",
-      "category": "c3",
-      "place": "수산시장 횟집",
-      "amount": "35000",
-      "payerId": "1",
-      "membersId": [
-        "김호일 (1)",
-        "김호이 (2)",
-        "김호삼 (3)",
-        "김호사 (4)"
-      ],
-      "memo": "고등어회",
-      "photoUrl": ""
-    },
-    {
-      "id": 2,
-      "travelId": "travel12",
-      "date": "2026-09-12",
-      "category": "c1",
-      "place": "에어비앤비",
-      "amount": "200,000",
-      "payerId": "2",
-      "membersId": [
-        "김호오 (5)",
-        "김호육 (6)"
-      ],
-      "memo": "파리 숙소",
-      "photoUrl": ""
-    }
-  ]
+  "expenses": []
 }
