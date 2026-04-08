@@ -121,7 +121,7 @@ const goSettlement = () =>
             <p class="meta">
               {{ getCatInfo(e.category).icon }}
               {{ getCatInfo(e.category).name }}
-              · {{ e.payerId }}번 결제
+              · {{ e.payerId }}결제자 이름
             </p>
           </div>
           <span class="amt">{{ Number(e.amount).toLocaleString() }}원</span>
