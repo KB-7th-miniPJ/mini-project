@@ -45,7 +45,7 @@
   ],
   "travels": [
     {
-      "id": "travel11",
+      "travelid": "travel11",
       "inviteCode": "ABC123",
       "title": "여름 바다 여행",
       "destination": "제주도",
@@ -55,6 +55,45 @@
       "membersId": ["1", "2", "3", "4"],
       "amount": 500000,
       "currency": "KRW",
+      "status": "예정"
+    },
+    {
+      "travelId": "travel12",
+      "inviteCode": "XYZ456",
+      "title": "유럽 배낭 여행",
+      "destination": "프랑스, 이탈리아",
+      "startDate": "2026-09-10",
+      "endDate": "2026-09-20",
+      "membersCount": 2,
+      "membersId": ["5", "6"],
+      "amount": 2000,
+      "currency": "USD",
+      "status": "진행 중"
+    },
+    {
+      "travelId": "travel13",
+      "inviteCode": "LMN789",
+      "title": "가족 여행",
+      "destination": "부산",
+      "startDate": "2026-10-15",
+      "endDate": "2026-10-17",
+      "membersCount": 5,
+      "membersId": ["1", "2", "3", "4", "5"],
+      "amount": 800000,
+      "currency": "KRW",
+      "status": "완료"
+    },
+    {
+      "travelId": "travel14",
+      "inviteCode": "QWE321",
+      "title": "스키 여행",
+      "destination": "강원도",
+      "startDate": "2026-12-01",
+      "endDate": "2026-12-05",
+      "membersCount": 3,
+      "membersId": ["3", "4", "5"],
+      "amount": 1200,
+      "currency": "USD",
       "status": "예정"
     }
   ],
@@ -84,8 +123,8 @@
       "category": "c3",
       "place": "수산시장 횟집",
       "amount": "35000",
-      "payerId": "1",
-      "membersId": ["김호일 (1)", "김호이 (2)", "김호삼 (3)", "김호사 (4)"],
+      "payerId": "3",
+      "membersId": ["1", "2", "3", "4"],
       "memo": "고등어회",
       "photoUrl": ""
     },
@@ -96,9 +135,9 @@
       "date": "2026-09-12",
       "category": "c1",
       "place": "에어비앤비",
-      "amount": "200,000",
-      "payerId": "2",
-      "membersId": ["김호오 (5)", "김호육 (6)"],
+      "amount": "200000",
+      "payerId": "6",
+      "membersId": ["5", "6"],
       "memo": "파리 숙소",
       "photoUrl": ""
     }
