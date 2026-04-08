@@ -77,11 +77,11 @@ const goSettlement = () =>
     <div class="card-row">
       <div class="stat-card">
         <span class="lbl">예산잔여</span>
-        <span class="val">{{ Math.round(budgetLeft / 10000) }}만</span>
+        <span class="val">{{ (budgetLeft / 10000).toFixed(1) }}만</span>
       </div>
       <div class="stat-card clickable" @click="openBudgetModal">
         <span class="lbl">1인당</span>
-        <span class="val">{{ Math.round(perPerson / 10000) }}만</span>
+        <span class="val">{{ (perPerson / 10000).toFixed(1) }}만</span>
         <span class="hint">수정</span>
       </div>
       <div class="stat-card clickable" @click="openDateModal">
@@ -150,12 +150,12 @@ const goSettlement = () =>
           <!-- membersCount 사용 -->
           {{ travel?.membersCount ?? 1 }}명 기준 →
           1인당 {{
-            Math.round(newBudget / (travel?.membersCount || 1)).toLocaleString()
+            newBudget / (travel?.membersCount || 1).toLocaleString()
           }}원
         </p>
         <div class="modal-btns">
           <button @click="showBudgetModal = false">취소</button>
-          <button class="btn-primary" @click="saveBudget">저장</button>
+          <button @click="saveBudget">저장</button>
         </div>
       </div>
     </div>
