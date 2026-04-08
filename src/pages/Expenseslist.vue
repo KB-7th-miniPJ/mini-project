@@ -22,6 +22,7 @@ const {
   selectedMemo,
   toggleMemoModal,
   closeModal,
+  isPhotoModalOpen, selectedPhoto, togglePhotoModal, closePhotoModal
 } = useExpense(travelNumId);
 
 onMounted(() => loadExpenses());
@@ -111,6 +112,12 @@ const onEdit = async (expense) => {
             >
               📝
             </span>
+            <span 
+              v-if="e.photoUrl" 
+              class="photo-icon" 
+              :class="{ active: isPhotoModalOpen && selectedPhoto === e.photoUrl }"
+              @click="togglePhotoModal(e.photoUrl)"
+            >📷</span>
             <div
               v-if="isModalOpen"
               class="modal-overlay"
@@ -121,8 +128,15 @@ const onEdit = async (expense) => {
                 <p class="memo-text">{{ selectedMemo }}</p>
               </div>
             </div>
+            <div v-if="isPhotoModalOpen" class="modal-overlay" @click.self="closePhotoModal">
+      <div class="modal-content photo-box">
+        <h3>📸 첨부 사진</h3>
+        <img :src="selectedPhoto" class="preview-img" alt="영수증/사진" />
+      </div>
+    </div>
           </div>
         </div>
+        
         <div class="exp-right">
           <span class="exp-amt">{{ Number(e.amount).toLocaleString() }}원</span>
           <div class="exp-actions">
@@ -327,5 +341,15 @@ const onEdit = async (expense) => {
   color: #333;
   line-height: 1.6;
   white-space: pre-wrap; /* 줄바꿈 허용 */
+}
+
+.memo-icon, .photo-icon {
+  cursor: pointer;
+  font-size: 14px;
+  transition: transform 0.2s;
+  display: inline-block;
+}
+.memo-icon.active, .photo-icon.active {
+  transform: scale(1.3);
 }
 </style>

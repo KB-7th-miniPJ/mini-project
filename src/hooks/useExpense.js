@@ -171,13 +171,8 @@ export function useExpense(travelNumId) {
     )
   }
 // --- 메모 모달(토글) ---
-const isModalOpen = ref(false)      // 모달 열림/닫힘 상태
+const isModalOpen = ref(false)      
   const selectedMemo = ref('')
-
-const openMemoModal = (memo) => {
-    selectedMemo.value = memo
-    isModalOpen.value = true
-  }
 
 const closeModal = () => {
     isModalOpen.value = false
@@ -194,6 +189,24 @@ const toggleMemoModal = (memo) => {
   }
 }
 
+// --- 📸 사진 모달---
+const isPhotoModalOpen = ref(false)
+const selectedPhoto = ref('')
+
+const togglePhotoModal = (url) => {
+  if (isPhotoModalOpen.value && selectedPhoto.value === url) {
+    isPhotoModalOpen.value = false
+    selectedPhoto.value = ''
+  } else {
+    selectedPhoto.value = url
+    isPhotoModalOpen.value = true
+  }
+}
+
+const closePhotoModal = () => {
+  isPhotoModalOpen.value = false
+  selectedPhoto.value = ''
+}
 
   return {
     travel, expenses, recentList, categories, selectedCat, isLoading,
@@ -202,6 +215,7 @@ const toggleMemoModal = (memo) => {
     totalExpense, budgetLeft, perPerson, dDay, daysLeft,
     byCategory, filtered, grouped, filteredTotal,
     editTravel, editExpense, removeExpense,
-    isModalOpen, selectedMemo, toggleMemoModal, closeModal
+    isModalOpen, selectedMemo, toggleMemoModal, closeModal,
+    isPhotoModalOpen, selectedPhoto, togglePhotoModal, closePhotoModal
   }
 }
