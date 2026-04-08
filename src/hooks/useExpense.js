@@ -1,8 +1,7 @@
- 
 import { ref, computed } from 'vue'
 import {
   getTravel,
-  getExpensesByTravel,
+  getExpensesByTravelId,
   updateTravel,
   getRecentExpenses,
   getCategories
@@ -13,27 +12,35 @@ import {
   deleteExpense
 } from '@/api/expenseslistApi'
 
-export function useExpense(travelId) {
+export function useExpense(travelNumId) {
+  // travelNumId = route.params.id = "1" (문자열로 옴)
 
-  // ── 상태 ────────────────────────────────────────
-  const travel      = ref(null)   // travels 단건 { id:"11", title, membersId, amount, ... }
-  const expenses    = ref([])     // expenses 목록 [{ id:1, travelId:"11", amount:"35000", ... }]
-  const recentList  = ref([])     // 최근 3건
-  const categories  = ref([])    
-  const selectedCat = ref('전체') // 탭 필터
+  const travel      = ref(null)
+  const expenses    = ref([])
+  const recentList  = ref([])
+  const categories  = ref([])
+  const selectedCat = ref('전체')
   const isLoading   = ref(false)
 
-  // ── 대시보드 로드 (Main2용) ──────────────────────
+  // ── 대시보드 로드 ────────────────────────────────
+  // 핵심: travels.id(숫자) → travels.travelId 추출 → expenses 조회
   const loadDashboard = async () => {
     isLoading.value = true
     try {
-      const [travelRes, expRes, recentRes, catRes] = await Promise.all([
-        getTravel(travelId),           
-        getExpensesByTravel(travelId), 
-        getRecentExpenses(travelId, 3),
+      // 1단계: travels.id = 1 로 여행 조회
+      const travelRes = await getTravel(travelNumId)
+      travel.value = travelRes.data
+      // travel.value = { id:1, travelId:"travel1", title:"여름 바다 여행",
+      //                  membersCount:4, amount:500000, ... }
+
+      // 2단계: travelId 추출해서 expenses 조회
+      const tid = travel.value.travelId  // "travel1"
+
+      const [expRes, recentRes, catRes] = await Promise.all([
+        getExpensesByTravelId(tid),   // GET /expenses?travelId=travel1
+        getRecentExpenses(tid, 3),
         getCategories()
       ])
-      travel.value     = travelRes.data
       expenses.value   = expRes.data
       recentList.value = recentRes.data
       categories.value = catRes.data
@@ -44,12 +51,17 @@ export function useExpense(travelId) {
     }
   }
 
-  // (Expenseslist용) ──────────────
+  // ── 지출목록 로드 ────────────────────────────────
   const loadExpenses = async () => {
     isLoading.value = true
     try {
+      // 마찬가지로 2단계
+      const travelRes = await getTravel(travelNumId)
+      travel.value = travelRes.data
+      const tid = travel.value.travelId  // "travel1"
+
       const [expRes, catRes] = await Promise.all([
-        getExpenses(travelId),
+        getExpenses(tid),
         getCategories()
       ])
       expenses.value   = expRes.data
@@ -61,27 +73,27 @@ export function useExpense(travelId) {
     }
   }
 
-  // ── 카테고리 정보 조회 헬퍼 ─────────────────────
+  // ── 카테고리 정보 ─────────────────────────────────
   // getCatInfo("c3") → { id:"c3", name:"식비", icon:"🍽" }
   const getCatInfo = (catId) =>
     categories.value.find(c => c.id === catId) ?? { name: catId, icon: '📦' }
 
   // ── computed: 총 지출 ────────────────────────────
-  // ※ expenses.amount = "35000" 문자열이라 Number() 변환 필수
+  // expenses.amount = 35000 숫자 ✅ → Number() 불필요하지만 안전하게 유지
   const totalExpense = computed(() =>
     expenses.value.reduce((sum, e) => sum + Number(e.amount), 0)
   )
 
   // ── computed: 예산 잔여 ──────────────────────────
-  // travels.amount = 500000 숫자
+  // travels.amount = 500000
   const budgetLeft = computed(() =>
     (travel.value?.amount ?? 0) - totalExpense.value
   )
 
-  // ── computed: 1인당 금액 ─────────────────────────
-  // travels.membersId = ["1","2","3","4"] 배열 길이 사용
+  // ── computed: 1인당 ──────────────────────────────
+  // travels.membersCount = 4 (숫자, membersId 배열 없음!)
   const perPerson = computed(() => {
-    const n = travel.value?.membersId?.length ?? 1
+    const n = travel.value?.membersCount ?? 1
     return n > 0 ? Math.round(totalExpense.value / n) : 0
   })
 
@@ -100,7 +112,6 @@ export function useExpense(travelId) {
   })
 
   // ── computed: 카테고리별 합산 ────────────────────
-  // { "c1": 0, "c2": 0, "c3": 35000, ... }
   const byCategory = computed(() =>
     expenses.value.reduce((acc, e) => {
       acc[e.category] = (acc[e.category] ?? 0) + Number(e.amount)
@@ -108,7 +119,7 @@ export function useExpense(travelId) {
     }, {})
   )
 
-  // ── computed: 탭 필터 (API 재호출 없이 프론트 처리) ──
+  // ── computed: 탭 필터 ────────────────────────────
   const filtered = computed(() =>
     selectedCat.value === '전체'
       ? expenses.value
@@ -116,7 +127,6 @@ export function useExpense(travelId) {
   )
 
   // ── computed: 날짜별 그룹핑 ─────────────────────
-  // { "8월 1일": [{...}], "8월 2일": [{...}] }
   const grouped = computed(() => {
     const map = {}
     ;[...filtered.value]
@@ -135,14 +145,14 @@ export function useExpense(travelId) {
     filtered.value.reduce((sum, e) => sum + Number(e.amount), 0)
   )
 
-  // ── 여행 정보 수정 (예산·날짜) ──────────────────
+  // ── 여행 정보 수정 ───────────────────────────────
   const editTravel = async (data) => {
-    await updateTravel(travelId, data)
-    travel.value = { ...travel.value, ...data } // 로컬 즉시 반영
+    await updateTravel(travelNumId, data)
+    travel.value = { ...travel.value, ...data }
   }
 
   // ── 지출 수정 ────────────────────────────────────
-  // ※ expenses.id = 1 숫자 → String() 비교로 안전하게 처리
+  // expenses.id = 1 숫자 → String() 으로 안전하게 비교
   const editExpense = async (expenseId, data) => {
     await updateExpense(expenseId, data)
     const idx = expenses.value.findIndex(
@@ -162,16 +172,11 @@ export function useExpense(travelId) {
   }
 
   return {
-    // 상태
     travel, expenses, recentList, categories, selectedCat, isLoading,
-    // 로드 함수
     loadDashboard, loadExpenses,
-    // 헬퍼
     getCatInfo,
-    // computed
     totalExpense, budgetLeft, perPerson, dDay, daysLeft,
     byCategory, filtered, grouped, filteredTotal,
-    // 액션
     editTravel, editExpense, removeExpense
   }
 }

@@ -4,17 +4,17 @@ const api = axios.create({
   baseURL: 'http://localhost:3000'
 })
 
-// MAIN2-1: 여행 상세 조회(상단)
-export const getTravel = (travelId) =>
-  api.get(`/travels/${travelId}`)
+// MAIN2-1: 여행 단건 조회
+export const getTravel = (id) =>
+  api.get(`/travels/${id}`)
 
-// MAIN2-2-1: 1인당 예산, d-day, 카테고리별 지출 조회 
-export const getExpensesByTravel = (travelId) =>
+// MAIN2-2-1: 지출 전체 조회
+export const getExpensesByTravelId = (travelId) =>
   api.get('/expenses', { params: { travelId } })
 
-// MAIN2-2-2: 여행 예산,날짜 정보 수정
-export const updateTravel = (travelId, data) =>
-  api.put(`/travels/${travelId}`, data)
+// MAIN2-2-2: 여행 정보 수정 (예산, 날짜)
+export const updateTravel = (id, data) =>
+  api.patch(`/travels/${id}`, data)
 
 // MAIN2-3: 최근 지출 3건
 export const getRecentExpenses = (travelId, limit = 3) =>
@@ -23,6 +23,6 @@ export const getRecentExpenses = (travelId, limit = 3) =>
   })
 
 // 카테고리 목록
-// GET /categories → [{ id:"c1", name:"교통", icon:"🚌" }, ...]
+// GET /categories
 export const getCategories = () =>
   api.get('/categories')
