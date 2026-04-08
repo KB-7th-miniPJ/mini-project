@@ -10,6 +10,7 @@ const router = createRouter({
     { path: '/signin', name: 'signin', component: SignInMain },
     { path: '/signup', name: 'signup', component: SignUp },
     { path: '/travelbuild', name: 'travelbuild', component: TravelBuild },
+    { path: '/:pathMatch(.*)*', redirect: '/signin' },
   ],
 });
 
