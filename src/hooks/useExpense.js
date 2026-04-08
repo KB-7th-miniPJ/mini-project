@@ -170,6 +170,30 @@ export function useExpense(travelNumId) {
       e => String(e.id) !== String(expenseId)
     )
   }
+// --- 메모 모달(토글) ---
+const isModalOpen = ref(false)      // 모달 열림/닫힘 상태
+  const selectedMemo = ref('')
+
+const openMemoModal = (memo) => {
+    selectedMemo.value = memo
+    isModalOpen.value = true
+  }
+
+const closeModal = () => {
+    isModalOpen.value = false
+    selectedMemo.value = ''
+  }
+
+const toggleMemoModal = (memo) => {
+  if (isModalOpen.value && selectedMemo.value === memo) {
+    isModalOpen.value = false
+    selectedMemo.value = ''
+  } else {
+    selectedMemo.value = memo
+    isModalOpen.value = true
+  }
+}
+
 
   return {
     travel, expenses, recentList, categories, selectedCat, isLoading,
@@ -177,6 +201,7 @@ export function useExpense(travelNumId) {
     getCatInfo,
     totalExpense, budgetLeft, perPerson, dDay, daysLeft,
     byCategory, filtered, grouped, filteredTotal,
-    editTravel, editExpense, removeExpense
+    editTravel, editExpense, removeExpense,
+    isModalOpen, selectedMemo, toggleMemoModal, closeModal
   }
 }
