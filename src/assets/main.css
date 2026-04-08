@@ -1,35 +1,62 @@
-@import './base.css';
-
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  font-weight: normal;
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #ca5454;
+  color: #333;
 }
 
-a,
-.green {
+nav {
+  background-color: #333;
+  color: white;
+  padding: 10px 20px;
+}
+
+nav a {
+  color: white;
   text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
-  transition: 0.4s;
-  padding: 3px;
+  margin: 0 15px;
 }
 
-@media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
-  }
+nav a:hover {
+  text-decoration: underline;
 }
 
-@media (min-width: 1024px) {
-  body {
-    display: flex;
-    place-items: center;
-  }
+h1, h2, h3 {
+  margin: 10px 0;
+}
 
-  #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
-  }
+.trip-item {
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 15px;
+  margin: 10px 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.progress-bar {
+  background-color: #ddd;
+  border-radius: 5px;
+  overflow: hidden;
+  height: 20px;
+  margin: 5px 0;
+}
+
+.progress {
+  background-color: #4caf50;
+  height: 100%;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+  margin: auto;
+}
+
+input {
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
