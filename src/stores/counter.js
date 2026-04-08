@@ -1,5 +1,7 @@
-import { ref, computed } from 'vue'
-import { defineStore } from 'pinia'
+import { defineStore } from "pinia";
+import { reactive, computed } from "vue";
+import axios from "axios";
+import { useRouter } from "vue-router";
 
 export const useCounterStore = defineStore('counter', () => {
   const count = ref(0)
