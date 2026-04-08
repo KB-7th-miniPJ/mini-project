@@ -105,8 +105,8 @@ const handleComplete = () => {
     alert('참여 멤버를 1명 이상 선택해주세요.');
     return;
   }
-  console.log('결제자:', selectedPayer.value); // 결제자 확인
-  console.log('참여멤버:', selectedParticipants.value); // 참여멤버 확인
+  console.log('결제자:', selectedPayer.value); // 결제자 확인 콘솔
+  console.log('참여멤버:', selectedParticipants.value); // 참여멤버 확인 콘솔
 
 
   membersStore.setPayer({
