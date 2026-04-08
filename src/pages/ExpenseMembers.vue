@@ -122,16 +122,11 @@ const handleComplete = () => {
 
   console.log('store 저장 후 payer:', membersStore.payer.name); // store 확인
   console.log('store 저장 후 participants:', membersStore.participants); // store 확인
-  // router.back();
+  router.back();
 };
 
 // 멤버 목록 로드
 onMounted(async () => {
-  // try {
-  //   members.value = await getMembersByTravelId(travelId);
-  // } catch (e) {
-  //   alert(e.message);
-  // }
   try {
     console.log('travelId:', travelId); // travelId 확인
     const result = await getMembersByTravelId(travelId);
