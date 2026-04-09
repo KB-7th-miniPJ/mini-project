@@ -6,32 +6,29 @@ import ExpenseRecord from '@/pages/expenses/ExpenseRecord.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
+    { path: '/', redirect: '/expenses/new' },
     {
-    path: '/', // 첫 접속 주소
-    redirect: '/expenses/new' // 지출 기록 페이지로 자동 이동
-   },
-    // 내 페이지: 지출 기록
-    {
-      path: '/expenses/new', // 혹은 원래 쓰시던 경로
+      path: '/expenses/new',
       name: 'ExpenseRecord',
       component: ExpenseRecord,
     },
-    // 2. 혜성님 인원 선택 페이지 등록
     // {
     //   path: '/expensemembers',
-    //   name: 'Expensemembers',
-    //   component: Expensemembers,
+    //   name: 'expensemembers',
+    //   component: Expensemembers, // 연결 완료
     // },
-    // // 3. 예림님 지출 목록 페이지 등록
     // {
-    //   path: '/expenseslist',
+    //  // 예림님 파일 생기면 주석 해제
+    // {
+    //   path: '/travels/:id/expenseslist',
     //   name: 'expenseslist',
-    //   component: Expenseslist,
+    //   component: () => import('@/pages/expenses/Expenseslist.vue'),
+    // },
     // },
     // {
     //   path: "/travels/:id",
     //   name: "main2",
-    //   component: Main2,
+    //   component: () => import('@/pages/Main2.vue'),
     // },
   ],
 })

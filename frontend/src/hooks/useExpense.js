@@ -1,63 +1,66 @@
-// src/hooks/useExpense.js
 import { ref, computed, onMounted } from "vue";
 import { getCategories, createExpense } from "../api/expenseApi";
+// 혜성님 파일 생기면 주석 해제
+// import { useMembersStore } from "@/stores/members"; 
 
 export function useExpense() {
+  // 혜성님 파일 생기면 주석 해제
+  // const memberStore = useMembersStore();
+
   const categories = ref([]);
   const date = ref(new Date());
   const category = ref("");
   const amount = ref("");
-  const members = ref([]); // 인원 선택 시 여기에 데이터가 담겨야 합니다.
+  const place = ref(""); // 장소 추가
   const photos = ref([]);
 
-  // 카테고리 로드
+  // 혜성님 파일 생기면 아래 주석 해제하고 임시 데이터 주석 처리
+  // const members = computed(() => memberStore.participants);
+  const members = ref([]);
+
   onMounted(async () => {
     try {
       const data = await getCategories();
       categories.value = data;
-      // 기본값으로 첫 번째 카테고리 설정 (선택사항)
       if (data.length > 0) category.value = data[0].name;
     } catch (e) {
       console.error("카테고리를 불러오지 못했습니다.", e);
     }
   });
 
-  // 실시간 콤마 포맷팅된 금액
   const formattedAmount = computed(() => {
     const num = amount.value.toString().replace(/[^0-9]/g, "");
     return num ? Number(num).toLocaleString() : "";
   });
 
-  // 더치페이 계산 로직 (자동 계산)
   const perPerson = computed(() => {
     const totalMembers = members.value.length;
     if (totalMembers === 0) return "0";
-    
-    // amount에서 콤마 제거 후 숫자로 변환
     const totalAmount = Number(amount.value.toString().replace(/,/g, "")) || 0;
     return Math.floor(totalAmount / totalMembers).toLocaleString();
   });
 
-  // 금액 입력 핸들러
   const setAmount = (val) => {
-    const num = val.replace(/[^0-9]/g, "");
-    // 입력값 저장 (더치페이 계산용)
-    amount.value = num; 
+    amount.value = val.replace(/[^0-9]/g, "");
   };
 
   const saveExpense = async () => {
-    if (!category.value || !amount.value) return alert("데이터를 입력해주세요.");
-    await createExpense({
+    const payload = {
       date: date.value,
       category: category.value,
-      amount: Number(amount.value.replace(/,/g, "")),
-      members: members.value,
+      place: place.value,
+      amount: Number(amount.value.toString().replace(/,/g, "")),
+      // payer: memberStore.payer,               // 혜성님 파일 생기면 주석 해제
+      // participants: memberStore.participants,  // 혜성님 파일 생기면 주석 해제
+      payer: "",
+      participants: members.value,
       photos: photos.value,
-    });
+    };
+    return await createExpense(payload);
   };
 
   return {
-    categories, date, category, amount,
+    categories, date, category, amount, place,
     formattedAmount, perPerson, members, photos,
     setAmount, saveExpense,
   };
