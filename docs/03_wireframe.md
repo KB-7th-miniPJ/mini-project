@@ -24,7 +24,8 @@
 ### EXPENSES (지출)
 | 화면 ID | 화면명 | 와이어프레임 |
 |---------|--------|------------|
-| expenses-01 | 지출내역 | ![지출내역](이미지링크) |
+| expenses-01 | 지출내역 | ![지출내역]<img width="447" height="821" alt="image" src="https://github.com/user-attachments/assets/4b8c3f90-9a1a-48d8-85d6-e640df91c243" />
+ |
 | expenses-02 | 정산멤버 | ![정산멤버](이미지링크) |
 | expenseslist | 지출목록 | ![지출목록](이미지링크) |
 
