@@ -74,6 +74,13 @@
       "name": "김기림",
       "joinTravelIds": {},
       "id": "D3vJo0Z"
+    },
+    {
+      "name": "팔기림",
+      "email": "qwe8@qwe.com",
+      "password": "1234567@",
+      "joinTravelIds": {},
+      "id": "HyEuIoV"
     }
   ],
   "travels": [
