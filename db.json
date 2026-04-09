@@ -1,98 +1,109 @@
 {
-  "users": {
-    "1": {
+  "users": [
+    {
+      "id": "1",
       "name": "일기림",
       "email": "qwe1@qwe.com",
       "password": "qwer1234!",
-      "joinTravelIds": { "travel1": true, "travel2": true }
+      "joinTravelIds": [
+        "travel1",
+        "travel2"
+      ]
     },
-    "2": {
+    {
+      "id": "2",
       "name": "이기림",
       "email": "qwe2@qwe.com",
       "password": "qwer1234!",
-      "joinTravelIds": { "travel1": true, "travel2": true }
+      "joinTravelIds": [
+        "travel1",
+        "travel2"
+      ]
     },
-    "3": {
+    {
+      "id": "3",
       "name": "삼기림",
       "email": "qwe3@qwe.com",
       "password": "qwer1234!",
-      "joinTravelIds": { "travel1": true, "travel2": true }
+      "joinTravelIds": [
+        "travel1",
+        "travel2"
+      ]
     },
-    "4": {
+    {
+      "id": "4",
       "name": "사기림",
       "email": "qwe4@qwe.com",
       "password": "qwer1234!",
-      "joinTravelIds": { "travel3": true, "travel4": true }
+      "joinTravelIds": [
+        "travel3",
+        "travel4"
+      ]
     },
-    "5": {
+    {
+      "id": "5",
       "name": "오기림",
       "email": "qwe5@qwe.com",
       "password": "qwer1234!",
-      "joinTravelIds": { "travel3": true, "travel4": true }
+      "joinTravelIds": [
+        "travel3",
+        "travel4"
+      ]
     },
-    "6": {
+    {
+      "id": "6",
       "name": "육기림",
       "email": "qwe6@qwe.com",
       "password": "qwer1234!",
-      "joinTravelIds": { "travel4": true }
-    }
-  },
-  "travels": [
-    {
-      "id": 1,
-      "travelId": "travel1",
-      "inviteCode": "ABC123",
-      "title": "여름 바다 여행",
-      "destination": "제주도",
-      "startDate": "2026-08-01",
-      "endDate": "2026-08-05",
-      "membersCount": 4,
-      "amount": 500000,
-      "currency": "KRW",
-      "status": "예정"
+      "joinTravelIds": [
+        "travel4"
+      ]
     },
     {
-      "id": 2,
-      "travelId": "travel2",
-      "inviteCode": "XYZ456",
-      "title": "유럽 배낭 여행",
-      "destination": "프랑스, 이탈리아",
-      "startDate": "2026-09-10",
-      "endDate": "2026-09-20",
-      "membersCount": 2,
-      "amount": 2000,
-      "currency": "USD",
-      "status": "진행 중"
-    },
-    {
-      "id": 3,
-      "travelId": "travel3",
-      "inviteCode": "LMN789",
-      "title": "가족 여행",
-      "destination": "부산",
-      "startDate": "2026-10-15",
-      "endDate": "2026-10-17",
-      "membersCount": 5,
-      "amount": 800000,
-      "currency": "KRW",
-      "status": "완료"
-    },
-    {
-      "id": 4,
-      "travelId": "travel4",
-      "inviteCode": "QWE321",
-      "title": "스키 여행",
-      "destination": "강원도",
-      "startDate": "2026-12-01",
-      "endDate": "2026-12-05",
-      "membersCount": 3,
-      "amount": 1200,
-      "currency": "USD",
-      "status": "예정"
+      "id": "7",
+      "name": "칠기림",
+      "email": "qwe7@qwe.com",
+      "password": "qwer1234!",
+      "joinTravelIds": [
+        "travel1"
+      ]
     }
   ],
-  "settlements": [
+  "travels": [
     {
+      "title": "오사카여행",
+      "destination": "ㅂㅈㄷ",
+      "startDate": "2026-04-03",
+      "endDate": "2026-04-22",
+      "membersCount": 3,
+      "amount": 121231230,
+      "currency": "KRW",
+      "status": "예정",
+      "id": 1
+    },
+    {
+      "title": "qwewq",
+      "destination": "qweqweq",
+      "startDate": "2026-04-09",
+      "endDate": "2026-04-16",
+      "membersCount": 1,
+      "amount": 1231230,
+      "currency": "KRW",
+      "status": "예정",
+      "id": 2
+    },
+    {
+      "title": "dfasdf",
+      "travelType": "국내",
+      "startDate": "2026-04-15",
+      "endDate": "2026-04-16",
+      "membersCount": 4,
+      "amount": 1231230,
+      "currency": "KRW",
+      "id": 3
+    }
+  ],
+  "settlements": [{
       "id": 1,
       "travelId": "travel1",
       "fromUserId": "2",
@@ -123,37 +134,33 @@
       "toUserId": "2",
       "amount": 15000,
       "status": "requested"
-    }
-  ],
+    }],
   "categories": [
-    { "id": "c1", "name": "교통", "icon": "🚌" },
-    { "id": "c2", "name": "숙박", "icon": "🏨" },
-    { "id": "c3", "name": "식비", "icon": "🍽" },
-    { "id": "c4", "name": "관광", "icon": "🎡" },
-    { "id": "c5", "name": "기타", "icon": "📦" }
-  ],
-  "expenses": [
     {
-      "id": 1,
-      "travelId": "travel1",
-      "date": "2026-08-01",
-      "category": "c3",
-      "place": "수산시장 횟집",
-      "amount": 35000,
-      "payerId": "1",
-      "memo": "고등어회",
-      "photoUrl": ""
+      "id": "c1",
+      "name": "교통",
+      "icon": "🚌"
     },
     {
-      "id": 2,
-      "travelId": "travel2",
-      "date": "2026-09-12",
-      "category": "c1",
-      "place": "에어비앤비",
-      "amount": 200000,
-      "payerId": "2",
-      "memo": "파리 숙소",
-      "photoUrl": ""
+      "id": "c2",
+      "name": "숙박",
+      "icon": "🏨"
+    },
+    {
+      "id": "c3",
+      "name": "식비",
+      "icon": "🍽"
+    },
+    {
+      "id": "c4",
+      "name": "관광",
+      "icon": "🎡"
+    },
+    {
+      "id": "c5",
+      "name": "기타",
+      "icon": "📦"
     }
-  ]
+  ],
+  "expenses": []
 }

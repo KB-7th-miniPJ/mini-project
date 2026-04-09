@@ -6,8 +6,8 @@
     </h2>
 <!-- 라디오 버튼으로 국내/해외 여행 타입 선택 -->
     <div class="radio-group">
-      <label><input type="radio" value="국내" v-model="travelType" /> 국내여행</label>
-      <label><input type="radio" value="해외" v-model="travelType" /> 해외여행</label>
+      <label><input type="radio" value="국내" v-model="travelType"/> 국내여행</label>
+      <label><input type="radio" value="해외" v-model="travelType"/> 해외여행</label>
     </div>
 
     <div>
@@ -16,10 +16,6 @@
         <input v-model="title" placeholder="여행 이름을 입력하세요" />
       </div>
 
-      <div class="form-group">
-        <label>목적지</label>
-        <input v-model="destination" placeholder="목적지를 입력하세요" />
-      </div>
 <!--출발/도착 날짜-->
       <div class="form-row">
         <div class="form-group half">
@@ -68,7 +64,6 @@ const router = useRouter();
 const store = useTravelStore();
 const travelType = ref('');
 const title = ref('');
-const destination = ref('');
 const startDate = ref('');
 const endDate = ref('');
 const membersCount = ref(1);
@@ -79,21 +74,19 @@ const increment = () => { membersCount.value++; };
 const decrement = () => { if (membersCount.value > 1) membersCount.value--; };
 // 여행 생성
 const addTravel = async () => {
-  if (!title.value || !destination.value || !startDate.value || !endDate.value) {
+  if (!title.value || !startDate.value || !endDate.value) {
     alert('모든 항목을 입력해주세요.');
     return;
   }
   await store.addTravel({
     title: title.value,
-    destination: destination.value,
+    travelType: travelType.value,
     startDate: startDate.value,
     endDate: endDate.value,
     membersCount: membersCount.value,
     amount: amount.value,
     currency: currency.value,
-    status: '예정',
   });
-  alert(`"${title.value}" 여행이 추가되었습니다!`);
   router.push({ name: 'Main' });
 };
 </script>
