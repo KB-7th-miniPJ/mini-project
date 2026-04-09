@@ -4,10 +4,14 @@
       <button class="back-btn" @click="goBack">‹</button>
       <h2 class="title">인원 선택</h2>
     </div>
-    <!-- 결제자 선택 -->
+
     <div class="section">
       <p class="label">결제자</p>
-      <select v-model="selectedPayer" class="select" @change="handlePayerChange">
+      <select
+        v-model="selectedPayer"
+        class="select"
+        @change="handlePayerChange"
+      >
         <option value="" disabled>결제자를 선택해주세요</option>
         <option v-for="member in members" :key="member.id" :value="member">
           {{ member.name }}
@@ -15,7 +19,6 @@
       </select>
     </div>
 
-    <!-- 그룹멤버 -->
     <div class="section">
       <p class="label">그룹멤버 {{ members.length }}명</p>
       <div
@@ -24,14 +27,13 @@
         class="member-row"
         @click="toggleParticipant(member)"
       >
-        <!-- 아바타 -->
         <div class="avatar" :style="{ background: avatarColor(member.id) }">
           {{ member.name[0] }}
         </div>
         <div class="member-info">
           <span class="member-name">{{ member.name }}</span>
         </div>
-        <!-- 체크박스 -->
+
         <div class="checkbox" :class="{ checked: isParticipant(member) }">
           <svg
             v-if="isParticipant(member)"
@@ -52,7 +54,6 @@
       </div>
     </div>
 
-    <!-- 선택 완료 버튼 -->
     <button class="btn-complete" @click="handleComplete">선택 완료</button>
   </div>
 </template>
@@ -67,18 +68,14 @@ const route = useRoute();
 const router = useRouter();
 const membersStore = useMembersStore();
 
-const travelId = route.params.travelId; // url에서 trevalId 추출
+const travelId = route.params.travelId;
 
-console.log('받은 travelId:', travelId);
-console.log('route.params:', route.params);
+const members = ref([]);
 
-const members = ref([]); // api에서 받아온 멤버 목록
+const selectedPayer = ref('');
 
-const selectedPayer = ref(''); // 선택된 결제자 들어갈 장소 처음 빈 문자
+const selectedParticipants = ref([]);
 
-const selectedParticipants = ref([]); // 선택된 멤버들 들어갈 장소 처음 빈 배열
-
-// 아바타 색상 (id 기반으로 고정색)
 const colors = [
   '#a78bfa',
   '#86efac',
@@ -90,18 +87,15 @@ const colors = [
 
 const avatarColor = (id) => colors[parseInt(id) % colors.length];
 
-// 결제자가 선택되면 자동으로 밑에 체크박스 적용
 const handlePayerChange = () => {
   if (selectedPayer.value && !isParticipant(selectedPayer.value)) {
     selectedParticipants.value.push(selectedPayer.value);
   }
 };
 
-// 참여 여부 확인 
 const isParticipant = (member) =>
   selectedParticipants.value.some((p) => p.id === member.id);
 
-// 참여 멤버 토글
 const toggleParticipant = (member) => {
   const idx = selectedParticipants.value.findIndex((p) => p.id === member.id);
   if (idx === -1) {
@@ -111,7 +105,6 @@ const toggleParticipant = (member) => {
   }
 };
 
-// 완료 → store 저장 후 뒤로가기
 const handleComplete = () => {
   if (!selectedPayer.value) {
     alert('결제자를 선택해주세요.');
@@ -121,13 +114,7 @@ const handleComplete = () => {
     alert('참여 멤버를 1명 이상 선택해주세요.');
     return;
   }
-  // console.log('결제자:', selectedPayer.value.name); // 결제자 확인 콘솔
-  // console.log(
-  //   '참여멤버:',
-  //   selectedParticipants.value.map((m) => ({ id: m.id, name: m.name })),
-  // ); // 참여멤버 확인 콘솔
 
-  // pinia를 통해 store로 보내질 부분
   membersStore.setPayer({
     id: selectedPayer.value.id,
     name: selectedPayer.value.name,
@@ -140,32 +127,25 @@ const handleComplete = () => {
     selectedParticipants.value.length,
   );
 
-  // console.log('store 저장 후 payer:', membersStore.payer.name); // store 확인
-  // console.log('store 저장 후 participants:', membersStore.participants); // store 확인
-
-  router.back(); // 합칠 때 주석 풀어야함
+  router.back();
 };
 
-// 멤버 목록 로드
 onMounted(async () => {
   try {
-    console.log('travelId:', travelId); // travelId 확인 합칠떄 주석처리
     const result = await getMembersByTravelId(travelId);
-    console.log('API 결과:', result); // API 응답 확인
+
     members.value = result;
-    console.log('members:', members.value); // 최종 멤버 확인 합칠떄 주석처리
   } catch (e) {
-    console.error('에러:', e.message); // 에러 확인 합칠떄 주석처리
+    console.error('에러:', e.message);
   }
 });
 
 const goBack = () => {
-  router.back(); // 합칠 때 주석풀어야함
+  router.back();
 };
 </script>
 
 <style scoped>
-
 .back-btn {
   width: 40px;
   height: 40px;
@@ -174,12 +154,11 @@ const goBack = () => {
   font-size: 28px;
   color: #333;
   cursor: pointer;
-  display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
   transition: color 0.2s;
-  margin-top: 8px;  /* ✅ 제목과 높이 맞추기 */
+  margin-top: 8px;
 }
 
 .page {
@@ -230,7 +209,7 @@ const goBack = () => {
   align-items: center;
   justify-content: center;
   font-size: 13px;
-  font-weight: 500;
+  font-weight: 700;
   color: #fff;
   flex-shrink: 0;
 }
@@ -262,22 +241,19 @@ const goBack = () => {
   transition: all 0.15s;
 }
 .checkbox.checked {
-  background: #4caf50;
-  border-color: #4caf50;
+  background: #22c55e;
+  border-color: #22c55e;
 }
 .btn-complete {
   width: 100%;
   margin-top: 1.5rem;
   padding: 14px;
-  background: #4caf50;
+  background: #22c55e;
   border: none;
   border-radius: 50px;
   color: #fff;
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 700;
   cursor: pointer;
-}
-.btn-complete:hover {
-  background: #43a047;
 }
 </style>
