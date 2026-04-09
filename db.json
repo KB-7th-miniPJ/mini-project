@@ -6,8 +6,8 @@
       "email": "qwe1@qwe.com",
       "password": "qwer1234!",
       "joinTravelIds": [
-        "travel1",
-        "travel2"
+        "1",
+        "2"
       ]
     },
     {
@@ -16,8 +16,8 @@
       "email": "qwe2@qwe.com",
       "password": "qwer1234!",
       "joinTravelIds": [
-        "travel1",
-        "travel2"
+        "1",
+        "2"
       ]
     },
     {
@@ -26,8 +26,8 @@
       "email": "qwe3@qwe.com",
       "password": "qwer1234!",
       "joinTravelIds": [
-        "travel1",
-        "travel2"
+        "1",
+        "2"
       ]
     },
     {
@@ -36,8 +36,8 @@
       "email": "qwe4@qwe.com",
       "password": "qwer1234!",
       "joinTravelIds": [
-        "travel3",
-        "travel4"
+        "3",
+        "4"
       ]
     },
     {
@@ -46,8 +46,8 @@
       "email": "qwe5@qwe.com",
       "password": "qwer1234!",
       "joinTravelIds": [
-        "travel3",
-        "travel4"
+        "3",
+        "4"
       ]
     },
     {
@@ -56,7 +56,7 @@
       "email": "qwe6@qwe.com",
       "password": "qwer1234!",
       "joinTravelIds": [
-        "travel4"
+        "4"
       ]
     },
     {

@@ -9,14 +9,9 @@ const routes = [
   },
     {
     path: '/',
-    redirect: '/expense/travel1/members', // 임시로 travel1 합칠때 주석처리
+    redirect: '/expense/1/members', // 임시 합칠때 주석처리
   },
-  // {
-  //   path: '/',
-  //   redirect: '/expense/new', // 지출내역경로
-  // },
-
-  // 나중에 지출내역 등 추가
+  
 ]
 
 const router = createRouter({
