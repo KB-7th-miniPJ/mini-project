@@ -1,6 +1,6 @@
 <template>
   <div class="page">
-    <div>
+    <div class="header">
       <button class="back-btn" @click="goBack">‹</button>
       <h2 class="title">인원 선택</h2>
     </div>
@@ -165,9 +165,23 @@ const goBack = () => {
 </script>
 
 <style scoped>
+
 .back-btn {
-  background-color: white;
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: none;
+  font-size: 28px;
+  color: #333;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: color 0.2s;
+  margin-top: 8px;  /* ✅ 제목과 높이 맞추기 */
 }
+
 .page {
   max-width: 360px;
   margin: 0 auto;
