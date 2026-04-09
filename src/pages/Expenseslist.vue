@@ -1,7 +1,7 @@
 <script setup>
-import { onMounted } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
-import { useExpense } from '@/hooks/useMain2';
+import { onMounted } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import { useExpense } from "@/hooks/useMain2";
 
 const route = useRoute();
 const router = useRouter();
@@ -31,16 +31,16 @@ const {
 onMounted(() => loadExpenses());
 
 const onDelete = async (id) => {
-  if (!confirm('삭제할까요?')) return;
+  if (!confirm("삭제할까요?")) return;
   await removeExpense(id);
 };
 
 const onEdit = async (expense) => {
   const input = prompt(
     `금액 수정 (현재: ${Number(expense.amount).toLocaleString()}원)`,
-    expense.amount,
+    expense.amount
   );
-  if (input === null || input === '') return;
+  if (input === null || input === "") return;
   await editExpense(expense.id, { amount: Number(input) });
 };
 </script>
@@ -48,6 +48,7 @@ const onEdit = async (expense) => {
 <template>
   <div v-if="isLoading">로딩 중...</div>
   <div v-else class="list-wrap">
+
     <!-- 헤더 -->
     <div class="list-hdr">
       <button class="back" @click="router.back()">←</button>
@@ -93,49 +94,28 @@ const onEdit = async (expense) => {
               {{ getCatInfo(e.category).icon }}
               {{ getCatInfo(e.category).name }}
             </span>
-            <span class="chip">{{ e.payerId }}결제자 이름</span>
+            <!-- payerId: "1" → "1번 결제" -->
+            <span class="chip">{{ e.payerId }}번 결제</span>
+
+            <!-- 메모 아이콘 -->
             <span
               v-if="e.memo"
               class="memo-icon"
               :class="{ active: isModalOpen && selectedMemo === e.memo }"
-              style="cursor: pointer"
               @click="toggleMemoModal(e.memo)"
             >
               📝
             </span>
+
+            <!-- 사진 아이콘 -->
             <span
               v-if="e.photoUrl"
               class="photo-icon"
-              :class="{
-                active: isPhotoModalOpen && selectedPhoto === e.photoUrl,
-              }"
+              :class="{ active: isPhotoModalOpen && selectedPhoto === e.photoUrl }"
               @click="togglePhotoModal(e.photoUrl)"
-              >📷</span
             >
-            <div
-              v-if="isModalOpen"
-              class="modal-overlay"
-              @click.self="closeModal"
-            >
-              <div class="modal-content">
-                <h3>📝 메모 내용</h3>
-                <p class="memo-text">{{ selectedMemo }}</p>
-              </div>
-            </div>
-            <div
-              v-if="isPhotoModalOpen"
-              class="modal-overlay"
-              @click.self="closePhotoModal"
-            >
-              <div class="modal-content photo-box">
-                <h3>📸 첨부 사진</h3>
-                <img
-                  :src="selectedPhoto"
-                  class="preview-img"
-                  alt="영수증/사진"
-                />
-              </div>
-            </div>
+              📷
+            </span>
           </div>
         </div>
 
@@ -151,11 +131,34 @@ const onEdit = async (expense) => {
 
     <!-- 빈 상태 -->
     <div v-if="filtered.length === 0" class="empty">
-      {{
-        selectedCat === '전체'
-          ? '지출 내역이 없어요'
-          : '해당 카테고리 지출이 없어요'
-      }}
+      {{ selectedCat === "전체" ? "지출 내역이 없어요" : "해당 카테고리 지출이 없어요" }}
+    </div>
+
+    <!-- 메모 모달 (list-wrap 밖으로 빼야 fixed가 제대로 동작) -->
+  </div>
+
+  <!-- ✅ 모달을 최상위로 이동 — v-if 안에서 fixed가 잘리는 문제 해결 -->
+  <div
+    v-if="isModalOpen"
+    class="modal-overlay"
+    @click.self="closeModal"
+  >
+    <div class="modal-content">
+      <h3>📝 메모 내용</h3>
+      <p class="memo-text">{{ selectedMemo }}</p>
+      <button class="modal-close-btn" @click="closeModal">닫기</button>
+    </div>
+  </div>
+
+  <div
+    v-if="isPhotoModalOpen"
+    class="modal-overlay"
+    @click.self="closePhotoModal"
+  >
+    <div class="modal-content photo-box">
+      <h3>📸 첨부 사진</h3>
+      <img :src="selectedPhoto" class="preview-img" alt="영수증/사진" />
+      <button class="modal-close-btn" @click="closePhotoModal">닫기</button>
     </div>
   </div>
 </template>
@@ -249,6 +252,7 @@ const onEdit = async (expense) => {
   display: flex;
   gap: 5px;
   flex-wrap: wrap;
+  align-items: center;
 }
 .cat-chip {
   font-size: 11px;
@@ -302,36 +306,7 @@ const onEdit = async (expense) => {
   color: #aaa;
   font-size: 14px;
 }
-.modal-overlay {
-  position: fixed; /* 화면에 고정 */
-  top: 0;
-  left: 0;
-  width: 100vw; /* 화면 전체 너비 */
-  height: 100vh; /* 화면 전체 높이 */
-  background: rgba(0, 0, 0, 0.4); /* 배경을 약간 어둡게 */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 999; /* 가장 위에 뜨도록 함 */
-}
-
-.modal-content {
-  background: white;
-  padding: 24px;
-  border-radius: 16px;
-  width: 280px;
-  text-align: center;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-}
-
-.memo-text {
-  margin-top: 15px;
-  font-size: 15px;
-  color: #333;
-  line-height: 1.6;
-  white-space: pre-wrap; /* 줄바꿈 허용 */
-}
-
+/* 메모/사진 아이콘 */
 .memo-icon,
 .photo-icon {
   cursor: pointer;
@@ -342,5 +317,52 @@ const onEdit = async (expense) => {
 .memo-icon.active,
 .photo-icon.active {
   transform: scale(1.3);
+}
+/* 모달 — scoped 밖에서 동작하려면 :deep 없이 최상위로 올림 */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+.modal-content {
+  background: white;
+  padding: 24px;
+  border-radius: 16px;
+  width: 280px;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.memo-text {
+  font-size: 15px;
+  color: #333;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+.photo-box {
+  width: 320px;
+}
+.preview-img {
+  width: 100%;
+  border-radius: 8px;
+  object-fit: contain;
+  max-height: 300px;
+}
+.modal-close-btn {
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  background: #f5f5f5;
+  font-size: 13px;
+  cursor: pointer;
 }
 </style>

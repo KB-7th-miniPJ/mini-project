@@ -76,7 +76,7 @@
       "startDate": "2026-04-03",
       "endDate": "2026-04-22",
       "membersCount": 3,
-      "amount": 121231230,
+      "amount": 1000000,
       "currency": "KRW",
       "status": "예정",
       "id": 1
@@ -103,7 +103,8 @@
       "id": 3
     }
   ],
-  "settlements": [{
+  "settlements": [
+    {
       "id": 1,
       "travelId": "travel1",
       "fromUserId": "2",
@@ -134,7 +135,8 @@
       "toUserId": "2",
       "amount": 15000,
       "status": "requested"
-    }],
+    }
+  ],
   "categories": [
     {
       "id": "c1",
@@ -162,5 +164,10 @@
       "icon": "📦"
     }
   ],
-  "expenses": []
+  "expenses": [
+    {
+      "amount": 10000,
+      "id": 1
+    }
+  ]
 }
