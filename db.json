@@ -4,69 +4,76 @@
       "id": "1",
       "name": "일기림",
       "email": "qwe1@qwe.com",
-      "password": "qwer1234!",
+      "password": "$2a$10$MnGk3gGVoQ66Ch2kKIIPuu8R4Ju9vScoDOPMRdVOH4EjRi/d6/t42",
       "joinTravelIds": [
-        "travel1",
-        "travel2"
+        "1",
+        "2"
       ]
     },
     {
       "id": "2",
       "name": "이기림",
       "email": "qwe2@qwe.com",
-      "password": "qwer1234!",
+      "password": "$2a$10$MnGk3gGVoQ66Ch2kKIIPuu8R4Ju9vScoDOPMRdVOH4EjRi/d6/t42",
       "joinTravelIds": [
-        "travel1",
-        "travel2"
+        "1",
+        "2"
       ]
     },
     {
       "id": "3",
       "name": "삼기림",
       "email": "qwe3@qwe.com",
-      "password": "qwer1234!",
+      "password": "$2a$10$MnGk3gGVoQ66Ch2kKIIPuu8R4Ju9vScoDOPMRdVOH4EjRi/d6/t42",
       "joinTravelIds": [
-        "travel1",
-        "travel2"
+        "1",
+        "2"
       ]
     },
     {
       "id": "4",
       "name": "사기림",
       "email": "qwe4@qwe.com",
-      "password": "qwer1234!",
+      "password": "$2a$10$MnGk3gGVoQ66Ch2kKIIPuu8R4Ju9vScoDOPMRdVOH4EjRi/d6/t42",
       "joinTravelIds": [
-        "travel3",
-        "travel4"
+        "3",
+        "4"
       ]
     },
     {
       "id": "5",
       "name": "오기림",
       "email": "qwe5@qwe.com",
-      "password": "qwer1234!",
+      "password": "$2a$10$MnGk3gGVoQ66Ch2kKIIPuu8R4Ju9vScoDOPMRdVOH4EjRi/d6/t42",
       "joinTravelIds": [
-        "travel3",
-        "travel4"
+        "3",
+        "4"
       ]
     },
     {
       "id": "6",
       "name": "육기림",
       "email": "qwe6@qwe.com",
-      "password": "qwer1234!",
+      "password": "$2a$10$MnGk3gGVoQ66Ch2kKIIPuu8R4Ju9vScoDOPMRdVOH4EjRi/d6/t42",
       "joinTravelIds": [
-        "travel4"
+        "4"
       ]
     },
     {
       "id": "7",
       "name": "칠기림",
       "email": "qwe7@qwe.com",
-      "password": "qwer1234!",
+      "password": "$2a$10$MnGk3gGVoQ66Ch2kKIIPuu8R4Ju9vScoDOPMRdVOH4EjRi/d6/t42",
       "joinTravelIds": [
-        "travel1"
+        "1"
       ]
+    },
+    {
+      "email": "q1@qwe.com",
+      "password": "$2a$10$7HeZbyFHHTK2O076aFaSuu74ccoyYymS.yihps.QKZMttjjVWiQzi",
+      "name": "김기림",
+      "joinTravelIds": {},
+      "id": "D3vJo0Z"
     }
   ],
   "travels": [
@@ -103,9 +110,10 @@
       "id": 3
     }
   ],
-  "settlements": [{
+  "settlements": [
+    {
       "id": 1,
-      "travelId": "travel1",
+      "travelId": "1",
       "fromUserId": "2",
       "toUserId": "1",
       "amount": 45000,
@@ -113,7 +121,7 @@
     },
     {
       "id": 2,
-      "travelId": "travel1",
+      "travelId": "1",
       "fromUserId": "3",
       "toUserId": "1",
       "amount": 12500,
@@ -121,7 +129,7 @@
     },
     {
       "id": 3,
-      "travelId": "travel2",
+      "travelId": "2",
       "fromUserId": "1",
       "toUserId": "4",
       "amount": 67000,
@@ -129,12 +137,13 @@
     },
     {
       "id": 4,
-      "travelId": "travel2",
+      "travelId": "2",
       "fromUserId": "4",
       "toUserId": "2",
       "amount": 15000,
       "status": "requested"
-    }],
+    }
+  ],
   "categories": [
     {
       "id": "c1",

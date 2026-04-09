@@ -1,25 +1,43 @@
 <template>
-    <div>
-        <h1>회원가입</h1>
-        <label>이름</label>
-        <input type="text" v-model="name" placeholder="이름을 입력하세요" /><br>
-        <label>이메일 주소</label>
-        <input type="email" v-model="email" placeholder="이메일을 입력하세요" /><br>
-        <p v-if="emailError">유효한 이메일 형식이어야 합니다.</p>
-        <p v-if="emailDuplicateError">이미 사용 중인 이메일입니다.</p>
-        <label>비밀번호</label>
-        <input type="password" v-model="password" placeholder="비밀번호를 입력하세요" />
-        <p>특수문자, 8~16  자</p>
-        <p v-if="passwordError">특수문자, 8~16자여야 합니다.</p>
-        <label>비밀번호 확인</label>
-        <input type="password" v-model="passwordConfirm" placeholder="비밀번호를 한 번 더 입력하세요" /><br>
-        <p v-if="passwordConfirmError">입력한 비밀번호와 일치해야 합니다.</p>
-        <button @click="router.push({ name: 'signin' })">취소</button>
-        <button @click="signupHandler">회원가입</button>
-        <!-- 완료 팝업 -->
-        <div v-if="showPopup">
-            <p>회원가입 완료 팝업</p>
-        </div> 
+    <div class="container d-flex justify-content-center align-items-center vh-100">
+        <div class="card shadow p-4" style="width: 100%; max-width: 400px;">
+            <h4 class="text-center fw-bold mb-4">회원가입</h4>
+
+            <div class="mb-3">
+                <label class="form-label">이름</label>
+                <input type="text" class="form-control" v-model="name" placeholder="이름을 입력하세요" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">이메일</label>
+                <input type="email" class="form-control" v-model="email" placeholder="이메일을 입력하세요" />
+                <p v-if="emailError" class="text-danger small mt-1 mb-0">유효한 이메일 형식이어야 합니다.</p>
+                <p v-if="emailDuplicateError" class="text-danger small mt-1 mb-0">이미 사용 중인 이메일입니다.</p>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">비밀번호</label>
+                <input type="password" class="form-control" v-model="password" placeholder="비밀번호를 입력하세요" />
+                <p class="text-muted small mt-1 mb-0">특수문자 포함, 8~16자</p>
+                <p v-if="passwordError" class="text-danger small mt-1 mb-0">특수문자, 8~16자여야 합니다.</p>
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label">비밀번호 확인</label>
+                <input type="password" class="form-control" v-model="passwordConfirm" placeholder="비밀번호를 한 번 더 입력하세요" />
+                <p v-if="passwordConfirmError" class="text-danger small mt-1 mb-0">입력한 비밀번호와 일치해야 합니다.</p>
+            </div>
+
+            <div class="d-flex gap-2">
+                <button class="btn btn-outline-secondary w-50" @click="router.push({ name: 'signin' })">취소</button>
+                <button class="btn btn-dark w-50" @click="signupHandler">회원가입</button>
+            </div>
+
+            <!-- 완료 팝업 -->
+            <div v-if="showPopup" class="alert alert-success mt-3 text-center mb-0">
+                회원가입이 완료되었습니다!
+            </div>
+        </div>
     </div>
 </template>
 
