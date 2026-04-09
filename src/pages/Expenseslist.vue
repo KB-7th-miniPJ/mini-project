@@ -5,7 +5,7 @@ import { useExpense } from "@/hooks/useMain2";
 
 const route = useRoute();
 const router = useRouter();
-const travelNumId = route.params.id;
+const travelNumId = route.params.travelId;
 
 const {
   isLoading,
@@ -51,7 +51,7 @@ const onEdit = async (expense) => {
 
     <!-- 헤더 -->
     <div class="list-hdr">
-      <button class="back" @click="router.back()">←</button>
+      <RouterLink :to="`/travels/${travelNumId}`" class="back">‹</RouterLink>
       <h2>지출 내역</h2>
     </div>
 
@@ -178,12 +178,7 @@ const onEdit = async (expense) => {
   background: white;
   z-index: 10;
 }
-.back {
-  background: none;
-  border: none;
-  font-size: 20px;
-  cursor: pointer;
-}
+.back-icon { position: absolute; left: 20px; background: none; border: none; font-size: 22px; cursor: pointer; color: #374151; }
 .list-hdr h2 {
   font-size: 16px;
   font-weight: 600;
@@ -207,9 +202,9 @@ const onEdit = async (expense) => {
   cursor: pointer;
 }
 .tab.active {
-  background: #1d9e75;
+  background:  #22c55e;
   color: white;
-  border-color: #1d9e75;
+  border-color:  #22c55e;
 }
 .total-bar {
   display: flex;
@@ -285,8 +280,8 @@ const onEdit = async (expense) => {
 .btn-edit {
   font-size: 11px;
   padding: 3px 10px;
-  border: 1px solid #1d9e75;
-  color: #1d9e75;
+  border: 1px solid  #22c55e;
+  color:  #22c55e;
   border-radius: 6px;
   background: white;
   cursor: pointer;

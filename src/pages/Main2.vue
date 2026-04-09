@@ -6,8 +6,8 @@ import { useExpense } from "@/hooks/useMain2";
 const route = useRoute();
 const router = useRouter();
 
-// route.params.id = "1" (travels.id)
-const travelNumId = route.params.id;
+// ✅ 수정 1: route.params.Id → route.params.travelId (라우터 경로 :travelId 기준)
+const travelNumId = route.params.travelId;
 
 const {
   travel,
@@ -17,7 +17,6 @@ const {
   totalExpense,
   budgetLeft,
   perPerson,
-  dDay,
   daysLeft,
   byCategory,
   loadDashboard,
@@ -26,6 +25,34 @@ const {
 } = useExpense(travelNumId);
 
 onMounted(() => loadDashboard());
+
+
+// ── 여행명·인원수 수정 모달 ─────────────
+const showInfoModal = ref(false);
+const newTitle = ref("");
+const newMembersCount = ref(1);
+ 
+const openInfoModal = () => {
+  newTitle.value = travel.value?.title ?? "";
+  newMembersCount.value = travel.value?.membersCount ?? 1;
+  showInfoModal.value = true;
+};
+
+const saveInfo = async () => {
+  if (!newTitle.value.trim()) {
+    alert("여행 이름을 입력해주세요.");
+    return;
+  }
+  if (newMembersCount.value < 1) {
+    alert("인원수는 1명 이상이어야 합니다.");
+    return;
+  }
+  await editTravel({
+    title: newTitle.value.trim(),
+    membersCount: Number(newMembersCount.value),
+  });
+  showInfoModal.value = false;
+};
 
 // ── 예산 수정 모달 ──────────────────────────────
 const showBudgetModal = ref(false);
@@ -67,22 +94,37 @@ const goExpensesList = () =>
 
 const goSettlement = () => router.push(`/travels/${travelNumId}/settlement`);
 
-const goToAddExpense = () => router.push(`/expenses/new`);
+// ✅ 수정 2: 단순 함수로만 선언 (재할당 코드 제거)
+const goToAddExpense = () =>
+  router.push(`/travels/${travelNumId}/expenses/new`);
 </script>
 
 <template>
-  <div v-if="isLoading" class="loading">로딩 중...</div>
-  <div v-else class="wrap">
-
+  <div
+    v-if="isLoading"
+    class="loading"
+  >
+    로딩 중...
+  </div>
+  <div
+    v-else
+    class="wrap"
+  >
     <!-- 헤더 -->
     <div class="header-green">
-      <button class="back" @click="router.back()">←</button>
-      <p class="sub">
-        {{ travel?.title }} ·
-        {{ travel?.membersCount ?? 0 }}명
-      </p>
+      <RouterLink
+        :to="{ name: 'Main' }"
+        class="back-icon"
+        >‹</RouterLink
+      >
+      <p class="sub clickable-text" @click="openInfoModal">
+        {{ travel?.title }} · {{ travel?.membersCount ?? 0 }}명
+        <span class="edit-icon">&nbsp;&nbsp;✏️</span></p>
       <h1 class="total">총 {{ totalExpense.toLocaleString() }}원 지출</h1>
-      <div class="add-expense" @click="goToAddExpense">
+      <div
+        class="add-expense"
+        @click="goToAddExpense"
+      >
         {{ "+" }}
       </div>
     </div>
@@ -96,16 +138,25 @@ const goToAddExpense = () => router.push(`/expenses/new`);
       </div>
 
       <!-- 1인당 예산: 전체예산 ÷ 인원수 → 클릭 시 예산 수정 -->
-      <div class="stat-card clickable" @click="openBudgetModal">
+      <div
+        class="stat-card clickable"
+        @click="openBudgetModal"
+      >
         <span class="lbl">1인당</span>
         <span class="val">{{ (perPerson / 10000).toFixed(1) }}만</span>
         <span class="hint">수정</span>
       </div>
 
       <!-- 남은 기간: 오늘 기준 endDate까지 → 클릭 시 날짜 수정 -->
-      <div class="stat-card clickable" @click="openDateModal">
+      <div
+        class="stat-card clickable"
+        @click="openDateModal"
+      >
         <span class="lbl">남은기간</span>
-        <span class="val" :style="{ color: daysLeft <= 1 ? '#E24B4A' : '' }">
+        <span
+          class="val"
+          :style="{ color: daysLeft <= 1 ? '#E24B4A' : '' }"
+        >
           {{ daysLeft }}일
         </span>
         <span class="hint">수정</span>
@@ -115,7 +166,11 @@ const goToAddExpense = () => router.push(`/expenses/new`);
     <!-- 카테고리별 지출 바 -->
     <section class="sec">
       <h3>카테고리별 지출</h3>
-      <div v-for="cat in categories" :key="cat.id" class="bar-row">
+      <div
+        v-for="cat in categories"
+        :key="cat.id"
+        class="bar-row"
+      >
         <span class="cat-name">{{ cat.icon }} {{ cat.name }}</span>
         <div class="bar-track">
           <div
@@ -123,13 +178,15 @@ const goToAddExpense = () => router.push(`/expenses/new`);
             :style="{
               width:
                 totalExpense > 0
-                  ? ((byCategory[cat.id] ?? 0) / totalExpense) * 100 + '%'
+                  ? ((byCategory[cat.name] ?? 0) / totalExpense) * 100 + '%'
                   : '0%',
             }"
           />
+          <!-- cat.id로 되어있었어서 cat.name으로 변경 -->
         </div>
         <span class="bar-amt">
-          {{ (byCategory[cat.id] ?? 0).toLocaleString() }}
+          {{ (byCategory[cat.name] ?? 0).toLocaleString() }}
+          <!-- cat.id로 되어있었어서 cat.name으로 변경 -->
         </span>
       </div>
     </section>
@@ -138,7 +195,11 @@ const goToAddExpense = () => router.push(`/expenses/new`);
     <section class="sec">
       <h3>최근 지출</h3>
       <ul class="recent-list">
-        <li v-for="e in recentList" :key="e.id" class="recent-item">
+        <li
+          v-for="e in recentList"
+          :key="e.id"
+          class="recent-item"
+        >
           <div>
             <p class="place">{{ e.place }}</p>
             <p class="meta">
@@ -150,20 +211,62 @@ const goToAddExpense = () => router.push(`/expenses/new`);
           <span class="amt">{{ Number(e.amount).toLocaleString() }}원</span>
         </li>
       </ul>
-      <!-- 최근 지출 없을 때 -->
-      <p v-if="recentList.length === 0" class="empty-recent">
+      <p
+        v-if="recentList.length === 0"
+        class="empty-recent"
+      >
         아직 지출 내역이 없어요
       </p>
     </section>
 
     <!-- 하단 버튼 -->
     <div class="btn-area">
-      <button class="btn-outline" @click="goExpensesList">
+      <button
+        class="btn-outline"
+        @click="goExpensesList"
+      >
         지출 내역 전체보기
       </button>
-      <button class="btn-primary" @click="goSettlement">
+      <button
+        class="btn-primary"
+        @click="goSettlement"
+      >
         정산하기
       </button>
+    </div>
+
+    <!-- ✅ 여행명·인원수 수정 모달 -->
+    <div
+      v-if="showInfoModal"
+      class="modal-backdrop"
+      @click.self="showInfoModal = false"
+    >
+      <div class="modal-box">
+        <h3>여행 정보 수정</h3>
+ 
+        <label>여행 이름</label>
+        <input
+          v-model="newTitle"
+          type="text"
+          placeholder="여행 이름 입력"
+        />
+ 
+        <label>인원수</label>
+        <div class="member-row">
+          <button
+            class="count-btn"
+            @click="newMembersCount > 1 && newMembersCount--"
+            :disabled="newMembersCount <= 1"
+          >−</button>
+          <span class="count-val">{{ newMembersCount }}명</span>
+          <button class="count-btn" @click="newMembersCount++">+</button>
+        </div>
+ 
+        <div class="modal-btns">
+          <button @click="showInfoModal = false">취소</button>
+          <button class="modal-save" @click="saveInfo">저장</button>
+        </div>
+      </div>
     </div>
 
     <!-- 예산 수정 모달 -->
@@ -174,19 +277,33 @@ const goToAddExpense = () => router.push(`/expenses/new`);
     >
       <div class="modal-box">
         <h3>총 예산 수정</h3>
-        <p class="modal-cur">현재: {{ (travel?.amount ?? 0).toLocaleString() }}원</p>
+        <p class="modal-cur">
+          현재: {{ (travel?.amount ?? 0).toLocaleString() }}원
+        </p>
         <input
           v-model.number="newBudget"
           type="number"
           placeholder="새 예산 입력"
         />
-        <p class="modal-preview" v-if="newBudget > 0">
+        <p
+          class="modal-preview"
+          v-if="newBudget > 0"
+        >
           {{ travel?.membersCount ?? 1 }}명 기준 → 1인당
-          {{ Math.round(newBudget / (travel?.membersCount || 1)).toLocaleString() }}원
+          {{
+            Math.round(
+              newBudget / (travel?.membersCount || 1),
+            ).toLocaleString()
+          }}원
         </p>
         <div class="modal-btns">
           <button @click="showBudgetModal = false">취소</button>
-          <button class="modal-save" @click="saveBudget">저장</button>
+          <button
+            class="modal-save"
+            @click="saveBudget"
+          >
+            저장
+          </button>
         </div>
       </div>
     </div>
@@ -200,16 +317,27 @@ const goToAddExpense = () => router.push(`/expenses/new`);
       <div class="modal-box">
         <h3>여행 날짜 수정</h3>
         <label>출발일</label>
-        <input v-model="newStart" type="date" />
+        <input
+          v-model="newStart"
+          type="date"
+        />
         <label>귀국일</label>
-        <input v-model="newEnd" type="date" :min="newStart" />
+        <input
+          v-model="newEnd"
+          type="date"
+          :min="newStart"
+        />
         <div class="modal-btns">
           <button @click="showDateModal = false">취소</button>
-          <button class="modal-save" @click="saveDate">저장</button>
+          <button
+            class="modal-save"
+            @click="saveDate"
+          >
+            저장
+          </button>
         </div>
       </div>
     </div>
-
   </div>
 </template>
 
@@ -228,12 +356,12 @@ const goToAddExpense = () => router.push(`/expenses/new`);
   color: white;
   position: relative;
 }
-.back {
-  background: none;
-  border: none;
-  font-size: 20px;
+.back-icon {
+  position: relative;
+  top: -10px;
+  font-size: 29px;
   cursor: pointer;
-  color: white;
+  color: #ffffff;
 }
 .sub {
   font-size: 13px;
@@ -247,7 +375,7 @@ const goToAddExpense = () => router.push(`/expenses/new`);
 .add-expense {
   cursor: pointer;
   position: absolute;
-  top: 60px;
+  top: 80px;
   right: 16px;
   font-size: 55px;
   line-height: 1;

@@ -1,7 +1,7 @@
 import { reactive, computed } from 'vue';
 import { defineStore } from 'pinia';
-import { getTravelList, createTravel, deleteTravel } from '@/api/main';
-
+import { getTravelList, createTravel, deleteTravel, patchTravel } from '@/api/main';
+ 
 export const useTravelStore = defineStore('travel', () => {
   const state = reactive({
     travels: [],
@@ -9,7 +9,7 @@ export const useTravelStore = defineStore('travel', () => {
     showDomestic: true,
     showOverseas: true,
   });
-
+ 
   const getStatus = (startDate, endDate) => {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -19,7 +19,7 @@ export const useTravelStore = defineStore('travel', () => {
     if (today > end) return '완료';
     return '진행 중';
   };
-
+ 
   const filteredTravels = computed(() => {
     return state.travels
       .map(t => ({ ...t, status: getStatus(t.startDate, t.endDate) }))
@@ -32,21 +32,34 @@ export const useTravelStore = defineStore('travel', () => {
         return matchStatus && matchRegion;
       });
   });
-
+ 
   const fetchTravels = async () => {
     const res = await getTravelList();
     state.travels = res.data;
   };
-
+ 
+  // ✅ 수정: 생성된 객체 반환 + travelId 자동 생성해서 저장
   const addTravel = async (travel) => {
-    await createTravel(travel);
+    // 1단계: POST /travels → json-server가 id 자동 부여 (예: id=5)
+    const res = await createTravel(travel);
+    const created = res.data;  // { id: 5, title: "...", ... }
+ 
+    // 2단계: id 기반으로 travelId 생성 → PATCH /travels/5
+    // "travel" + 5 = "travel5"
+    if (created?.id) {
+      await patchTravel(created.id, { travelId: `travel${created.id}` });
+    }
+ 
+    // 3단계: 목록 갱신
     await fetchTravels();
+ 
+    return created;  // ✅ 생성된 객체 반환 (id 포함)
   };
-
+ 
   const removeTravel = async (id) => {
     await deleteTravel(id);
     await fetchTravels();
   };
-
+ 
   return { state, filteredTravels, fetchTravels, addTravel, removeTravel };
 });

@@ -87,7 +87,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router"; // ✅ useRoute 추가
 import { useExpense } from "@/hooks/useExpense";
 import CategorySelector from "@/components/expense/CategorySelector.vue";
 import DatePicker from "@/components/expense/DatePicker.vue";
@@ -95,6 +95,8 @@ import MemberChip from "@/components/expense/MemberChip.vue";
 import ReceiptUploader from "@/components/expense/ReceiptUploader.vue";
 
 const router = useRouter();
+const route = useRoute();                           // ✅ 추가
+const travelNumId = route.params.travelId;          // ✅ 추가 
 const showCalendar = ref(false);
 
 const {
@@ -111,8 +113,9 @@ const handleMemberSelect = () => router.push("/expensemembers");
 const handleComplete = async () => {
   try {
     await saveExpense();
-    router.push(`/travels/1/expenseslist`);
+     router.push(`/travels/${travelNumId}`);  // ✅ expenseslist 말고 대시보드로
   } catch (err) {
+    console.error('저장 실패 원인:', err);   // ✅ 원인 확인용
     alert("저장에 실패했습니다.");
   }
 };

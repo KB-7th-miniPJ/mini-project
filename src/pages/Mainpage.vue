@@ -55,7 +55,7 @@ const filters = [
 onMounted(() => { store.fetchTravels(); });
 
 const gomain2 = (travelNumId) => {
-  router.push({ name: 'main2', params: { id: travelNumId } });
+  router.push(`/travels/${travelNumId}`);
 };
 
 const badgeClass = (status) => {

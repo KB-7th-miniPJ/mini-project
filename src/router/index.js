@@ -29,13 +29,13 @@ const routes = [
   { path: '/signin', name: 'signin', component: SignInMain },
   { path: '/signup', name: 'signup', component: SignUp },
    {
-      path: "/travels/:id",
+      path: "/travels/:travelId",
       name: "main2",
       component: Main2,
     },
 
     {
-      path: "/travels/:id/expenseslist",
+      path: "/travels/:travelId/expenseslist", //!경로 변경!
       name: "expenseslist",
       component: Expenseslist,
     },
@@ -45,7 +45,7 @@ const routes = [
     component: Settlements,
   },    
   {
-      path: '/expenses/new',
+      path: '/travels/:travelId/expenses/new',
       name: 'ExpenseRecord',
       component: ExpenseRecord,
     },  
