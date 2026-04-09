@@ -4,6 +4,10 @@ import apiClient from './client';
 export const checkDuplicateEmail = (email) =>
   apiClient.get('/users', { params: { email } });
 
+// USER-00 로그인 조회
+export const getUserByCredentials = (email, password) =>
+  apiClient.get('/users', { params: { email, password } });
+
 // USER-02 회원가입
 export const signup = (payload) => apiClient.post('/users', payload);
 
