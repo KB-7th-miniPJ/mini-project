@@ -4,12 +4,12 @@ import ExpenseMembers from '@/pages/ExpenseMembers.vue'
 const routes = [
   {
     path: '/expense/:travelId/members',
-    name: 'ExpenseMembers',
+    name: 'expensemembers',
     component: ExpenseMembers,
   },
     {
     path: '/',
-    redirect: '/expense/travel1/members', // 임시로 travel3로 리다이렉트
+    redirect: '/expense/travel1/members', // 임시로 travel1 합칠때 주석처리
   },
   // {
   //   path: '/',

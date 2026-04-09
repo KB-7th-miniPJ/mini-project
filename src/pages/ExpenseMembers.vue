@@ -1,7 +1,9 @@
 <template>
   <div class="page">
-    <!-- <h2 class="title">인원 선택</h2> -->
-
+    <div>
+      <button class="back-btn" @click="goBack">‹</button>
+      <h2 class="title">인원 선택</h2>
+    </div>
     <!-- 결제자 선택 -->
     <div class="section">
       <p class="label">결제자</p>
@@ -65,10 +67,15 @@ const route = useRoute();
 const router = useRouter();
 const membersStore = useMembersStore();
 
-const travelId = route.params.travelId;
-const members = ref([]);
-const selectedPayer = ref('');
-const selectedParticipants = ref([]);
+const travelId = route.params.travelId; // url에서 trevalId 추출
+// (이부분은 이제 어떻게 받느냐에 따라 달라짐) (k)
+
+console.log('받은 travelId:', travelId);
+console.log('route.params:', route.params);
+
+const members = ref([]); // api에서 받아온 멤버 목록
+const selectedPayer = ref(''); // 선택된 결제자 들어갈 장소 처음 빈 문자
+const selectedParticipants = ref([]); // 선택된 멤버들 들어갈 장소 처음 빈 배열
 
 // 아바타 색상 (id 기반으로 고정색)
 const colors = [
@@ -79,14 +86,16 @@ const colors = [
   '#93c5fd',
   '#fcd34d',
 ];
+
 const avatarColor = (id) => colors[parseInt(id) % colors.length];
 
-// 참여 여부 확인
+// 참여 여부 확인 (some 배열에서 조건에 맞는 요소가 하나라도 있으면 true 반납)
 const isParticipant = (member) =>
   selectedParticipants.value.some((p) => p.id === member.id);
 
 // 참여 멤버 토글
 const toggleParticipant = (member) => {
+  // 결과 값을 member에 담음
   const idx = selectedParticipants.value.findIndex((p) => p.id === member.id);
   if (idx === -1) {
     selectedParticipants.value.push(member);
@@ -106,9 +115,12 @@ const handleComplete = () => {
     return;
   }
   console.log('결제자:', selectedPayer.value.name); // 결제자 확인 콘솔
-  console.log('참여멤버:', selectedParticipants.value.map(m => ({ id: m.id, name: m.name }))); // 참여멤버 확인 콘솔
+  console.log(
+    '참여멤버:',
+    selectedParticipants.value.map((m) => ({ id: m.id, name: m.name })),
+  ); // 참여멤버 확인 콘솔
 
-
+  // pinia를 통해 store로 보내질 부분
   membersStore.setPayer({
     id: selectedPayer.value.id,
     name: selectedPayer.value.name,
@@ -118,28 +130,37 @@ const handleComplete = () => {
       id: m.id,
       name: m.name,
     })),
+    selectedParticipants.value.length,
   );
 
-  console.log('store 저장 후 payer:', membersStore.payer.name); // store 확인
-  console.log('store 저장 후 participants:', membersStore.participants); // store 확인
-  router.back();
+  // console.log('store 저장 후 payer:', membersStore.payer.name); // store 확인
+  // console.log('store 저장 후 participants:', membersStore.participants); // store 확인
+
+  // router.back(); // 합칠 때 주석 풀어야함
 };
 
 // 멤버 목록 로드
 onMounted(async () => {
   try {
-    console.log('travelId:', travelId); // travelId 확인
+    console.log('travelId:', travelId); // travelId 확인 합칠떄 주석처리
     const result = await getMembersByTravelId(travelId);
     console.log('API 결과:', result); // API 응답 확인
     members.value = result;
-    console.log('members:', members.value); // 최종 멤버 확인
+    console.log('members:', members.value); // 최종 멤버 확인 합칠떄 주석처리
   } catch (e) {
-    console.error('에러:', e.message); // 에러 확인
+    console.error('에러:', e.message); // 에러 확인 합칠떄 주석처리
   }
 });
+
+const goBack = () => {
+  // routerback(); // 합칠 때 주석풀어야함
+};
 </script>
 
 <style scoped>
+.back-btn {
+  background-color: white;
+}
 .page {
   max-width: 360px;
   margin: 0 auto;
