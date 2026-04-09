@@ -30,7 +30,7 @@
 
     <div v-else>
       <h2>
-        <button @click="router.push({ name: 'TravelDetail' })" class="btn-back">←</button>
+        <button @click="router.push({ name: 'Main' })" class="btn-back">←</button>
         여행 상세
       </h2>
     </div>

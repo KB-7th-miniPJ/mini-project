@@ -9,7 +9,6 @@ export default defineConfig({
     vue(),
     vueDevTools(),
   ],
-  //서버 프록시 설정
   server: {
     proxy: {
       '/api': {
