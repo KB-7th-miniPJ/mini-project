@@ -13,7 +13,6 @@
 |---------|--------|------------|
 | auth-01 | 로그인 | ![로그인](https://github.com/user-attachments/assets/1189bddd-ba74-444f-b8ce-e25a090558db) |
 | auth-02 | 회원가입 | ![회원가입](https://github.com/user-attachments/assets/b2095a0b-b5fc-46b8-9eb9-7cf76e6bb5b8) |
-| auth-03 | 그룹생성 | ![그룹생성](이미지링크) |
 
 ### MAIN (메인)
 | 화면 ID | 화면명 | 와이어프레임 |
