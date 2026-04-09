@@ -120,11 +120,12 @@ export default router;
 // ];
 
 
-// router.beforeEach((to) => {
-//   const authStore = useAuthStore();
-//   if (!publicNames.includes(to.name) && !authStore.isLoggedIn) {
-//     return { name: 'signin', query: { fromname: to.name } };
-//   }
-// });
+ router.beforeEach((to) => {
+   const authStore = useAuthStore();
+   if (!publicNames.includes(to.name) && !authStore.isLoggedIn) {
+    alert('로그인이 필요합니다.'); // 로그인 필요 알림 추가
+     return { name: 'signin', query: { fromname: to.name } };
+   }
+ });
 
 
