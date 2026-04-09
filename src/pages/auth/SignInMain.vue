@@ -40,7 +40,6 @@ const findPassword = () => {
     alert('관리자에게 문의하세요.\ngrboy0722@pusan.ac.kr')
 }
 
-// Login.vue의 login() — successCallback/failCallback 구조 동일
 const login = () => {
     loginProcess(
         email.value,
@@ -58,6 +57,86 @@ const login = () => {
 
 </script>
 
-<style>
+<style scoped>
+/* 전체 배경 */
+.container {
+  background-color: #f9fafb;
+  font-family: 'Pretendard', sans-serif;
+}
 
+/* 카드 */
+.card {
+  border: none;
+  border-radius: 16px;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* 타이틀 */
+h4 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #111827;
+}
+
+/* 입력 필드 */
+.form-control {
+  border: 1.5px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 13px 16px;
+  font-size: 15px;
+  color: #111827;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.form-control:focus {
+  border-color: #22c55e;
+  box-shadow: none;
+}
+.form-control::placeholder {
+  color: #9ca3af;
+}
+
+/* 로그인 버튼 */
+.btn-dark {
+  background-color: #22c55e !important;
+  border: none !important;
+  border-radius: 12px !important;
+  padding: 14px !important;
+  font-size: 15px !important;
+  font-weight: 600 !important;
+  color: #fff !important;
+  transition: background-color 0.2s;
+}
+.btn-dark:hover {
+  background-color: #16a34a !important;
+}
+
+/* 또는 텍스트 */
+.text-muted {
+  font-size: 13px;
+  color: #9ca3af !important;
+}
+
+/* 회원가입, 비밀번호 찾기 버튼 */
+.btn-outline-secondary {
+  border: 1.5px solid #e5e7eb !important;
+  border-radius: 12px !important;
+  padding: 10px !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  color: #374151 !important;
+  background: #fff !important;
+  transition: all 0.2s;
+}
+.btn-outline-secondary:hover {
+  background: #f0fdf4 !important;
+  border-color: #22c55e !important;
+  color: #16a34a !important;
+}
+
+/* 에러 메시지 */
+.text-danger {
+  font-size: 13px;
+  color: #ef4444 !important;
+}
 </style>
