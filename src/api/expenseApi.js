@@ -1,13 +1,28 @@
-import axios from "axios"
+const BASE_URL = "/api";
 
-const BASE_URL = 'http://localhost:3000'
+// EXP-007: 카테고리 목록 조회
+export const getCategories = async () => {
+  const res = await fetch(`${BASE_URL}/categories`);
+  return res.json();
+};
 
-// 전체 유저 가져온 뒤 travelId로 필터링
-export const getMembersByTravelId = async (travelId) => { 
-  const res = await axios.get(`${BASE_URL}/users`) 
-  return res.data.filter(user => user.joinTravelIds.includes(travelId)) 
-  // get방식으로 가져온 데이터를 user라는 변수에 임시로 담아 travelId를 포함하는 joinTravelIds를 찾음
-}
+// EXP-001: 지출 기록 생성
+export const createExpense = async (data) => {
+  const res = await fetch(`${BASE_URL}/expenses`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+  return res.json();
+};
 
-
-
+// EXP-006: 영수증 이미지 업로드
+export const uploadReceipt = async (expenseId, file) => {
+  const formData = new FormData();
+  formData.append("file", file);
+  const res = await fetch(`${BASE_URL}/expenses/${expenseId}/receipt`, {
+    method: "POST",
+    body: formData,
+  });
+  return res.json();
+};

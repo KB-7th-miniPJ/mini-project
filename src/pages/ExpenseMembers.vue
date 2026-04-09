@@ -61,7 +61,7 @@
 import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useMembersStore } from '@/stores/members';
-import { getMembersByTravelId } from '@/api/expenseApi';
+import { getMembersByTravelId } from '@/api/expensemembersApi';
 
 const route = useRoute();
 const router = useRouter();
