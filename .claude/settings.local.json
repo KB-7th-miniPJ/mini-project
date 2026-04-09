@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//mnt/c/Users/user/**)",
+      "Bash(cmd.exe /c \"dir C:\\\\Users\\\\user\\\\Desktop\")",
+      "Bash(powershell.exe -Command \"Get-ChildItem 'C:\\\\Users\\\\user\\\\Desktop'\")",
+      "Bash(powershell.exe -Command \"Get-ChildItem 'C:\\\\Users\\\\user\\\\Desktop' -Recurse -Filter '*.pdf' | Select-Object FullName\")",
+      "Bash(powershell.exe -NoProfile -Command \"Get-ChildItem -Path 'C:\\\\Users\\\\user\\\\Desktop' -Recurse -Filter '*Vue*' | Select-Object FullName\")"
+    ]
+  }
+}
