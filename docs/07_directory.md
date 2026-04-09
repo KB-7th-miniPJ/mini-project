@@ -1,7 +1,7 @@
 # 디렉토리 구조
 
 ## 📁 전체 구조
-\```
+```
 mini-project/
 ├── docs/
 ├── frontend/
@@ -17,7 +17,7 @@ mini-project/
 │   ├── db.json
 │   └── package.json
 └── README.md
-\```
+```
 
 ## 📌 폴더 설명
 | 폴더 | 설명 |
