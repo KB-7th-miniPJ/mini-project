@@ -1,6 +1,6 @@
 import { reactive, computed } from 'vue';
 import { defineStore } from 'pinia';
-import {getTravelList,createTravel,deleteTravel,getTravelByInviteCode,updateTravelMembers} from '@/api/main';
+import {getTravelList,createTravel,deleteTravel,getTravelByInviteCode,updateTravelMembers,patchTravel} from '@/api/main';
 import { patchUser, getUsers } from '@/api/userApi';
 import { useAuthStore } from '@/stores/auth';
 
@@ -62,6 +62,8 @@ export const useTravelStore = defineStore('travel', () => {
     const created = res.data;
 
     if (created?.id) {
+      await patchTravel(created.id, { travelId: `travel${created.id}` });
+
       const authStore = useAuthStore();
       const currentUser = authStore.user;
       if (currentUser) {

@@ -82,7 +82,6 @@ const addTravel = async () => {
     endDate: endDate.value,
     membersCount: membersCount.value,
     inviteCode: code,
-    travelIds: store.state.travels.length + 1,
   });
   invitedCode.value = code;
   alert('여행이 만들어졌습니다.');
