@@ -3,7 +3,12 @@
     {
       "id": 1,
       "name": "일기림",
-      "email": "qwe1@qwe.com"
+      "email": "qwe1@qwe.com",
+      "password": "$2a$10$MnGk3gGVoQ66Ch2kKIIPuu8R4Ju9vScoDOPMRdVOH4EjRi/d6/t42",
+      "joinTravelIds": [
+        "travel1",
+        "travel2"
+      ]
     },
     {
       "id": 2,
@@ -83,11 +88,7 @@
       "name": "ㄱㅎㅂ1",
       "joinTravelIds": [
         "4",
-        "3",
-        "4",
-        "3",
-        "3",
-        "1"
+        "3"
       ],
       "id": "HwKT18H"
     },
@@ -104,42 +105,41 @@
   ],
   "travels": [
     {
-      "title": "3ㅌ123ㅌ",
-      "travelType": "국내",
-      "startDate": "2026-04-11",
-      "endDate": "2026-04-13",
-      "membersCount": 1,
-      "inviteCode": "76OGNC",
-      "id": 1,
-      "travelId": "travel1"
-    }
-  ],
-  "settlements": [
-    {
-      "travelId": 1,
-      "fromUserId": 2,
-      "toUserId": 1,
-      "amount": 5000,
-      "status": "completed",
+      "title": "오사카여행",
+      "destination": "Osaka",
+      "startDate": "2026-04-03",
+      "endDate": "2026-04-07",
+      "membersCount": 4,
+      "amount": 1300000,
+      "currency": "KRW",
+      "status": "완료",
       "id": 1
     },
     {
-      "travelId": 1,
-      "fromUserId": 3,
-      "toUserId": 1,
-      "amount": 5000,
-      "status": "sent",
+      "title": "qwewq",
+      "destination": "qweqweq",
+      "startDate": "2026-04-09",
+      "endDate": "2026-04-16",
+      "membersCount": 1,
+      "amount": 1231230,
+      "currency": "KRW",
+      "status": "예정",
       "id": 2
     },
     {
-      "travelId": 1,
-      "fromUserId": 4,
-      "toUserId": 1,
-      "amount": 35000,
-      "status": "pending",
-      "id": 3
+      "title": "c4123c1c",
+      "travelType": "국내",
+      "startDate": "2026-04-11",
+      "endDate": "2026-04-15",
+      "membersCount": 2,
+      "amount": 200000,
+      "currency": "KRW",
+      "inviteCode": "Y5WU7S",
+      "id": 3,
+      "travelId": "travel3"
     }
   ],
+  "settlements": [],
   "categories": [
     {
       "id": "c1",
@@ -169,49 +169,40 @@
   ],
   "expenses": [
     {
-      "id": 1,
-      "travelId": 1,
-      "payerId": 1,
-      "amount": 60000,
-      "participants": [
-        1,
-        2,
-        3,
-        4
-      ]
+      "amount": 10000,
+      "id": 1
     },
     {
-      "id": 2,
-      "travelId": 1,
-      "payerId": 2,
-      "amount": 40000,
-      "participants": [
-        1,
-        2,
-        3,
-        4
-      ]
+      "date": "2026-04-09T08:50:51.879Z",
+      "category": "교통",
+      "place": "",
+      "amount": 100000,
+      "payer": "",
+      "participants": [],
+      "photos": [],
+      "id": 2
     },
     {
-      "id": 3,
-      "travelId": 1,
-      "payerId": 1,
-      "amount": 20000,
-      "participants": [
-        1,
-        2
-      ]
+      "date": "2026-04-09T09:05:17.363Z",
+      "category": "식비",
+      "place": "두찜",
+      "amount": 28000,
+      "payer": "",
+      "participants": [],
+      "photos": [],
+      "id": 3
     },
     {
-      "id": 4,
-      "travelId": 1,
-      "payerId": 3,
-      "amount": 30000,
-      "participants": [
-        2,
-        3,
-        4
-      ]
+      "date": "2026-04-17T15:00:00.000Z",
+      "category": "관광",
+      "place": "투어",
+      "amount": 80000,
+      "payer": "",
+      "participants": [],
+      "photos": [
+        "Pennguins.jpg.jpg"
+      ],
+      "id": 4
     }
   ]
 }

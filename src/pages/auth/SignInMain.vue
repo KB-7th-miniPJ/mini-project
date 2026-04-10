@@ -7,7 +7,7 @@
                 <input type="email" class="form-control" v-model="email" placeholder="이메일" />
             </div>
             <div class="mb-3">
-                <input type="password" class="form-control" v-model="password" placeholder="비밀번호" />
+                <input type="password" class="form-control" v-model="password" placeholder="비밀번호" @keyup.enter="login" />
             </div>
 
             <p v-if="errorMsg" class="text-danger small mb-2">{{ errorMsg }}</p>

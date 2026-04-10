@@ -1,6 +1,12 @@
 import { reactive, computed } from 'vue';
 import { defineStore } from 'pinia';
-import { getTravelList, createTravel, deleteTravel, getTravelByInviteCode, updateTravelMembers, patchTravel } from '@/api/main';
+import {
+  getTravelList,
+  createTravel,
+  deleteTravel,
+  getTravelByInviteCode,
+  updateTravelMembers,
+} from '@/api/main';
 import { patchUser } from '@/api/userApi';
 import { useAuthStore } from '@/stores/auth';
 
@@ -11,7 +17,7 @@ export const useTravelStore = defineStore('travel', () => {
     showDomestic: true,
     showOverseas: true,
   });
- 
+
   const getStatus = (startDate, endDate) => {
     if (!startDate || !endDate) return '예정';
     const today = new Date();
@@ -24,20 +30,21 @@ export const useTravelStore = defineStore('travel', () => {
     if (today > end) return '완료';
     return '진행 중';
   };
- 
+
   const filteredTravels = computed(() => {
     return state.travels
-      .map(t => ({ ...t, status: getStatus(t.startDate, t.endDate) }))
-      .filter(t => {
+      .map((t) => ({ ...t, status: getStatus(t.startDate, t.endDate) }))
+      .filter((t) => {
         const matchStatus = state.activeFilters.includes(t.status);
         const type = t.travelType;
-        const matchRegion = !type ||
+        const matchRegion =
+          !type ||
           (state.showDomestic && type === '국내') ||
           (state.showOverseas && type === '해외');
         return matchStatus && matchRegion;
       });
   });
- 
+
   const fetchTravels = async () => {
     const authStore = useAuthStore();
     const currentUser = authStore.user;
@@ -76,7 +83,7 @@ export const useTravelStore = defineStore('travel', () => {
     await fetchTravels();
     return created;
   };
- 
+
   const removeTravel = async (id) => {
     await deleteTravel(id);
     state.travels = state.travels.filter(t => t.id !== id);
@@ -86,7 +93,8 @@ export const useTravelStore = defineStore('travel', () => {
   const joinByInviteCode = async (code) => {
     const res = await getTravelByInviteCode(code);
     const list = res.data;
-    if (!list || list.length === 0) return { success: false, message: '유효하지 않은 초대코드입니다.' };
+    if (!list || list.length === 0)
+      return { success: false, message: '유효하지 않은 초대코드입니다.' };
     const travel = list[0];
 
     const authStore = useAuthStore();
@@ -105,5 +113,12 @@ export const useTravelStore = defineStore('travel', () => {
     return { success: true, travel };
   };
 
-  return { state, filteredTravels, fetchTravels, addTravel, removeTravel, joinByInviteCode };
+  return {
+    state,
+    filteredTravels,
+    fetchTravels,
+    addTravel,
+    removeTravel,
+    joinByInviteCode,
+  };
 });
