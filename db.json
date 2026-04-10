@@ -1,17 +1,17 @@
 {
   "users": [
     {
-      "id": "1",
+      "id": 1,
       "name": "일기림",
       "email": "qwe1@qwe.com",
       "password": "$2a$10$MnGk3gGVoQ66Ch2kKIIPuu8R4Ju9vScoDOPMRdVOH4EjRi/d6/t42",
       "joinTravelIds": [
-        "1",
-        "2"
+        "travel1",
+        "travel2"
       ]
     },
     {
-      "id": "2",
+      "id": 2,
       "name": "이기림",
       "email": "qwe2@qwe.com",
       "password": "$2a$10$MnGk3gGVoQ66Ch2kKIIPuu8R4Ju9vScoDOPMRdVOH4EjRi/d6/t42",
@@ -21,7 +21,7 @@
       ]
     },
     {
-      "id": "3",
+      "id": 3,
       "name": "삼기림",
       "email": "qwe3@qwe.com",
       "password": "$2a$10$MnGk3gGVoQ66Ch2kKIIPuu8R4Ju9vScoDOPMRdVOH4EjRi/d6/t42",
@@ -31,7 +31,7 @@
       ]
     },
     {
-      "id": "4",
+      "id": 4,
       "name": "사기림",
       "email": "qwe4@qwe.com",
       "password": "$2a$10$MnGk3gGVoQ66Ch2kKIIPuu8R4Ju9vScoDOPMRdVOH4EjRi/d6/t42",
@@ -41,7 +41,7 @@
       ]
     },
     {
-      "id": "5",
+      "id": 5,
       "name": "오기림",
       "email": "qwe5@qwe.com",
       "password": "$2a$10$MnGk3gGVoQ66Ch2kKIIPuu8R4Ju9vScoDOPMRdVOH4EjRi/d6/t42",
@@ -51,7 +51,7 @@
       ]
     },
     {
-      "id": "6",
+      "id": 6,
       "name": "육기림",
       "email": "qwe6@qwe.com",
       "password": "$2a$10$MnGk3gGVoQ66Ch2kKIIPuu8R4Ju9vScoDOPMRdVOH4EjRi/d6/t42",
@@ -85,70 +85,171 @@
   ],
   "travels": [
     {
+      "id": 1,
+      "travelId": "travel1",
       "title": "오사카여행",
-      "destination": "ㅂㅈㄷ",
+      "destination": "Osaka",
       "startDate": "2026-04-03",
       "endDate": "2026-04-22",
       "membersCount": 3,
-      "amount": 121231230,
+      "amount": 80000,
       "currency": "KRW",
-      "status": "예정",
-      "id": 1
+      "status": "예정"
     },
     {
-      "title": "qwewq",
+      "id": 2,
+      "travelId": "travel2",
+      "title": "테스트 22",
       "destination": "qweqweq",
       "startDate": "2026-04-09",
       "endDate": "2026-04-16",
-      "membersCount": 1,
+      "membersCount": 4,
       "amount": 1231230,
       "currency": "KRW",
-      "status": "예정",
-      "id": 2
+      "status": "예정"
     },
     {
+      "id": 3,
+      "travelId": "travel3",
       "title": "dfasdf",
       "travelType": "국내",
       "startDate": "2026-04-15",
       "endDate": "2026-04-16",
       "membersCount": 4,
       "amount": 1231230,
+      "currency": "KRW"
+    },
+    {
+      "id": 4,
+      "travelId": "travel4",
+      "title": "테스트",
+      "travelType": "국내",
+      "startDate": "2026-04-16",
+      "endDate": "2026-04-17",
+      "membersCount": 5,
+      "amount": 400000,
+      "currency": "KRW"
+    },
+    {
+      "title": "국내여행",
+      "travelType": "",
+      "startDate": "2026-04-22",
+      "endDate": "2026-04-24",
+      "membersCount": 4,
+      "amount": 50000,
       "currency": "KRW",
-      "id": 3
+      "id": 5,
+      "travelId": "travel5"
+    },
+    {
+      "title": "ㄴㅇㄴㅇㅇ",
+      "travelType": "국내",
+      "startDate": "2026-03-31",
+      "endDate": "2026-04-04",
+      "membersCount": 1,
+      "inviteCode": "ANP8EI",
+      "id": 6
+    },
+    {
+      "title": "ㄴㅇㄴㅇ",
+      "travelType": "국내",
+      "startDate": "2026-04-03",
+      "endDate": "2026-04-02",
+      "membersCount": 1,
+      "inviteCode": "VPZ8XB",
+      "id": 7
+    },
+    {
+      "title": "ㄴㅇㄴㅇ",
+      "travelType": "국내",
+      "startDate": "2026-04-03",
+      "endDate": "2026-04-02",
+      "membersCount": 1,
+      "inviteCode": "R64Q74",
+      "id": 8
+    },
+    {
+      "title": "ㄴㅇㄴㅇ",
+      "travelType": "국내",
+      "startDate": "2026-04-03",
+      "endDate": "2026-04-02",
+      "membersCount": 1,
+      "inviteCode": "B20NTX",
+      "id": 9
+    },
+    {
+      "title": "ㄴㅇㄴㅇ",
+      "travelType": "국내",
+      "startDate": "2026-04-03",
+      "endDate": "2026-04-02",
+      "membersCount": 1,
+      "inviteCode": "FFG0FN",
+      "id": 10
+    },
+    {
+      "title": "ㄴㅇㄴㅇ",
+      "travelType": "국내",
+      "startDate": "2026-04-03",
+      "endDate": "2026-04-02",
+      "membersCount": 1,
+      "inviteCode": "3MHIXO",
+      "id": 11
+    },
+    {
+      "title": "ㄴㅇㄴㅇ",
+      "travelType": "국내",
+      "startDate": "2026-04-03",
+      "endDate": "2026-04-02",
+      "membersCount": 1,
+      "inviteCode": "YFCB4Z",
+      "id": 12
+    },
+    {
+      "title": "dsdsd",
+      "travelType": "해외",
+      "startDate": "2026-04-02",
+      "endDate": "2026-04-08",
+      "membersCount": 1,
+      "amount": 0,
+      "currency": "KRW",
+      "inviteCode": "IHF3CA",
+      "id": 13
+    },
+    {
+      "title": "안녕하세요ㅕ",
+      "travelType": "국내",
+      "startDate": "2026-03-31",
+      "endDate": "2026-04-18",
+      "membersCount": 1,
+      "amount": 0,
+      "currency": "KRW",
+      "id": 14
     }
   ],
   "settlements": [
     {
-      "id": 1,
-      "travelId": "1",
-      "fromUserId": "2",
-      "toUserId": "1",
-      "amount": 45000,
-      "status": "requested"
+      "travelId": 1,
+      "fromUserId": 2,
+      "toUserId": 1,
+      "amount": 5000,
+      "status": "completed",
+      "id": 1
     },
     {
-      "id": 2,
-      "travelId": "1",
-      "fromUserId": "3",
-      "toUserId": "1",
-      "amount": 12500,
-      "status": "completed"
+      "travelId": 1,
+      "fromUserId": 3,
+      "toUserId": 1,
+      "amount": 5000,
+      "status": "sent",
+      "id": 2
     },
     {
-      "id": 3,
-      "travelId": "2",
-      "fromUserId": "1",
-      "toUserId": "4",
-      "amount": 67000,
-      "status": "pending"
-    },
-    {
-      "id": 4,
-      "travelId": "2",
-      "fromUserId": "4",
-      "toUserId": "2",
-      "amount": 15000,
-      "status": "requested"
+      "travelId": 1,
+      "fromUserId": 4,
+      "toUserId": 1,
+      "amount": 35000,
+      "status": "pending",
+      "id": 3
     }
   ],
   "categories": [
@@ -178,5 +279,187 @@
       "icon": "📦"
     }
   ],
-  "expenses": []
+  "expenses": [
+    {
+      "amount": 10000,
+      "id": 1
+    },
+    {
+      "date": "2026-04-09T08:50:51.879Z",
+      "category": "교통",
+      "place": "",
+      "amount": 100000,
+      "payer": "",
+      "participants": [],
+      "photos": [],
+      "id": 2
+    },
+    {
+      "date": "2026-04-09T09:05:17.363Z",
+      "category": "식비",
+      "place": "두찜",
+      "amount": 28000,
+      "payer": "",
+      "participants": [],
+      "photos": [],
+      "id": 3
+    },
+    {
+      "date": "2026-04-17T15:00:00.000Z",
+      "category": "관광",
+      "place": "투어",
+      "amount": 80000,
+      "payer": "",
+      "participants": [],
+      "photos": [
+        "Pennguins.jpg.jpg"
+      ],
+      "id": 4
+    },
+    {
+      "travelId": "",
+      "date": "2026-04-22T15:00:00.000Z",
+      "category": "식비",
+      "place": "테스트으으으",
+      "amount": 10000,
+      "payer": "",
+      "participants": [],
+      "photos": [
+        "Pennguins.jpg.jpg"
+      ],
+      "id": 5
+    },
+    {
+      "travelId": "",
+      "date": "2026-04-09T15:42:22.104Z",
+      "category": "기타",
+      "place": "비상약",
+      "amount": 5000,
+      "payer": "",
+      "participants": [],
+      "photos": [],
+      "id": 6
+    },
+    {
+      "travelId": "travel2",
+      "date": "2026-04-17T15:00:00.000Z",
+      "category": "관광",
+      "place": "테스트 77",
+      "amount": 60000,
+      "payer": "",
+      "participants": [],
+      "photos": [],
+      "id": 7
+    },
+    {
+      "travelId": "travel2",
+      "date": "2026-04-09T15:56:36.810Z",
+      "category": "교통",
+      "place": "테스트 88",
+      "amount": 70000,
+      "payer": "",
+      "participants": [],
+      "photos": [],
+      "id": 8
+    },
+    {
+      "travelId": "travel3",
+      "date": "2026-04-09T16:01:37.812Z",
+      "category": "교통",
+      "place": "테스트99",
+      "amount": 50000,
+      "payer": "",
+      "participants": [],
+      "photos": [],
+      "id": 9
+    },
+    {
+      "travelId": "travel4",
+      "date": "2026-04-09T16:03:01.713Z",
+      "category": "교통",
+      "place": "테스트10",
+      "amount": 8987,
+      "payer": "",
+      "participants": [],
+      "photos": [],
+      "id": 10
+    },
+    {
+      "travelId": "travel3",
+      "date": "2026-04-09T16:09:14.316Z",
+      "category": "교통",
+      "place": "테스트 11",
+      "amount": 202020,
+      "payer": "",
+      "participants": [],
+      "photos": [],
+      "id": 11
+    },
+    {
+      "travelId": "travel3",
+      "date": "2026-04-09T16:18:56.857Z",
+      "category": "식비",
+      "place": "테스트12",
+      "amount": 30000,
+      "payer": "",
+      "participants": [],
+      "photos": [],
+      "id": 12
+    },
+    {
+      "travelId": "travel3",
+      "date": "2026-04-23T15:00:00.000Z",
+      "category": "식비",
+      "place": "테스트12",
+      "amount": 30000,
+      "payer": "",
+      "participants": [],
+      "photos": [],
+      "id": 13
+    },
+    {
+      "travelId": "travel3",
+      "date": "2026-04-09T16:22:47.530Z",
+      "category": "식비",
+      "place": "테스트 13",
+      "amount": 0,
+      "payer": "",
+      "participants": [],
+      "photos": [],
+      "id": 14
+    },
+    {
+      "travelId": "travel3",
+      "date": "2026-04-09T16:24:43.143Z",
+      "category": "교통",
+      "place": "테스트 14",
+      "amount": 123000,
+      "payer": "",
+      "participants": [],
+      "photos": [],
+      "id": 15
+    },
+    {
+      "travelId": "travel2",
+      "date": "2026-04-09T16:25:17.534Z",
+      "category": "식비",
+      "place": "테스트 15",
+      "amount": 150000,
+      "payer": "",
+      "participants": [],
+      "photos": [],
+      "id": 16
+    },
+    {
+      "travelId": "travel2",
+      "date": "2026-04-10T01:08:59.468Z",
+      "category": "관광",
+      "place": "테스트123",
+      "amount": 101010,
+      "payer": "",
+      "participants": [],
+      "photos": [],
+      "id": 17
+    }
+  ]
 }
