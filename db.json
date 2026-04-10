@@ -4,16 +4,9 @@
       "id": 1,
       "name": "일기림",
       "email": "qwe1@qwe.com",
-<<<<<<< HEAD
-      "password": "qwer1234!",
-      "joinTravelIds": [
-        "1",
-        "2"
-      ]
-=======
+
       "password": "$2a$10$MnGk3gGVoQ66Ch2kKIIPuu8R4Ju9vScoDOPMRdVOH4EjRi/d6/t42",
       "joinTravelIds": ["travel1", "travel2"]
->>>>>>> 88926065ee1bf0d1f97f5a04b39e6745d5ae79ce
     },
     {
       "id": 2,
