@@ -142,6 +142,7 @@ onMounted(async () => {
 
 const goBack = () => {
   router.push(`/travels/${travelId}/expenses/new`);
+}
 </script>
 
 <style scoped>
