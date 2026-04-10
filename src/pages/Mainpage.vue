@@ -44,14 +44,12 @@
 import { onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { useTravelStore } from '@/stores/counter';
-import { useAuthStore } from '@/stores/auth';
 
 const router = useRouter();
 const route = useRoute();
 const store = useTravelStore();
-const authStore = useAuthStore();
 
-const logout = () => {
+const handleLogout = () => {
   authStore.logout()
   router.push({ name: 'signin' })}
 
@@ -64,9 +62,8 @@ const filters = [
 onMounted(() => { store.fetchTravels(); });
 
 const gomain2 = (travelNumId) => {
-  router.push(`/travels/${travelNumId}`);
+  router.push({ name: 'TravelDetail', params: { id: travelNumId } });
 };
-
 
 const badgeClass = (status) => {
   if (status === '예정') return 'badge-blue';
