@@ -1,6 +1,8 @@
 import { reactive, computed } from 'vue';
 import { defineStore } from 'pinia';
 import { getTravelList, createTravel, deleteTravel, getTravelByInviteCode, updateTravelMembers } from '@/api/main';
+import { patchUser } from '@/api/userApi';
+import { useAuthStore } from '@/stores/auth';
 
 export const useTravelStore = defineStore('travel', () => {
   const state = reactive({
@@ -68,6 +70,19 @@ export const useTravelStore = defineStore('travel', () => {
     const list = res.data;
     if (!list || list.length === 0) return { success: false, message: '유효하지 않은 초대코드입니다.' };
     const travel = list[0];
+
+    const authStore = useAuthStore();
+    const currentUser = authStore.user;
+    if (!currentUser) return { success: false, message: '로그인이 필요합니다.' };
+
+    const currentIds = Array.isArray(currentUser.joinTravelIds) ? currentUser.joinTravelIds : [];
+    const travelId = String(travel.id);
+    if (currentIds.includes(travelId)) return { success: false, message: '이미 참가한 여행입니다.' };
+
+    const updatedIds = [...currentIds, travelId];
+    await patchUser(currentUser.id, { joinTravelIds: updatedIds });
+    authStore.setUser({ ...currentUser, joinTravelIds: updatedIds });
+
     await updateTravelMembers(travel.id, travel.membersCount + 1);
     await fetchTravels();
     return { success: true, travel };

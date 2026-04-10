@@ -79,7 +79,7 @@ const signupHandler = async () => {
       name: name.value,
       email: email.value,
       password: password.value,
-      joinTravelIds: {},
+      joinTravelIds: [],
     })
 
     showPopup.value = true
