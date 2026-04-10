@@ -4,7 +4,6 @@
       "id": 1,
       "name": "일기림",
       "email": "qwe1@qwe.com",
-
       "password": "$2a$10$MnGk3gGVoQ66Ch2kKIIPuu8R4Ju9vScoDOPMRdVOH4EjRi/d6/t42",
       "joinTravelIds": [
         "travel1",
@@ -84,11 +83,11 @@
       "id": "HyEuIoV"
     },
     {
-      "name": "송에스더",
-      "email": "qetuo4751@naver.com",
-      "password": "asdf1234!",
-      "joinTravelIds": {},
-      "id": "OJjXx5O"
+      "email": "qw123123123e1@qwe.com",
+      "password": "$2a$10$F6sY/3f4z6I/iY9w9sWz/.gjzGMLoQ.k/9l89KEypUgi5WQ/6o8Xu",
+      "name": "ㅋㅋ",
+      "joinTravelIds": [],
+      "id": "FMJ-byy"
     }
   ],
   "travels": [
