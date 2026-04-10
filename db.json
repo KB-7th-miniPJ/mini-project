@@ -94,6 +94,7 @@
         "3",
         "1",
         "7",
+        "1",
         "1"
       ],
       "id": "HwKT18H"
@@ -104,12 +105,35 @@
       "name": "ㄱㅎㅂ2",
       "joinTravelIds": [
         "4",
-        "3"
+        "3",
+        "1",
+        "2"
       ],
       "id": "LSVk1GR"
     }
   ],
-  "travels": [],
+  "travels": [
+    {
+      "title": "23ㅊ123ㅊ1ㅊ",
+      "travelType": "국내",
+      "startDate": "2026-04-11",
+      "endDate": "2026-04-14",
+      "membersCount": 2,
+      "inviteCode": "CB7FVC",
+      "id": 1,
+      "travelId": "travel1"
+    },
+    {
+      "title": "c3123c1c",
+      "travelType": "국내",
+      "startDate": "2026-04-11",
+      "endDate": "2026-04-16",
+      "membersCount": 1,
+      "inviteCode": "NFP5Q6",
+      "id": 2,
+      "travelId": "travel2"
+    }
+  ],
   "settlements": [],
   "categories": [
     {
