@@ -336,6 +336,17 @@
       "participants": [],
       "photos": [],
       "id": 16
+    },
+    {
+      "travelId": "travel2",
+      "date": "2026-04-10T01:08:59.468Z",
+      "category": "관광",
+      "place": "테스트123",
+      "amount": 101010,
+      "payer": "",
+      "participants": [],
+      "photos": [],
+      "id": 17
     }
   ]
 }

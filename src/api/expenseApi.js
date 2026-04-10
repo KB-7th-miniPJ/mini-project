@@ -33,3 +33,19 @@ export const getTravel = async (id) => {
   const res = await fetch(`${BASE_URL}/travels/${id}`);
   return res.json();
 };
+
+// ✅ 추가: 지출 단건 조회 (수정 시 기존 데이터 불러오기)
+export const getExpense = async (expenseId) => {
+  const res = await fetch(`${BASE_URL}/expenses/${expenseId}`);
+  return res.json();
+};
+ 
+// ✅ 추가: 지출 수정
+export const updateExpense = async (expenseId, data) => {
+  const res = await fetch(`${BASE_URL}/expenses/${expenseId}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+  return res.json();
+};

@@ -30,6 +30,7 @@ const {
 
 onMounted(() => loadExpenses());
 
+
 const onDelete = async (id) => {
   if (!confirm("삭제할까요?")) return;
   await removeExpense(id);

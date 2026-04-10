@@ -119,7 +119,7 @@ const goToAddExpense = () =>
       >
       <p class="sub clickable-text" @click="openInfoModal">
         {{ travel?.title }} · {{ travel?.membersCount ?? 0 }}명
-        <span class="edit-icon">&nbsp;&nbsp;✏️</span></p>
+        <span class="edit-icon">&nbsp;✏️</span></p>
       <h1 class="total">총 {{ totalExpense.toLocaleString() }}원 지출</h1>
       <div
         class="add-expense"

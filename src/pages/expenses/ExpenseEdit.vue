@@ -4,8 +4,8 @@
     <div class="mobile-frame">
       <div class="header">
         <button class="back-icon " @click="router.push(`/travels/${travelNumId}`)"> ‹</button>
-         <!-- ✅ 뒤로가기 버튼 router.back에서 해당여행방의 main2 페이지로 이동하게 주소로 설정 -->
-
+        // ✅ 뒤로가기 버튼 router.back에서 해당여행방의 main2 페이지로 이동하게 주소로 설정
+        
         <span class="header-text">지출 기록</span>
       </div>
 

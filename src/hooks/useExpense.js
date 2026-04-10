@@ -69,7 +69,7 @@ export function useExpense() {
   };
  
   const saveExpense = async () => {
-      console.log('저장할 travelId:', travel.value?.travelId)  // ← ✅확인용 추가
+      console.log('저장할 travelId:', travel.value?.travelId)  // ← ✅추가
     const payload = {
       // ✅ travel 로드 완료 후 travelId 문자열 자동 포함
       // travel.value = { id:1, travelId:"travel1", ... }
@@ -87,7 +87,7 @@ export function useExpense() {
       participants: members.value,
       photos: photos.value,
     };
-  console.log('payload:', payload)  // ← ✅확인용추가
+  console.log('payload:', payload)  // ← 추가
     return await createExpense(payload);
   };
  
