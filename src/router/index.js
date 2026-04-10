@@ -4,22 +4,22 @@ import SignInMain from '../pages/auth/SignInMain.vue';
 import SignUp from '../pages/auth/SignUp.vue';
 import MainPage from '../pages/Mainpage.vue';
 import TravelsNew from '../pages/Travelsnew.vue';
-import Main2        from "@/pages/Main2.vue"
-import Expenseslist from "@/pages/Expenseslist.vue"
+import Main2 from '@/pages/Main2.vue';
+import Expenseslist from '@/pages/Expenseslist.vue';
 import Settlements from '@/pages/Settlements.vue';
-import ExpenseRecord from '@/pages/expenses/ExpenseRecord.vue' 
-import ExpenseMembers from '@/pages/ExpenseMembers.vue'
+import ExpenseRecord from '@/pages/expenses/ExpenseRecord.vue';
+import ExpenseMembers from '@/pages/ExpenseMembers.vue';
 
 const routes = [
   {
     path: '/',
     name: 'Main',
-    component: MainPage
+    component: MainPage,
   },
   {
     path: '/travels-new',
     name: 'TravelsNew',
-    component: TravelsNew
+    component: TravelsNew,
   },
   // {
   //   path: '/travels/:id',
@@ -34,53 +34,33 @@ const routes = [
       component: Main2,
     },
 
-    {
-      path: "/travels/:id/expenseslist",
-      name: "expenseslist",
-      component: Expenseslist,
-    },
-    {
+  {
+    path: '/travels/:id/expenseslist',
+    name: 'expenseslist',
+    component: Expenseslist,
+  },
+  {
     path: '/travels/:travelId/settlement',
     name: 'travel-settlements',
     component: Settlements,
-  },    
+  },
   {
-      path: '/expenses/new',
-      name: 'ExpenseRecord',
-      component: ExpenseRecord,
-    },  
-      {
+    path: '/expenses/new',
+    name: 'ExpenseRecord',
+    component: ExpenseRecord,
+  },
+  {
     path: '/expense/:travelId/members',
     name: 'expensemembers',
     component: ExpenseMembers,
-  },  
-    // {
-    //   path: '/expensemembers',
-    //   name: 'expensemembers',
-    //   component: Expensemembers, // 연결 완료
-    // },
-    // {
-    //  // 예림님 파일 생기면 주석 해제
-    // {
-    //   path: '/travels/:id/expenseslist',
-    //   name: 'expenseslist',
-    //   component: () => import('@/pages/expenses/Expenseslist.vue'),
-    // },
-    // },
-    // {
-    //   path: "/travels/:id",
-    //   name: "main2",
-    //   component: () => import('@/pages/Main2.vue'),
-    // },
+  },
 
-
-
-      { path: '/:pathMatch(.*)*', redirect: { name: 'signin' } },
+  { path: '/:pathMatch(.*)*', redirect: { name: 'signin' } },
 ];
 
 const router = createRouter({
   history: createWebHistory(),
-  routes 
+  routes,
 });
 
 const publicNames = ['signin', 'signup'];
