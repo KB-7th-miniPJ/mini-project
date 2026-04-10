@@ -5,7 +5,6 @@
       새 여행 만들기
     </h2>
 
-    <!-- 라디오 버튼으로 국내/해외 여행 타입 선택 -->
     <div class="section">
       <div class="radio-group">
         <label><input type="radio" value="국내" v-model="travelType" /> 국내여행</label>
@@ -17,7 +16,6 @@
         <input v-model="title" placeholder="여행 이름을 입력하세요" />
       </div>
 
-      <!-- 출발/도착 날짜 -->
       <div class="form-row">
         <div class="form-group half">
           <label>출발날짜</label>
@@ -29,6 +27,25 @@
         </div>
       </div>
 
+      <div class="form-group">
+        <label>참여 인원</label>
+        <div>
+          <strong> {{ membersCount }}명 </strong>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>총 예산</label>
+        <div class="form-row">
+          <input type="number" v-model.number="amount" placeholder="0" class="half" />
+          <select v-model="currency" class="half">
+            <option value="KRW">KRW</option>
+            <option value="USD">USD</option>
+            <option value="EUR">EUR</option>
+            <option value="JPY">JPY</option>
+          </select>
+        </div>
+      </div>
 
       <button class="btn-submit" @click="addTravel">여행 만들기</button>
 
@@ -64,6 +81,8 @@ const title = ref('');
 const startDate = ref('');
 const endDate = ref('');
 const membersCount = ref(1);
+const amount = ref(0);
+const currency = ref('KRW');
 const invitedCode = ref('');
 const inputCode = ref('');
 const joinMessage = ref('');
@@ -82,25 +101,22 @@ const addTravel = async () => {
     startDate: startDate.value,
     endDate: endDate.value,
     membersCount: membersCount.value,
+    amount: amount.value,
+    currency: currency.value,
     inviteCode: code,
   });
   invitedCode.value = code;
-  alert('여행이 만들어졌습니다.');
 };
 
 const joinTravel = async () => {
   if (!inputCode.value) return;
-  try {
-    const result = await store.joinByInviteCode(inputCode.value.toUpperCase());
-    if (result.success) {
-      joinMessage.value = `"${result.travel.title}" 여행에 참가했습니다!`;
-      inputCode.value = '';
-      setTimeout(() => router.push({ name: 'Main' }), 1000);
-    } else {
-      joinMessage.value = result.message;
-    }
-  } catch (e) {
-    joinMessage.value = '참가 중 오류가 발생했습니다.';
+  const result = await store.joinByInviteCode(inputCode.value.toUpperCase());
+  if (result.success) {
+    joinMessage.value = `"${result.travel.title}" 여행에 참가했습니다!`;
+    inputCode.value = '';
+    setTimeout(() => router.push({ name: 'Main' }), 1000);
+  } else {
+    joinMessage.value = result.message;
   }
 };
 </script>

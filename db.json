@@ -83,24 +83,55 @@
       "id": "HyEuIoV"
     },
     {
-      "email": "qw123123123e1@qwe.com",
-      "password": "$2a$10$F6sY/3f4z6I/iY9w9sWz/.gjzGMLoQ.k/9l89KEypUgi5WQ/6o8Xu",
-      "name": "ㅋㅋ",
-      "joinTravelIds": [],
-      "id": "FMJ-byy"
+      "email": "qwe@qwe.com",
+      "password": "$2a$10$eAOH06DI.2IjkErw.wBb7OXgKV69R.cztLPDTo1UPs4jbW6f7nX0i",
+      "name": "ㄱㅎㅂ1",
+      "joinTravelIds": [
+        "4",
+        "3",
+        "4",
+        "3",
+        "3",
+        "1",
+        "7",
+        "1",
+        "1"
+      ],
+      "id": "HwKT18H"
+    },
+    {
+      "email": "qwer@qwe.com",
+      "password": "$2a$10$kol8EGFBA4lPjEYzdstHhOoDXtIWqXV/YMF2Yu/2.YMYVNOJ1g84C",
+      "name": "ㄱㅎㅂ2",
+      "joinTravelIds": [
+        "4",
+        "3",
+        "1",
+        "2"
+      ],
+      "id": "LSVk1GR"
     }
   ],
   "travels": [
     {
-      "title": "testnew",
+      "title": "23ㅊ123ㅊ1ㅊ",
       "travelType": "국내",
-      "startDate": "2026-04-09",
-      "endDate": "2026-04-13",
+      "startDate": "2026-04-11",
+      "endDate": "2026-04-14",
+      "membersCount": 2,
+      "inviteCode": "CB7FVC",
+      "id": 1,
+      "travelId": "travel1"
+    },
+    {
+      "title": "c3123c1c",
+      "travelType": "국내",
+      "startDate": "2026-04-11",
+      "endDate": "2026-04-16",
       "membersCount": 1,
-      "amount": 100000000,
-      "currency": "KRW",
-      "inviteCode": "X3GDRW",
-      "id": 6
+      "inviteCode": "NFP5Q6",
+      "id": 2,
+      "travelId": "travel2"
     }
   ],
   "settlements": [],
