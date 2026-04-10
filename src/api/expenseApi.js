@@ -1,28 +1,18 @@
-const BASE_URL = "/api";
+import apiClient from './client';
 
 // EXP-007: 카테고리 목록 조회
-export const getCategories = async () => {
-  const res = await fetch(`${BASE_URL}/categories`);
-  return res.json();
-};
+export const getCategories = () =>
+  apiClient.get('/categories');
 
 // EXP-001: 지출 기록 생성
-export const createExpense = async (data) => {
-  const res = await fetch(`${BASE_URL}/expenses`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
-  });
-  return res.json();
-};
+export const createExpense = (data) =>
+  apiClient.post('/expenses', data);
 
 // EXP-006: 영수증 이미지 업로드
-export const uploadReceipt = async (expenseId, file) => {
+export const uploadReceipt = (expenseId, file) => {
   const formData = new FormData();
-  formData.append("file", file);
-  const res = await fetch(`${BASE_URL}/expenses/${expenseId}/receipt`, {
-    method: "POST",
-    body: formData,
+  formData.append('file', file);
+  return apiClient.post(`/expenses/${expenseId}/receipt`, formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
   });
-  return res.json();
 };
