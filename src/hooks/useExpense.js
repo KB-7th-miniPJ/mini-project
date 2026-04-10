@@ -3,7 +3,7 @@ import { useRoute } from "vue-router";
 import { getCategories, createExpense, getTravel } from "../api/expenseApi"; // ✅ getTravel 추가
  
 // 혜성님 파일 생기면 주석 해제
-// import { useMembersStore } from "@/stores/members";
+import { useMembersStore } from "@/stores/members";
  
 export function useExpense() {
   // ✅ 라우트에서 travelId(숫자) 꺼내기
@@ -15,7 +15,7 @@ export function useExpense() {
   const travel = ref(null);
  
   // 혜성님 파일 생기면 주석 해제
-  // const memberStore = useMembersStore();
+  const memberStore = useMembersStore();
  
   const categories = ref([]);
   const date = ref(new Date());
@@ -25,8 +25,11 @@ export function useExpense() {
   const photos = ref([]);
  
   // 혜성님 파일 생기면 아래 주석 해제하고 임시 데이터 주석 처리
-  // const members = computed(() => memberStore.participants);
-  const members = ref([]);
+  const members = computed(() => {
+  console.log('members 데이터:', memberStore.participants)
+  return memberStore.participants
+  })
+  // const members = ref([]);
  
   onMounted(async () => {
     try {
@@ -41,8 +44,6 @@ export function useExpense() {
       categories.value = catData;
       if (catData.length > 0) category.value = catData[0].name;
  
-
-       
       // ✅ travel 세팅 → travel.travelId = "travel1" 확보
       travel.value = travelData;
   console.log('travel.travelId:', travel.value?.travelId)  // 확인용

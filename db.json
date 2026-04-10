@@ -5,7 +5,10 @@
       "name": "일기림",
       "email": "qwe1@qwe.com",
       "password": "$2a$10$MnGk3gGVoQ66Ch2kKIIPuu8R4Ju9vScoDOPMRdVOH4EjRi/d6/t42",
-      "joinTravelIds": ["travel1", "travel2"]
+      "joinTravelIds": [
+        "travel1",
+        "travel2"
+      ]
     },
     {
       "id": 2,
@@ -78,6 +81,13 @@
       "password": "1234567@",
       "joinTravelIds": {},
       "id": "HyEuIoV"
+    },
+    {
+      "name": "송에스더",
+      "email": "qetuo4751@naver.com",
+      "password": "asdf1234!",
+      "joinTravelIds": {},
+      "id": "OJjXx5O"
     }
   ],
   "travels": [
@@ -224,7 +234,9 @@
       "amount": 80000,
       "payer": "",
       "participants": [],
-      "photos": ["Pennguins.jpg.jpg"],
+      "photos": [
+        "Pennguins.jpg.jpg"
+      ],
       "id": 4
     },
     {
@@ -235,7 +247,9 @@
       "amount": 10000,
       "payer": "",
       "participants": [],
-      "photos": ["Pennguins.jpg.jpg"],
+      "photos": [
+        "Pennguins.jpg.jpg"
+      ],
       "id": 5
     },
     {
