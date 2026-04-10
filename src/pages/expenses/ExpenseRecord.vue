@@ -34,6 +34,17 @@
           />
         </div>
 
+        <!-- 인원 선택 -->
+        <div class="input-section">
+          <button class="member-select-btn" @click="handleMemberSelect">
+            인원 선택
+          </button>
+          <div v-if="members && members.length > 0" class="member-chip-container">
+            <MemberChip v-for="m in members" :key="m.id" :member="m" />
+          </div>
+        </div>
+
+        <!-- 총액 -->
         <div class="input-section">
           <div class="section-label">총액</div>
           <div class="amount-input-wrapper">
@@ -45,15 +56,6 @@
               @input="(e) => setAmount(e.target.value)"
             />
             <span class="currency-label">원</span>
-          </div>
-        </div>
-
-        <div class="input-section">
-          <button class="member-select-btn" @click="handleMemberSelect">
-            인원 선택
-          </button>
-          <div v-if="members && members.length > 0" class="member-chip-container">
-            <MemberChip v-for="m in members" :key="m.id" :member="m" />
           </div>
         </div>
 
