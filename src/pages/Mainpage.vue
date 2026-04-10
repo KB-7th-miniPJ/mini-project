@@ -44,13 +44,14 @@
 import { onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { useTravelStore } from '@/stores/counter';
+import { useAuthStore } from '@/stores/auth';
 
 const router = useRouter();
 const route = useRoute();
 const store = useTravelStore();
 const authStore = useAuthStore();
 
-const handleLogout = () => {
+const logout = () => {
   authStore.logout()
   router.push({ name: 'signin' })}
 
