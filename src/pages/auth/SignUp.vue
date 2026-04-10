@@ -19,7 +19,7 @@
                 <label class="form-label">비밀번호</label>
                 <input type="password" class="form-control" v-model="password" placeholder="비밀번호를 입력하세요" />
                 <p class="text-muted small mt-1 mb-0">특수문자 포함, 8~16자</p>
-                <p v-if="passwordError" class="text-danger small mt-1 mb-0">특수문자, 8~16자여야 합니다.</p>
+                <p v-if="passwordError" class="text-danger small mt-1 mb-0">특수문자가 포함된 8~16자여야 합니다.</p>
             </div>
 
             <div class="mb-4">
@@ -34,7 +34,8 @@
             </div>
 
             <div v-if="showPopup" class="alert alert-success mt-3 text-center mb-0">
-                회원가입이 완료되었습니다!
+                회원가입이 완료되었습니다! <br>
+                2초 후 로그인 페이지로 이동합니다.
             </div>
         </div>
     </div>
@@ -79,7 +80,7 @@ const signupHandler = async () => {
       name: name.value,
       email: email.value,
       password: password.value,
-      joinTravelIds: {},
+      joinTravelIds: [],
     })
 
     showPopup.value = true
