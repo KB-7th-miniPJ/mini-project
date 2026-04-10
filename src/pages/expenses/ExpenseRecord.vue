@@ -119,7 +119,7 @@ const {
 const formatDate = (d) =>
   `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')}`;
 
-const handleMemberSelect = () => router.push('/expensemembers');
+const handleMemberSelect = () => router.push(`/expense/${travelNumId}/members`);
 
 const handleComplete = async () => {
   try {
