@@ -5,6 +5,7 @@
       새 여행 만들기
     </h2>
 
+    <!-- 라디오 버튼으로 국내/해외 여행 타입 선택 -->
     <div class="section">
       <div class="radio-group">
         <label><input type="radio" value="국내" v-model="travelType" /> 국내여행</label>
@@ -16,6 +17,7 @@
         <input v-model="title" placeholder="여행 이름을 입력하세요" />
       </div>
 
+      <!-- 출발/도착 날짜 -->
       <div class="form-row">
         <div class="form-group half">
           <label>출발날짜</label>
@@ -106,17 +108,22 @@ const addTravel = async () => {
     inviteCode: code,
   });
   invitedCode.value = code;
+  alert('여행이 만들어졌습니다.');
 };
 
 const joinTravel = async () => {
   if (!inputCode.value) return;
-  const result = await store.joinByInviteCode(inputCode.value.toUpperCase());
-  if (result.success) {
-    joinMessage.value = `"${result.travel.title}" 여행에 참가했습니다!`;
-    inputCode.value = '';
-    setTimeout(() => router.push({ name: 'Main' }), 1000);
-  } else {
-    joinMessage.value = result.message;
+  try {
+    const result = await store.joinByInviteCode(inputCode.value.toUpperCase());
+    if (result.success) {
+      joinMessage.value = `"${result.travel.title}" 여행에 참가했습니다!`;
+      inputCode.value = '';
+      setTimeout(() => router.push({ name: 'Main' }), 1000);
+    } else {
+      joinMessage.value = result.message;
+    }
+  } catch (e) {
+    joinMessage.value = '참가 중 오류가 발생했습니다.';
   }
 };
 </script>

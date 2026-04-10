@@ -24,8 +24,7 @@
           </div>
           <button class="btn-delete" @click.stop="removeTravel(travel.id)">삭제</button>
         </div>
-        <p class="text-sm text-gray">{{ travel.destination }}</p>
-        <p class="text-sm">{{ travel.startDate }} ~ {{ travel.endDate }} | {{ travel.membersCount }}명 | {{ formatAmount(travel.amount, travel.currency) }}</p>
+        <p class="text-sm">{{ travel.startDate }} ~ {{ travel.endDate }} | {{ travel.membersCount }}명 | {{ formatAmount(travel.amount, travel.currency) }} | 초대코드 : {{travel.inviteCode}}</p>
       </div>
 
       <button class="btn-add" @click="router.push({ name: 'TravelsNew' })">+ 새 여행</button>
@@ -44,13 +43,14 @@
 import { onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { useTravelStore } from '@/stores/counter';
+import { useAuthStore } from '@/stores/auth';
 
 const router = useRouter();
 const route = useRoute();
 const store = useTravelStore();
 const authStore = useAuthStore();
 
-const handleLogout = () => {
+const logout = () => {
   authStore.logout()
   router.push({ name: 'signin' })}
 
@@ -63,8 +63,9 @@ const filters = [
 onMounted(() => { store.fetchTravels(); });
 
 const gomain2 = (travelNumId) => {
-  router.push({ name: 'TravelDetail', params: { id: travelNumId } });
+  router.push(`/travels/${travelNumId}`);
 };
+
 
 const badgeClass = (status) => {
   if (status === '예정') return 'badge-blue';
@@ -78,7 +79,7 @@ const removeTravel = async (id) => {
 };
 
 const formatAmount = (amount, currency) => {
-  return amount.toLocaleString() + ' ' + currency;
+  return (amount ?? 0).toLocaleString() + ' ' + (currency || '');
 };
 </script>
 

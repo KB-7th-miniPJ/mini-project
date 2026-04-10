@@ -3,7 +3,7 @@
     {
       "id": 1,
       "name": "일기림",
-      "email": "qwe1@qwe.com",
+      "email": "qwe1@qwe.com"
     },
     {
       "id": 2,
@@ -76,6 +76,24 @@
       "password": "1234567@",
       "joinTravelIds": {},
       "id": "HyEuIoV"
+    },
+    {
+      "email": "qwe@qwe.com",
+      "password": "$2a$10$eAOH06DI.2IjkErw.wBb7OXgKV69R.cztLPDTo1UPs4jbW6f7nX0i",
+      "name": "ㄱㅎㅂ1",
+      "joinTravelIds": [
+        "4"
+      ],
+      "id": "HwKT18H"
+    },
+    {
+      "email": "qwer@qwe.com",
+      "password": "$2a$10$kol8EGFBA4lPjEYzdstHhOoDXtIWqXV/YMF2Yu/2.YMYVNOJ1g84C",
+      "name": "ㄱㅎㅂ2",
+      "joinTravelIds": [
+        "4"
+      ],
+      "id": "LSVk1GR"
     }
   ],
   "travels": [
@@ -100,16 +118,6 @@
       "currency": "KRW",
       "status": "예정",
       "id": 2
-    },
-    {
-      "title": "dfasdf",
-      "travelType": "국내",
-      "startDate": "2026-04-15",
-      "endDate": "2026-04-16",
-      "membersCount": 4,
-      "amount": 1231230,
-      "currency": "KRW",
-      "id": 3
     }
   ],
   "settlements": [
@@ -171,28 +179,45 @@
       "travelId": 1,
       "payerId": 1,
       "amount": 60000,
-      "participants": [1, 2, 3, 4]
+      "participants": [
+        1,
+        2,
+        3,
+        4
+      ]
     },
     {
       "id": 2,
       "travelId": 1,
       "payerId": 2,
       "amount": 40000,
-      "participants": [1, 2, 3, 4]
+      "participants": [
+        1,
+        2,
+        3,
+        4
+      ]
     },
     {
       "id": 3,
       "travelId": 1,
       "payerId": 1,
       "amount": 20000,
-      "participants": [1, 2]
+      "participants": [
+        1,
+        2
+      ]
     },
     {
       "id": 4,
       "travelId": 1,
       "payerId": 3,
       "amount": 30000,
-      "participants": [2, 3, 4]
+      "participants": [
+        2,
+        3,
+        4
+      ]
     }
   ]
 }
