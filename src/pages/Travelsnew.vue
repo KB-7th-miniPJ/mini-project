@@ -29,25 +29,6 @@
         </div>
       </div>
 
-      <div class="form-group">
-        <label>참여 인원</label>
-        <div>
-          <strong> {{ membersCount }}명 </strong>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label>총 예산</label>
-        <div class="form-row">
-          <input type="number" v-model.number="amount" placeholder="0" class="half" />
-          <select v-model="currency" class="half">
-            <option value="KRW">KRW</option>
-            <option value="USD">USD</option>
-            <option value="EUR">EUR</option>
-            <option value="JPY">JPY</option>
-          </select>
-        </div>
-      </div>
 
       <button class="btn-submit" @click="addTravel">여행 만들기</button>
 
@@ -83,8 +64,6 @@ const title = ref('');
 const startDate = ref('');
 const endDate = ref('');
 const membersCount = ref(1);
-const amount = ref(0);
-const currency = ref('KRW');
 const invitedCode = ref('');
 const inputCode = ref('');
 const joinMessage = ref('');
@@ -103,8 +82,6 @@ const addTravel = async () => {
     startDate: startDate.value,
     endDate: endDate.value,
     membersCount: membersCount.value,
-    amount: amount.value,
-    currency: currency.value,
     inviteCode: code,
   });
   invitedCode.value = code;

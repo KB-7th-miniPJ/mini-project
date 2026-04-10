@@ -55,7 +55,7 @@ export const useTravelStore = defineStore('travel', () => {
 
     state.travels = allTravels.filter(t => joinedIds.includes(String(t.id)));
   };
-
+ 
   const addTravel = async (travel) => {
     const res = await createTravel(travel);
     const created = res.data;

@@ -82,7 +82,8 @@
       "password": "$2a$10$eAOH06DI.2IjkErw.wBb7OXgKV69R.cztLPDTo1UPs4jbW6f7nX0i",
       "name": "ㄱㅎㅂ1",
       "joinTravelIds": [
-        "4"
+        "4",
+        "3"
       ],
       "id": "HwKT18H"
     },
@@ -91,7 +92,8 @@
       "password": "$2a$10$kol8EGFBA4lPjEYzdstHhOoDXtIWqXV/YMF2Yu/2.YMYVNOJ1g84C",
       "name": "ㄱㅎㅂ2",
       "joinTravelIds": [
-        "4"
+        "4",
+        "3"
       ],
       "id": "LSVk1GR"
     }
@@ -118,6 +120,18 @@
       "currency": "KRW",
       "status": "예정",
       "id": 2
+    },
+    {
+      "title": "c4123c1c",
+      "travelType": "국내",
+      "startDate": "2026-04-11",
+      "endDate": "2026-04-15",
+      "membersCount": 2,
+      "amount": 200000,
+      "currency": "KRW",
+      "inviteCode": "Y5WU7S",
+      "id": 3,
+      "travelId": "travel3"
     }
   ],
   "settlements": [
