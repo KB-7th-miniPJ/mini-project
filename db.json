@@ -383,6 +383,22 @@
       "participants": [],
       "photos": [],
       "id": 17
+    },
+    {
+      "travelId": "travel2",
+      "date": "2026-04-10T04:19:15.829Z",
+      "category": "교통",
+      "place": "",
+      "amount": 0,
+      "payer": "",
+      "participants": [
+        {
+          "id": 2,
+          "name": "이기림"
+        }
+      ],
+      "photos": [],
+      "id": 18
     }
   ]
 }
