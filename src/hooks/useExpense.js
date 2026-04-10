@@ -36,6 +36,9 @@ export function useExpense() {
 
       travel.value = travelData;
       console.log('travel.travelId:', travel.value?.travelId)
+      console.log('travelNumId:', travelNumId)
+      console.log('travel 전체:', travel.value)
+      console.log('payer:', memberStore.payer)
 
     } catch (e) {
       console.error("데이터를 불러오지 못했습니다.", e);
@@ -75,8 +78,8 @@ export function useExpense() {
       category: category.value,
       place: place.value,
       amount: Number(amount.value.toString().replace(/,/g, "")),
-      payer: "",
-      participants: members.value,
+      payer: memberStore.payer ?? "",
+      participants: memberStore.participants,
       photos: photos.value,
     };
     console.log('payload:', payload)
