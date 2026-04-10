@@ -26,8 +26,8 @@ const routes = [
   //   name: 'TravelDetail',
   //   component: MainPage
   // },
-  { path: '/signin', name: 'signin', component: SignInMain },
-  { path: '/signup', name: 'signup', component: SignUp },
+   { path: '/signin', name: 'signin', component: SignInMain },
+   { path: '/signup', name: 'signup', component: SignUp },
    {
       path: "/travels/:id",
       name: "main2",
