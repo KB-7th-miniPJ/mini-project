@@ -127,7 +127,7 @@ const handleComplete = () => {
     selectedParticipants.value.length,
   );
 
-  router.back();
+  router.back(/travels/:travelId/expenses/new);
 };
 
 onMounted(async () => {
@@ -141,7 +141,7 @@ onMounted(async () => {
 });
 
 const goBack = () => {
-  router.back();
+  router.back(/travels/:travelId/expenses/new);
 };
 </script>
 
