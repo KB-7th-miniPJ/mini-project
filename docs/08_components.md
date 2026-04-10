@@ -1,10 +1,41 @@
 # 공통 컴포넌트
 
 ## 📌 공통 컴포넌트 목록
+| 컴포넌트명 | 위치 | 설명 |
+|-----------|------|------|
+| 없음 | | |
 
-| 컴포넌트명 | 위치 | 설명 | 사용처 |
-|-----------|------|------|--------|
-| CategorySelector.vue | src/components/expense/ | 카테고리 선택 컴포넌트 | ExpenseRecord.vue |
-| DatePicker.vue | src/components/expense/ | 날짜 선택 달력 바텀시트 | ExpenseRecord.vue |
-| MemberChip.vue | src/components/expense/ | 선택된 인원 칩 표시 | ExpenseRecord.vue |
-| ReceiptUploader.vue | src/components/expense/ | 영수증 사진 업로드 | ExpenseRecord.vue |
+## 📌 개인 컴포넌트 목록
+
+### 이기림
+| 컴포넌트명 | 위치 | 설명 |
+|-----------|------|------|
+| 추후 작성 | | |
+
+### 김호빈
+| 컴포넌트명 | 위치 | 설명 |
+|-----------|------|------|
+| 추후 작성 | | |
+
+### 김동욱
+| 컴포넌트명 | 위치 | 설명 |
+|-----------|------|------|
+| 추후 작성 | | |
+
+### 석예림
+| 컴포넌트명 | 위치 | 설명 |
+|-----------|------|------|
+| 추후 작성 | | |
+
+### 송에스더
+| 컴포넌트명 | 위치 | 설명 |
+|-----------|------|------|
+| CategorySelector.vue | src/components/expense/ | 카테고리 선택 컴포넌트 |
+| DatePicker.vue | src/components/expense/ | 날짜 선택 컴포넌트 |
+| MemberChip.vue | src/components/expense/ | 멤버 칩 컴포넌트 |
+| ReceiptUploader.vue | src/components/expense/ | 영수증 이미지 업로드 컴포넌트 |
+
+### 구혜성
+| 컴포넌트명 | 위치 | 설명 |
+|-----------|------|------|
+| 추후 작성 | | |
