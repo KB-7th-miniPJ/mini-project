@@ -62,4 +62,3 @@ export const useTravelStore = defineStore('travel', () => {
 
   return { state, filteredTravels, fetchTravels, addTravel, removeTravel, joinByInviteCode };
 });
-

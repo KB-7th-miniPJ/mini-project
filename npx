@@ -1,0 +1,33 @@
+
+  \{^_^}/ hi!
+
+  Loading db.json
+  Done
+
+  Resources
+  http://localhost:3000/users
+  http://localhost:3000/travels
+  http://localhost:3000/settlements
+  http://localhost:3000/categories
+  http://localhost:3000/expenses
+
+  Home
+  http://localhost:3000
+
+  Type s + enter at any time to create a snapshot of the database
+  Watching...
+
+[0mGET /travels/1 [36m304[0m 45.588 ms - -[0m
+[0mGET /expenses [36m304[0m 9.723 ms - -[0m
+[0mGET /categories [36m304[0m 12.979 ms - -[0m
+[0mGET /travels/1 [36m304[0m 28.950 ms - -[0m
+[0mGET /expenses [36m304[0m 5.671 ms - -[0m
+[0mGET /expenses?_sort=date&_order=desc&_limit=3 [36m304[0m 14.138 ms - -[0m
+[0mGET /categories [36m304[0m 25.487 ms - -[0m
+[0mGET /travels/1 [36m304[0m 6.455 ms - -[0m
+[0mGET /expenses [36m304[0m 16.394 ms - -[0m
+[0mGET /categories [36m304[0m 19.867 ms - -[0m
+[0mGET /travels/1 [36m304[0m 26.936 ms - -[0m
+[0mGET /expenses?_sort=date&_order=desc&_limit=3 [36m304[0m 5.753 ms - -[0m
+[0mGET /expenses [36m304[0m 8.047 ms - -[0m
+[0mGET /categories [36m304[0m 10.890 ms - -[0m

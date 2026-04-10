@@ -1,84 +1,93 @@
 {
   "users": [
     {
-      "id": "1",
+      "id": 1,
       "name": "일기림",
       "email": "qwe1@qwe.com",
-      "password": "qwer1234!",
-      "joinTravelIds": [
-        "travel1",
-        "travel2"
-      ]
     },
     {
-      "id": "2",
+      "id": 2,
       "name": "이기림",
       "email": "qwe2@qwe.com",
-      "password": "qwer1234!",
+      "password": "$2a$10$MnGk3gGVoQ66Ch2kKIIPuu8R4Ju9vScoDOPMRdVOH4EjRi/d6/t42",
       "joinTravelIds": [
-        "travel1",
-        "travel2"
+        "1",
+        "2"
       ]
     },
     {
-      "id": "3",
+      "id": 3,
       "name": "삼기림",
       "email": "qwe3@qwe.com",
-      "password": "qwer1234!",
+      "password": "$2a$10$MnGk3gGVoQ66Ch2kKIIPuu8R4Ju9vScoDOPMRdVOH4EjRi/d6/t42",
       "joinTravelIds": [
-        "travel1",
-        "travel2"
+        "1",
+        "2"
       ]
     },
     {
-      "id": "4",
+      "id": 4,
       "name": "사기림",
       "email": "qwe4@qwe.com",
-      "password": "qwer1234!",
+      "password": "$2a$10$MnGk3gGVoQ66Ch2kKIIPuu8R4Ju9vScoDOPMRdVOH4EjRi/d6/t42",
       "joinTravelIds": [
-        "travel3",
-        "travel4"
+        "3",
+        "4"
       ]
     },
     {
-      "id": "5",
+      "id": 5,
       "name": "오기림",
       "email": "qwe5@qwe.com",
-      "password": "qwer1234!",
+      "password": "$2a$10$MnGk3gGVoQ66Ch2kKIIPuu8R4Ju9vScoDOPMRdVOH4EjRi/d6/t42",
       "joinTravelIds": [
-        "travel3",
-        "travel4"
+        "3",
+        "4"
       ]
     },
     {
-      "id": "6",
+      "id": 6,
       "name": "육기림",
       "email": "qwe6@qwe.com",
-      "password": "qwer1234!",
+      "password": "$2a$10$MnGk3gGVoQ66Ch2kKIIPuu8R4Ju9vScoDOPMRdVOH4EjRi/d6/t42",
       "joinTravelIds": [
-        "travel4"
+        "4"
       ]
     },
     {
       "id": "7",
       "name": "칠기림",
       "email": "qwe7@qwe.com",
-      "password": "qwer1234!",
+      "password": "$2a$10$MnGk3gGVoQ66Ch2kKIIPuu8R4Ju9vScoDOPMRdVOH4EjRi/d6/t42",
       "joinTravelIds": [
-        "travel1"
+        "1"
       ]
+    },
+    {
+      "email": "q1@qwe.com",
+      "password": "$2a$10$7HeZbyFHHTK2O076aFaSuu74ccoyYymS.yihps.QKZMttjjVWiQzi",
+      "name": "김기림",
+      "joinTravelIds": {},
+      "id": "D3vJo0Z"
+    },
+    {
+      "name": "팔기림",
+      "email": "qwe8@qwe.com",
+      "password": "1234567@",
+      "joinTravelIds": {},
+      "id": "HyEuIoV"
     }
   ],
   "travels": [
     {
       "title": "오사카여행",
-      "destination": "ㅂㅈㄷ",
+      "destination": "Osaka",
       "startDate": "2026-04-03",
-      "endDate": "2026-04-22",
-      "membersCount": 3,
-      "amount": 121231230,
+      "endDate": "2026-04-07",
+      "membersCount": 4,
+      "amount": 1300000,
       "currency": "KRW",
-      "status": "예정",
+      "status": "완료",
       "id": 1
     },
     {
@@ -103,38 +112,32 @@
       "id": 3
     }
   ],
-  "settlements": [{
-      "id": 1,
-      "travelId": "travel1",
-      "fromUserId": "2",
-      "toUserId": "1",
-      "amount": 45000,
-      "status": "requested"
+  "settlements": [
+    {
+      "travelId": 1,
+      "fromUserId": 2,
+      "toUserId": 1,
+      "amount": 5000,
+      "status": "completed",
+      "id": 1
     },
     {
-      "id": 2,
-      "travelId": "travel1",
-      "fromUserId": "3",
-      "toUserId": "1",
-      "amount": 12500,
-      "status": "completed"
+      "travelId": 1,
+      "fromUserId": 3,
+      "toUserId": 1,
+      "amount": 5000,
+      "status": "sent",
+      "id": 2
     },
     {
-      "id": 3,
-      "travelId": "travel2",
-      "fromUserId": "1",
-      "toUserId": "4",
-      "amount": 67000,
-      "status": "pending"
-    },
-    {
-      "id": 4,
-      "travelId": "travel2",
-      "fromUserId": "4",
-      "toUserId": "2",
-      "amount": 15000,
-      "status": "requested"
-    }],
+      "travelId": 1,
+      "fromUserId": 4,
+      "toUserId": 1,
+      "amount": 35000,
+      "status": "pending",
+      "id": 3
+    }
+  ],
   "categories": [
     {
       "id": "c1",
@@ -162,5 +165,34 @@
       "icon": "📦"
     }
   ],
-  "expenses": []
+  "expenses": [
+    {
+      "id": 1,
+      "travelId": 1,
+      "payerId": 1,
+      "amount": 60000,
+      "participants": [1, 2, 3, 4]
+    },
+    {
+      "id": 2,
+      "travelId": 1,
+      "payerId": 2,
+      "amount": 40000,
+      "participants": [1, 2, 3, 4]
+    },
+    {
+      "id": 3,
+      "travelId": 1,
+      "payerId": 1,
+      "amount": 20000,
+      "participants": [1, 2]
+    },
+    {
+      "id": 4,
+      "travelId": 1,
+      "payerId": 3,
+      "amount": 30000,
+      "participants": [2, 3, 4]
+    }
+  ]
 }
