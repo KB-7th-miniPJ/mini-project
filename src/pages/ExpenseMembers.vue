@@ -10,7 +10,7 @@
       <select
         v-model="selectedPayer"
         class="select"
-        
+        :style="{ color: selectedPayer ? '#111' : '#aaa' }"
         @change="handlePayerChange"
       >
         <option value="" disabled>결제자를 선택해주세요</option>
