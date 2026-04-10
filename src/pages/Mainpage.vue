@@ -1,7 +1,10 @@
 <template>
   <div class="container a">
     <div v-if="!route.params.id">
-      <h2>내 여행방</h2>
+      <div class="d-flex justify-between align-center">
+        <h2>내 여행방</h2>
+        <button class="btn-logout" @click="logout">로그아웃</button>
+      </div>
 
       <div class="ma">
         <label v-for="f in filters" :key="f.value">
@@ -45,6 +48,11 @@ import { useTravelStore } from '@/stores/counter';
 const router = useRouter();
 const route = useRoute();
 const store = useTravelStore();
+const authStore = useAuthStore();
+
+const handleLogout = () => {
+  authStore.logout()
+  router.push({ name: 'signin' })}
 
 const filters = [
   { label: '예정', value: '예정' },
@@ -76,21 +84,141 @@ const formatAmount = (amount, currency) => {
 </script>
 
 <style scoped>
-.container { max-width: 500px; margin: 0 auto; }
-.ma { margin-bottom: 10px; }
-.a { padding: 12px; }
+.container {
+  max-width: 480px;
+  margin: 0 auto;
+  background: #fff;
+  min-height: 100vh;
+  box-shadow: 0 0 40px rgba(0,0,0,0.08);
+  font-family: 'Pretendard', sans-serif;
+}
+
+.a { padding: 54px 20px 20px; }
+
+h2 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .d-flex { display: flex; }
 .justify-between { justify-content: space-between; }
 .align-center { align-items: center; }
-.text-sm { font-size: 13px; }
-.text-gray { color: #888; }
-label { margin-right: 8px; font-size: 13px; }
-.card { border: 1px solid #ddd; background: #fff; cursor: pointer; }
-.badge { font-size: 11px; padding: 2px 6px; margin-left: 5px; }
-.badge-blue { background: #ddeeff; }
-.badge-green { background: #d4edda; }
-.badge-gray { background: #eee; }
-.btn-delete { font-size: 12px; padding: 2px 8px; border: 1px solid #c00; color: #c00; background: #fff; cursor: pointer; }
-.btn-add { width: 100%; padding: 10px; background: #333; color: #fff; border: none; cursor: pointer; margin-top: 10px; font-size: 14px; }
-.btn-back { border: 1px solid #ccc; background: #fff; cursor: pointer; padding: 2px 8px; margin-right: 5px; }
+
+.ma {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 13px;
+  color: #374151;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 20px;
+  padding: 5px 12px;
+  cursor: pointer;
+  transition: all 0.15s;
+  margin-right: 0;
+}
+label:hover { border-color: #22c55e; color: #16a34a; }
+
+input[type="checkbox"] { accent-color: #22c55e; }
+
+.card {
+  border: 0.5px solid #e5e7eb;
+  border-radius: 12px;
+  background: #fff;
+  cursor: pointer;
+  padding: 14px 16px !important;
+  margin-bottom: 10px !important;
+  transition: border-color 0.15s;
+}
+.card:hover { border-color: #22c55e; }
+
+.card strong {
+  font-size: 15px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.text-sm { font-size: 13px; color: #6b7280; margin: 4px 0 0; }
+.text-gray { color: #9ca3af; }
+
+.badge {
+  font-size: 11px;
+  padding: 3px 8px;
+  margin-left: 6px;
+  border-radius: 20px;
+  font-weight: 500;
+}
+.badge-blue { background: #e6f1fb; color: #185fa5; }
+.badge-green { background: #f0fdf4; color: #16a34a; }
+.badge-gray { background: #f1efea; color: #5f5e5a; }
+
+.btn-delete {
+  font-size: 12px;
+  padding: 4px 10px;
+  border: 1px solid #fca5a5;
+  color: #ef4444;
+  background: #fff;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.btn-delete:hover { background: #fef2f2; }
+
+.btn-add {
+  width: 100%;
+  padding: 14px;
+  background: #22c55e;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  margin-top: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  transition: background-color 0.2s;
+}
+.btn-add:hover { background: #16a34a; }
+
+.btn-logout {
+  padding: 6px 14px;
+  background: #fff;
+  border: 1.5px solid #e5e7eb;
+  color: #374151;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.btn-logout:hover {
+  border-color: #ef4444;
+  color: #ef4444;
+}
+
+.btn-back {
+  border: 1.5px solid #e5e7eb;
+  background: #fff;
+  cursor: pointer;
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 16px;
+  color: #374151;
+  transition: all 0.15s;
+}
+.btn-back:hover { border-color: #22c55e; color: #16a34a; }
+
+p { font-size: 14px; color: #9ca3af; text-align: center; margin-top: 40px; }
 </style>

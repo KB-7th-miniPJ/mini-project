@@ -1,7 +1,7 @@
 import { reactive, computed } from 'vue';
 import { defineStore } from 'pinia';
-import { getTravelList, createTravel, deleteTravel, patchTravel } from '@/api/main';
- 
+import { getTravelList, createTravel, deleteTravel, getTravelByInviteCode, updateTravelMembers } from '@/api/main';
+
 export const useTravelStore = defineStore('travel', () => {
   const state = reactive({
     travels: [],
@@ -13,11 +13,13 @@ export const useTravelStore = defineStore('travel', () => {
   const getStatus = (startDate, endDate) => {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    const start = new Date(startDate);
-    const end = new Date(endDate);
+    const [sy, sm, sd] = startDate.split('-').map(Number);
+    const [ey, em, ed] = endDate.split('-').map(Number);
+    const start = new Date(sy, sm - 1, sd);
+    const end = new Date(ey, em - 1, ed);
     if (today < start) return '예정';
     if (today > end) return '완료';
-    return '진행 중';
+    if (start <= today && today <= end) return '진행 중';
   };
  
   const filteredTravels = computed(() => {
@@ -60,6 +62,16 @@ export const useTravelStore = defineStore('travel', () => {
     await deleteTravel(id);
     await fetchTravels();
   };
- 
-  return { state, filteredTravels, fetchTravels, addTravel, removeTravel };
+
+  const joinByInviteCode = async (code) => {
+    const res = await getTravelByInviteCode(code);
+    const list = res.data;
+    if (!list || list.length === 0) return { success: false, message: '유효하지 않은 초대코드입니다.' };
+    const travel = list[0];
+    await updateTravelMembers(travel.id, travel.membersCount + 1);
+    await fetchTravels();
+    return { success: true, travel };
+  };
+
+  return { state, filteredTravels, fetchTravels, addTravel, removeTravel, joinByInviteCode };
 });
