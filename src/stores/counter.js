@@ -1,6 +1,6 @@
 import { reactive, computed } from 'vue';
 import { defineStore } from 'pinia';
-import { getTravelList, createTravel, deleteTravel, getTravelByInviteCode, TravelMembers } from '@/api/main';
+import { getTravelList, createTravel, deleteTravel, getTravelByInviteCode, updateTravelMembers } from '@/api/main';
 
 export const useTravelStore = defineStore('travel', () => {
   const state = reactive({
@@ -50,16 +50,16 @@ export const useTravelStore = defineStore('travel', () => {
     await fetchTravels();
   };
 
-  // 초대코드로 여행 참가 - membersCount +1
   const joinByInviteCode = async (code) => {
     const res = await getTravelByInviteCode(code);
     const list = res.data;
     if (!list || list.length === 0) return { success: false, message: '유효하지 않은 초대코드입니다.' };
     const travel = list[0];
-    await TravelMembers(travel.id, travel.membersCount + 1);
+    await updateTravelMembers(travel.id, travel.membersCount + 1);
     await fetchTravels();
     return { success: true, travel };
   };
 
   return { state, filteredTravels, fetchTravels, addTravel, removeTravel, joinByInviteCode };
 });
+

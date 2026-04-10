@@ -3,8 +3,14 @@
     <div v-if="!route.params.id">
       <div class="d-flex justify-between align-center">
         <h2>내 여행방</h2>
+<<<<<<< Updated upstream
         <button class="btn-logout" @click="handleLogout">로그아웃</button>
       </div>
+=======
+        <button class="btn-logout" @click="logout">로그아웃</button>
+      </div>
+
+>>>>>>> Stashed changes
       <div class="ma">
         <label v-for="f in filters" :key="f.value">
           <input type="checkbox" :value="f.value" v-model="store.state.activeFilters" /> {{ f.label }}
@@ -63,7 +69,7 @@ const filters = [
 onMounted(() => { store.fetchTravels(); });
 
 const gomain2 = (travelNumId) => {
-  router.push({ name: 'main2', params: { id: travelNumId } });
+  router.push({ name: 'TravelDetail', params: { id: travelNumId } });
 };
 
 const badgeClass = (status) => {
@@ -107,6 +113,7 @@ h2 {
 .d-flex { display: flex; }
 .justify-between { justify-content: space-between; }
 .align-center { align-items: center; }
+<<<<<<< Updated upstream
 
 .ma {
   display: flex;
@@ -220,4 +227,18 @@ input[type="checkbox"] { accent-color: #22c55e; }
 .btn-back:hover { border-color: #22c55e; color: #16a34a; }
 
 p { font-size: 14px; color: #9ca3af; text-align: center; margin-top: 40px; }
+=======
+.text-sm { font-size: 13px; }
+.text-gray { color: #888; }
+label { margin-right: 8px; font-size: 13px; }
+.card { border: 1px solid #ddd; background: #fff; cursor: pointer; }
+.badge { font-size: 11px; padding: 2px 6px; margin-left: 5px; }
+.badge-blue { background: #ddeeff; }
+.badge-green { background: #d4edda; }
+.badge-gray { background: #eee; }
+.btn-delete { font-size: 12px; padding: 2px 8px; border: 1px solid #c00; color: #c00; background: #fff; cursor: pointer; }
+.btn-add { width: 100%; padding: 10px; background: #333; color: #fff; border: none; cursor: pointer; margin-top: 10px; font-size: 14px; }
+.btn-back { border: 1px solid #ccc; background: #fff; cursor: pointer; padding: 2px 8px; margin-right: 5px; }
+.btn-logout { padding: 6px 14px; background: #fff; border: 1px solid #ccc; color: #333; font-size: 13px; cursor: pointer; }
+>>>>>>> Stashed changes
 </style>

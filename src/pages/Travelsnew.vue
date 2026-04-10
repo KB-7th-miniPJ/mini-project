@@ -4,19 +4,26 @@
       <button @click="router.push({ name: 'Main' })" class="btn-back">←</button>
       새 여행 만들기
     </h2>
+<<<<<<< Updated upstream
 <!-- 국내/해외 여행 선택 -->
     <div class="radio-group">
       <label><input type="radio" value="국내" v-model="travelType"/> 국내여행</label>
       <label><input type="radio" value="해외" v-model="travelType"/> 해외여행</label>
     </div>
+=======
+>>>>>>> Stashed changes
 
-    <div>
+    <div class="section">
+      <div class="radio-group">
+        <label><input type="radio" value="국내" v-model="travelType" /> 국내여행</label>
+        <label><input type="radio" value="해외" v-model="travelType" /> 해외여행</label>
+      </div>
+
       <div class="form-group">
         <label>여행 이름</label>
         <input v-model="title" placeholder="여행 이름을 입력하세요" />
       </div>
 
-<!--출발/도착 날짜-->
       <div class="form-row">
         <div class="form-group half">
           <label>출발날짜</label>
@@ -50,7 +57,10 @@
       <!-- 여행 만들기 버튼 - 클릭 시 초대코드 자동 생성 후 DB 저장 -->
       <button class="btn-submit" @click="addTravel">여행 만들기</button>
 
+<<<<<<< Updated upstream
       <!-- 여행 생성 후 초대코드 표시 (생성 후에만 노출) -->
+=======
+>>>>>>> Stashed changes
       <div v-if="invitedCode" class="invite-box">
         <p class="invite-label">초대코드</p>
         <strong class="invite-code">{{ invitedCode }}</strong>
@@ -59,14 +69,20 @@
 
     <hr />
 
+<<<<<<< Updated upstream
     <!-- 초대코드 입력 - 코드 입력 후 참가하기 클릭 시 membersCount +1 후 메인으로 이동 -->
+=======
+>>>>>>> Stashed changes
     <div class="section">
       <h3>초대코드로 참가</h3>
       <div class="form-group">
         <input v-model="inputCode" placeholder="초대코드 6자리를 입력하세요" style="text-transform:uppercase" />
       </div>
       <button class="btn-submit" @click="joinTravel">참가하기</button>
+<<<<<<< Updated upstream
       <!-- 참가 성공/실패 메시지 -->
+=======
+>>>>>>> Stashed changes
       <p v-if="joinMessage" class="join-message">{{ joinMessage }}</p>
     </div>
   </div>
@@ -87,6 +103,7 @@ const endDate = ref('');
 const membersCount = ref(1);
 const amount = ref(0);
 const currency = ref('KRW');
+<<<<<<< Updated upstream
 const invitedCode = ref(''); // 생성된 초대코드 저장
 const inputCode = ref('');   // 입력된 초대코드 저장
 const joinMessage = ref(''); // 참가 결과 메시지
@@ -95,12 +112,24 @@ const joinMessage = ref(''); // 참가 결과 메시지
 const generateInviteCode = () => Math.random().toString(36).substring(2, 8).toUpperCase();
 
 // 여행 생성 - 초대코드 자동 생성 후 DB에 저장
+=======
+const invitedCode = ref('');
+const inputCode = ref('');
+const joinMessage = ref('');
+
+const inviteInviteCode = () => Math.random().toString(36).substring(2, 8).toUpperCase();
+
+>>>>>>> Stashed changes
 const addTravel = async () => {
   if (!title.value || !startDate.value || !endDate.value) {
     alert('모든 항목을 입력해주세요.');
     return;
   }
+<<<<<<< Updated upstream
   const code = generateInviteCode();
+=======
+  const code = inviteInviteCode();
+>>>>>>> Stashed changes
   await store.addTravel({
     title: title.value,
     travelType: travelType.value,
@@ -114,7 +143,10 @@ const addTravel = async () => {
   invitedCode.value = code;
 };
 
+<<<<<<< Updated upstream
 // 초대코드로 참가 코드로 여행 참가 이후 membersCount +1 증가
+=======
+>>>>>>> Stashed changes
 const joinTravel = async () => {
   if (!inputCode.value) return;
   const result = await store.joinByInviteCode(inputCode.value.toUpperCase());
