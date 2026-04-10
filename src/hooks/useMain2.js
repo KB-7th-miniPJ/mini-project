@@ -23,17 +23,15 @@ export function useExpense(travelNumId) {
   const isLoading = ref(false);
 
   // ── 대시보드 로드 ────────────────────────────────
-  // 핵심: travels.id(숫자) → travels.travelId 추출 → expenses 조회
   const loadDashboard = async () => {
     isLoading.value = true;
     try {
-      // 1단계: travels.id = 1 로 여행 조회
+      // 1단계: travels.id 로 여행 조회
       const travelRes = await getTravel(travelNumId);
       travel.value = travelRes.data;
-      // travel.value = { id:1, travelId:"travel1", title:"여름 바다 여행",
-      //                  membersCount:4, amount:500000, ... }
 
       // 2단계: travelId 추출해서 expenses 조회
+      // db.json: travels[0].travelId = "travel1"
       const tid = travel.value.travelId; // "travel1"
 
       const [expRes, recentRes, catRes] = await Promise.all([
@@ -55,7 +53,6 @@ export function useExpense(travelNumId) {
   const loadExpenses = async () => {
     isLoading.value = true;
     try {
-      // 마찬가지로 2단계
       const travelRes = await getTravel(travelNumId);
       travel.value = travelRes.data;
       const tid = travel.value.travelId; // "travel1"
@@ -74,27 +71,33 @@ export function useExpense(travelNumId) {
   };
 
   // ── 카테고리 정보 ─────────────────────────────────
-  // getCatInfo("c3") → { id:"c3", name:"식비", icon:"🍽" }
   const getCatInfo = (catId) =>
     categories.value.find((c) => c.id === catId) ?? { name: catId, icon: "📦" };
 
   // ── computed: 총 지출 ────────────────────────────
-  // expenses.amount = 35000 숫자 ✅ → Number() 불필요하지만 안전하게 유지
   const totalExpense = computed(() =>
-    expenses.value.reduce((sum, e) => sum + Number(e.amount), 0),
+    expenses.value.reduce((sum, e) => sum + Number(e.amount), 0)
   );
 
   // ── computed: 예산 잔여 ──────────────────────────
-  // travels.amount = 500000
+  // travels.amount = 예산 총액
   const budgetLeft = computed(
-    () => (travel.value?.amount ?? 0) - totalExpense.value,
+    () => (travel.value?.amount ?? 0) - totalExpense.value
   );
 
-  // ── computed: 1인당 ──────────────────────────────
+  // ── computed: 1인당 예산 ─────────────────────────
+  // 예산 총액 ÷ 인원수 (지출과 무관, 처음부터 정해진 1인당 예산)
   const perPerson = computed(() => {
     const totalBudget = travel.value?.amount ?? 0;
     const n = travel.value?.membersCount ?? 1;
     return n > 0 ? Math.round(totalBudget / n) : 0;
+  });
+
+  // ── computed: 1인당 지출 ─────────────────────────
+  // 실제 총 지출 ÷ 인원수 (현재까지 쓴 돈 기준)
+  const perPersonExpense = computed(() => {
+    const n = travel.value?.membersCount ?? 1;
+    return n > 0 ? Math.round(totalExpense.value / n) : 0;
   });
 
   // ── computed: D+day ──────────────────────────────
@@ -116,14 +119,14 @@ export function useExpense(travelNumId) {
     expenses.value.reduce((acc, e) => {
       acc[e.category] = (acc[e.category] ?? 0) + Number(e.amount);
       return acc;
-    }, {}),
+    }, {})
   );
 
   // ── computed: 탭 필터 ────────────────────────────
   const filtered = computed(() =>
     selectedCat.value === "전체"
       ? expenses.value
-      : expenses.value.filter((e) => e.category === selectedCat.value),
+      : expenses.value.filter((e) => e.category === selectedCat.value)
   );
 
   // ── computed: 날짜별 그룹핑 ─────────────────────
@@ -144,7 +147,7 @@ export function useExpense(travelNumId) {
 
   // ── computed: 필터된 총 지출 ────────────────────
   const filteredTotal = computed(() =>
-    filtered.value.reduce((sum, e) => sum + Number(e.amount), 0),
+    filtered.value.reduce((sum, e) => sum + Number(e.amount), 0)
   );
 
   // ── 여행 정보 수정 ───────────────────────────────
@@ -154,11 +157,10 @@ export function useExpense(travelNumId) {
   };
 
   // ── 지출 수정 ────────────────────────────────────
-  // expenses.id = 1 숫자 → String() 으로 안전하게 비교
   const editExpense = async (expenseId, data) => {
     await updateExpense(expenseId, data);
     const idx = expenses.value.findIndex(
-      (e) => String(e.id) === String(expenseId),
+      (e) => String(e.id) === String(expenseId)
     );
     if (idx !== -1) {
       expenses.value[idx] = { ...expenses.value[idx], ...data };
@@ -169,10 +171,11 @@ export function useExpense(travelNumId) {
   const removeExpense = async (expenseId) => {
     await deleteExpense(expenseId);
     expenses.value = expenses.value.filter(
-      (e) => String(e.id) !== String(expenseId),
+      (e) => String(e.id) !== String(expenseId)
     );
   };
-  // --- 메모 모달(토글) ---
+
+  // ── 메모 모달 ────────────────────────────────────
   const isModalOpen = ref(false);
   const selectedMemo = ref("");
 
@@ -191,7 +194,7 @@ export function useExpense(travelNumId) {
     }
   };
 
-  // --- 📸 사진 모달---
+  // ── 사진 모달 ────────────────────────────────────
   const isPhotoModalOpen = ref(false);
   const selectedPhoto = ref("");
 
@@ -223,6 +226,7 @@ export function useExpense(travelNumId) {
     totalExpense,
     budgetLeft,
     perPerson,
+    perPersonExpense,
     dDay,
     daysLeft,
     byCategory,

@@ -4,7 +4,8 @@
       <button @click="router.push({ name: 'Main' })" class="btn-back">←</button>
       새 여행 만들기
     </h2>
-<!-- 라디오 버튼으로 국내/해외 여행 타입 선택 -->
+
+    <!-- 라디오 버튼으로 국내/해외 여행 타입 선택 -->
     <div class="radio-group">
       <label><input type="radio" value="국내" v-model="travelType"/> 국내여행</label>
       <label><input type="radio" value="해외" v-model="travelType"/> 해외여행</label>
@@ -16,7 +17,7 @@
         <input v-model="title" placeholder="여행 이름을 입력하세요" />
       </div>
 
-<!--출발/도착 날짜-->
+      <!-- 출발/도착 날짜 -->
       <div class="form-row">
         <div class="form-group half">
           <label>출발날짜</label>
@@ -69,15 +70,20 @@ const endDate = ref('');
 const membersCount = ref(1);
 const amount = ref(0);
 const currency = ref('KRW');
-//참여인원 증가/감소 함수
+
+// 참여인원 증가/감소
 const increment = () => { membersCount.value++; };
 const decrement = () => { if (membersCount.value > 1) membersCount.value--; };
+
 // 여행 생성
 const addTravel = async () => {
   if (!title.value || !startDate.value || !endDate.value) {
     alert('모든 항목을 입력해주세요.');
     return;
   }
+
+  // ✅ store.addTravel이 생성된 객체 반환
+  // counter.js 내부에서 travelId 자동 생성 후 PATCH까지 처리
   await store.addTravel({
     title: title.value,
     travelType: travelType.value,
@@ -87,6 +93,7 @@ const addTravel = async () => {
     amount: amount.value,
     currency: currency.value,
   });
+
   router.push({ name: 'Main' });
 };
 </script>
