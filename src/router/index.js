@@ -21,13 +21,18 @@ const routes = [
     name: 'TravelsNew',
     component: TravelsNew,
   },
-  { path: '/signin', name: 'signin', component: SignInMain },
-  { path: '/signup', name: 'signup', component: SignUp },
-  {
-    path: '/travels/:id',
-    name: 'main2',
-    component: Main2,
-  },
+  // {
+  //   path: '/travels/:id',
+  //   name: 'TravelDetail',
+  //   component: MainPage
+  // },
+   { path: '/signin', name: 'signin', component: SignInMain },
+   { path: '/signup', name: 'signup', component: SignUp },
+   {
+      path: "/travels/:id",
+      name: "main2",
+      component: Main2,
+    },
 
   {
     path: '/travels/:id/expenseslist',
@@ -61,11 +66,46 @@ const router = createRouter({
 const publicNames = ['signin', 'signup'];
 export default router;
 
-// 로그인 검증로직 임의로 추가해봄
-// json-server-auth 방식에서 다르게 검증한다면, router.beforeEach 부분 지워도됨
-router.beforeEach((to, from) => {
-  const authStore = useAuthStore();
-  if (!publicNames.includes(to.name) && !authStore.user) {
-    return { name: 'signin' };
-  }
-});
+
+// const router = createRouter({
+//   history: createWebHistory(import.meta.env.BASE_URL),
+//   routes: [
+//     { path: '/main', name: 'Main', component: MainPage },
+//     { path: '/travels-new', name: 'TravelsNew', component: TravelsNew },
+//     { path: '/signin', name: 'signin', component: SignInMain },
+//     { path: '/signup', name: 'signup', component: SignUp },
+//     { path: '/:pathMatch(.*)*', redirect: { name: 'signin' } },
+//   ],
+// });
+
+// const routes = [
+//   {
+//     path: '/',
+//     name: 'Main',
+//     component: MainPage
+//   },
+//   {
+//     path: '/travels-new',
+//     name: 'TravelsNew',
+//     component: TravelsNew
+//   },
+//   {
+//     path: '/travels/:id',
+//     name: 'TravelDetail',
+//     component: MainPage
+//   },
+//   { path: '/signin', name: 'signin', component: SignInMain },
+//   { path: '/signup', name: 'signup', component: SignUp },
+//   { path: '/:pathMatch(.*)*', redirect: { name: 'signin' } },
+// ];
+
+
+ router.beforeEach((to) => {
+   const authStore = useAuthStore();
+   if (!publicNames.includes(to.name) && !authStore.isLoggedIn) {
+    alert('로그인이 필요합니다.'); // 로그인 필요 알림 추가
+     return { name: 'signin', query: { fromname: to.name } };
+   }
+ });
+
+

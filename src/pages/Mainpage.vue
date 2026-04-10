@@ -58,6 +58,7 @@ const gomain2 = (travelNumId) => {
   router.push({ name: 'main2', params: { id: travelNumId } });
 };
 
+
 const badgeClass = (status) => {
   if (status === '예정') return 'badge-blue';
   if (status === '진행 중') return 'badge-green';
