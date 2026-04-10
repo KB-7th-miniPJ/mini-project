@@ -5,6 +5,12 @@
       새 여행 만들기
     </h2>
 
+    <!-- 라디오 버튼으로 국내/해외 여행 타입 선택 -->
+    <div class="radio-group">
+      <label><input type="radio" value="국내" v-model="travelType"/> 국내여행</label>
+      <label><input type="radio" value="해외" v-model="travelType"/> 해외여행</label>
+    </div>
+
     <div class="section">
       <div class="radio-group">
         <label><input type="radio" value="국내" v-model="travelType" /> 국내여행</label>
@@ -16,6 +22,7 @@
         <input v-model="title" placeholder="여행 이름을 입력하세요" />
       </div>
 
+      <!-- 출발/도착 날짜 -->
       <div class="form-row">
         <div class="form-group half">
           <label>출발날짜</label>

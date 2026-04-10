@@ -29,17 +29,17 @@ const routes = [
    { path: '/signin', name: 'signin', component: SignInMain },
    { path: '/signup', name: 'signup', component: SignUp },
    {
-      path: "/travels/:id",
+      path: "/travels/:travelId",
       name: "main2",
       component: Main2,
     },
 
-  {
-    path: '/travels/:id/expenseslist',
-    name: 'expenseslist',
-    component: Expenseslist,
-  },
-  {
+    {
+      path: "/travels/:travelId/expenseslist", //!경로 변경!
+      name: "expenseslist",
+      component: Expenseslist,
+    },
+    {
     path: '/travels/:travelId/settlement',
     name: 'travel-settlements',
     component: Settlements,
@@ -50,6 +50,17 @@ const routes = [
     component: ExpenseRecord,
   },
   {
+      path: '/travels/:travelId/expenses/new',
+      name: 'ExpenseRecord',
+      component: ExpenseRecord,
+  },
+  // ✅ 추가: 지출 수정페이지 (같은 ExpenseRecord 컴포넌트, expenseId 파라미터 추가)
+  // {
+  //   path: '/travels/:travelId/expenses/:expenseId/edit',
+  //   name: 'ExpenseEdit',
+  //   component: ExpenseRecord,},
+
+      {
     path: '/expense/:travelId/members',
     name: 'expensemembers',
     component: ExpenseMembers,

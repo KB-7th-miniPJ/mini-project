@@ -1,13 +1,13 @@
 <script setup>
-import { ref, onMounted } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
-import { useExpense } from '@/hooks/useMain2';
+import { ref, onMounted } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import { useExpense } from "@/hooks/useMain2";
 
 const route = useRoute();
 const router = useRouter();
 
-// route.params.id = "1" (travels.id 숫자를 문자열로)
-const travelNumId = route.params.id;
+// ✅ 수정 1: route.params.Id → route.params.travelId (라우터 경로 :travelId 기준)
+const travelNumId = route.params.travelId;
 
 const {
   travel,
@@ -17,7 +17,6 @@ const {
   totalExpense,
   budgetLeft,
   perPerson,
-  dDay,
   daysLeft,
   byCategory,
   loadDashboard,
@@ -26,6 +25,34 @@ const {
 } = useExpense(travelNumId);
 
 onMounted(() => loadDashboard());
+
+
+// ── 여행명·인원수 수정 모달 ─────────────
+const showInfoModal = ref(false);
+const newTitle = ref("");
+const newMembersCount = ref(1);
+ 
+const openInfoModal = () => {
+  newTitle.value = travel.value?.title ?? "";
+  newMembersCount.value = travel.value?.membersCount ?? 1;
+  showInfoModal.value = true;
+};
+
+const saveInfo = async () => {
+  if (!newTitle.value.trim()) {
+    alert("여행 이름을 입력해주세요.");
+    return;
+  }
+  if (newMembersCount.value < 1) {
+    alert("인원수는 1명 이상이어야 합니다.");
+    return;
+  }
+  await editTravel({
+    title: newTitle.value.trim(),
+    membersCount: Number(newMembersCount.value),
+  });
+  showInfoModal.value = false;
+};
 
 // ── 예산 수정 모달 ──────────────────────────────
 const showBudgetModal = ref(false);
@@ -43,18 +70,18 @@ const saveBudget = async () => {
 
 // ── 날짜 수정 모달 ──────────────────────────────
 const showDateModal = ref(false);
-const newStart = ref('');
-const newEnd = ref('');
+const newStart = ref("");
+const newEnd = ref("");
 
 const openDateModal = () => {
-  newStart.value = travel.value?.startDate ?? '';
-  newEnd.value = travel.value?.endDate ?? '';
+  newStart.value = travel.value?.startDate ?? "";
+  newEnd.value = travel.value?.endDate ?? "";
   showDateModal.value = true;
 };
 const saveDate = async () => {
   if (!newStart.value || !newEnd.value) return;
   if (newEnd.value < newStart.value) {
-    alert('종료일은 시작일 이후여야 합니다.');
+    alert("종료일은 시작일 이후여야 합니다.");
     return;
   }
   await editTravel({ startDate: newStart.value, endDate: newEnd.value });
@@ -66,45 +93,84 @@ const goExpensesList = () =>
   router.push(`/travels/${travelNumId}/expenseslist`);
 
 const goSettlement = () => router.push(`/travels/${travelNumId}/settlement`);
+
+// ✅ 수정 2: 단순 함수로만 선언 (재할당 코드 제거)
+const goToAddExpense = () =>
+  router.push(`/travels/${travelNumId}/expenses/new`);
 </script>
 
 <template>
-  <div v-if="isLoading" class="loading">로딩 중...</div>
-  <div v-else class="wrap">
+  <div
+    v-if="isLoading"
+    class="loading"
+  >
+    로딩 중...
+  </div>
+  <div
+    v-else
+    class="wrap"
+  >
     <!-- 헤더 -->
     <div class="header-green">
-      <p class="sub">
-        {{ travel?.title }} ·
-        <!-- membersCount 사용 (membersId 배열 없음) -->
-        {{ travel?.membersCount ?? 0 }}명
-      </p>
+      <RouterLink
+        :to="{ name: 'Main' }"
+        class="back-icon"
+        >‹</RouterLink
+      >
+      <p class="sub clickable-text" @click="openInfoModal">
+        {{ travel?.title }} · {{ travel?.membersCount ?? 0 }}명
+        <span class="edit-icon">&nbsp;✏️</span></p>
       <h1 class="total">총 {{ totalExpense.toLocaleString() }}원 지출</h1>
+      <div
+        class="add-expense"
+        @click="goToAddExpense"
+      >
+        {{ "+" }}
+      </div>
     </div>
 
     <!-- 카드 3개 -->
     <div class="card-row">
-      <div class="stat-card">
+      <!-- 예산잔여: 전체예산 - 총지출 -->
+      <div class="stat-card clickable">
         <span class="lbl">예산잔여</span>
         <span class="val">{{ (budgetLeft / 10000).toFixed(1) }}만</span>
       </div>
-      <div class="stat-card clickable" @click="openBudgetModal">
+
+      <!-- 1인당 예산: 전체예산 ÷ 인원수 → 클릭 시 예산 수정 -->
+      <div
+        class="stat-card clickable"
+        @click="openBudgetModal"
+      >
         <span class="lbl">1인당</span>
         <span class="val">{{ (perPerson / 10000).toFixed(1) }}만</span>
         <span class="hint">수정</span>
       </div>
-      <div class="stat-card clickable" @click="openDateModal">
-        <span class="lbl">D+{{ dDay }}</span>
-        <span class="val" :style="{ color: daysLeft <= 1 ? '#E24B4A' : '' }">
-          {{ daysLeft }}일남음
+
+      <!-- 남은 기간: 오늘 기준 endDate까지 → 클릭 시 날짜 수정 -->
+      <div
+        class="stat-card clickable"
+        @click="openDateModal"
+      >
+        <span class="lbl">남은기간</span>
+        <span
+          class="val"
+          :style="{ color: daysLeft <= 1 ? '#E24B4A' : '' }"
+        >
+          {{ daysLeft }}일
         </span>
         <span class="hint">수정</span>
       </div>
     </div>
 
-    <!-- 카테고리 바 -->
+    <!-- 카테고리별 지출 바 -->
     <section class="sec">
       <h3>카테고리별 지출</h3>
-      <div v-for="cat in categories" :key="cat.id" class="bar-row">
+      <div
+        v-for="cat in categories"
+        :key="cat.id"
+        class="bar-row"
+      >
         <span class="cat-name">{{ cat.icon }} {{ cat.name }}</span>
         <div class="bar-track">
           <div
@@ -112,13 +178,15 @@ const goSettlement = () => router.push(`/travels/${travelNumId}/settlement`);
             :style="{
               width:
                 totalExpense > 0
-                  ? ((byCategory[cat.id] ?? 0) / totalExpense) * 100 + '%'
+                  ? ((byCategory[cat.name] ?? 0) / totalExpense) * 100 + '%'
                   : '0%',
             }"
           />
+          <!-- cat.id로 되어있었어서 cat.name으로 변경 -->
         </div>
         <span class="bar-amt">
-          {{ (byCategory[cat.id] ?? 0).toLocaleString() }}
+          {{ (byCategory[cat.name] ?? 0).toLocaleString() }}
+          <!-- cat.id로 되어있었어서 cat.name으로 변경 -->
         </span>
       </div>
     </section>
@@ -127,26 +195,78 @@ const goSettlement = () => router.push(`/travels/${travelNumId}/settlement`);
     <section class="sec">
       <h3>최근 지출</h3>
       <ul class="recent-list">
-        <li v-for="e in recentList" :key="e.id" class="recent-item">
+        <li
+          v-for="e in recentList"
+          :key="e.id"
+          class="recent-item"
+        >
           <div>
             <p class="place">{{ e.place }}</p>
             <p class="meta">
               {{ getCatInfo(e.category).icon }}
               {{ getCatInfo(e.category).name }}
-              · {{ e.payerId }}결제자 이름
+              · {{ e.payerId }}번 결제
             </p>
           </div>
           <span class="amt">{{ Number(e.amount).toLocaleString() }}원</span>
         </li>
       </ul>
+      <p
+        v-if="recentList.length === 0"
+        class="empty-recent"
+      >
+        아직 지출 내역이 없어요
+      </p>
     </section>
 
-    <!-- 버튼 -->
+    <!-- 하단 버튼 -->
     <div class="btn-area">
-      <button class="btn-outline" @click="goExpensesList">
+      <button
+        class="btn-outline"
+        @click="goExpensesList"
+      >
         지출 내역 전체보기
       </button>
-      <button class="btn-primary" @click="goSettlement">정산하기</button>
+      <button
+        class="btn-primary"
+        @click="goSettlement"
+      >
+        정산하기
+      </button>
+    </div>
+
+    <!-- ✅ 여행명·인원수 수정 모달 -->
+    <div
+      v-if="showInfoModal"
+      class="modal-backdrop"
+      @click.self="showInfoModal = false"
+    >
+      <div class="modal-box">
+        <h3>여행 정보 수정</h3>
+ 
+        <label>여행 이름</label>
+        <input
+          v-model="newTitle"
+          type="text"
+          placeholder="여행 이름 입력"
+        />
+ 
+        <label>인원수</label>
+        <div class="member-row">
+          <button
+            class="count-btn"
+            @click="newMembersCount > 1 && newMembersCount--"
+            :disabled="newMembersCount <= 1"
+          >−</button>
+          <span class="count-val">{{ newMembersCount }}명</span>
+          <button class="count-btn" @click="newMembersCount++">+</button>
+        </div>
+ 
+        <div class="modal-btns">
+          <button @click="showInfoModal = false">취소</button>
+          <button class="modal-save" @click="saveInfo">저장</button>
+        </div>
+      </div>
     </div>
 
     <!-- 예산 수정 모달 -->
@@ -165,14 +285,25 @@ const goSettlement = () => router.push(`/travels/${travelNumId}/settlement`);
           type="number"
           placeholder="새 예산 입력"
         />
-        <p class="modal-preview" v-if="newBudget > 0">
-          <!-- membersCount 사용 -->
+        <p
+          class="modal-preview"
+          v-if="newBudget > 0"
+        >
           {{ travel?.membersCount ?? 1 }}명 기준 → 1인당
-          {{ newBudget / (travel?.membersCount || 1).toLocaleString() }}원
+          {{
+            Math.round(
+              newBudget / (travel?.membersCount || 1),
+            ).toLocaleString()
+          }}원
         </p>
         <div class="modal-btns">
           <button @click="showBudgetModal = false">취소</button>
-          <button @click="saveBudget">저장</button>
+          <button
+            class="modal-save"
+            @click="saveBudget"
+          >
+            저장
+          </button>
         </div>
       </div>
     </div>
@@ -186,12 +317,24 @@ const goSettlement = () => router.push(`/travels/${travelNumId}/settlement`);
       <div class="modal-box">
         <h3>여행 날짜 수정</h3>
         <label>출발일</label>
-        <input v-model="newStart" type="date" />
+        <input
+          v-model="newStart"
+          type="date"
+        />
         <label>귀국일</label>
-        <input v-model="newEnd" type="date" :min="newStart" />
+        <input
+          v-model="newEnd"
+          type="date"
+          :min="newStart"
+        />
         <div class="modal-btns">
           <button @click="showDateModal = false">취소</button>
-          <button class="btn-primary" @click="saveDate">저장</button>
+          <button
+            class="modal-save"
+            @click="saveDate"
+          >
+            저장
+          </button>
         </div>
       </div>
     </div>
@@ -208,9 +351,17 @@ const goSettlement = () => router.push(`/travels/${travelNumId}/settlement`);
   color: #888;
 }
 .header-green {
-  background: #1d9e75;
+  background: #22c55e;
   padding: 20px 16px 24px;
   color: white;
+  position: relative;
+}
+.back-icon {
+  position: relative;
+  top: -10px;
+  font-size: 29px;
+  cursor: pointer;
+  color: #ffffff;
 }
 .sub {
   font-size: 13px;
@@ -220,6 +371,18 @@ const goSettlement = () => router.push(`/travels/${travelNumId}/settlement`);
 .total {
   font-size: 24px;
   font-weight: 600;
+}
+.add-expense {
+  cursor: pointer;
+  position: absolute;
+  top: 80px;
+  right: 16px;
+  font-size: 55px;
+  line-height: 1;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .card-row {
   display: grid;
@@ -238,7 +401,7 @@ const goSettlement = () => router.push(`/travels/${travelNumId}/settlement`);
 }
 .stat-card.clickable {
   cursor: pointer;
-  border: 1.5px solid #1d9e75;
+  border: 1.5px solid #22c55e;
 }
 .lbl {
   font-size: 11px;
@@ -250,7 +413,7 @@ const goSettlement = () => router.push(`/travels/${travelNumId}/settlement`);
 }
 .hint {
   font-size: 10px;
-  color: #1d9e75;
+  color: #22c55e;
 }
 .sec {
   padding: 0 16px 16px;
@@ -280,7 +443,7 @@ const goSettlement = () => router.push(`/travels/${travelNumId}/settlement`);
 }
 .bar-fill {
   height: 100%;
-  background: #1d9e75;
+  background: #22c55e;
   border-radius: 4px;
   transition: width 0.3s;
 }
@@ -313,6 +476,12 @@ const goSettlement = () => router.push(`/travels/${travelNumId}/settlement`);
   font-size: 14px;
   font-weight: 600;
 }
+.empty-recent {
+  text-align: center;
+  color: #aaa;
+  font-size: 13px;
+  padding: 16px 0;
+}
 .btn-area {
   position: fixed;
   bottom: 0;
@@ -328,7 +497,7 @@ const goSettlement = () => router.push(`/travels/${travelNumId}/settlement`);
 }
 .btn-primary {
   flex: 1;
-  background: #1d9e75;
+  background: #22c55e;
   color: white;
   border: none;
   border-radius: 10px;
@@ -340,8 +509,8 @@ const goSettlement = () => router.push(`/travels/${travelNumId}/settlement`);
 .btn-outline {
   flex: 1;
   background: white;
-  color: #1d9e75;
-  border: 1.5px solid #1d9e75;
+  color: #22c55e;
+  border: 1.5px solid #22c55e;
   border-radius: 10px;
   padding: 13px;
   font-size: 14px;
@@ -377,10 +546,10 @@ const goSettlement = () => router.push(`/travels/${travelNumId}/settlement`);
 }
 .modal-preview {
   font-size: 12px;
-  color: #1d9e75;
+  color: #22c55e;
 }
 .modal-box input {
-  border: 1.5px solid #1d9e75;
+  border: 1.5px solid #22c55e;
   border-radius: 8px;
   padding: 10px 12px;
   font-size: 14px;
@@ -403,5 +572,10 @@ const goSettlement = () => router.push(`/travels/${travelNumId}/settlement`);
   cursor: pointer;
   border: 1px solid #ddd;
   background: #f5f5f5;
+}
+.modal-save {
+  background: #22c55e !important;
+  color: white !important;
+  border-color: #22c55e !important;
 }
 </style>

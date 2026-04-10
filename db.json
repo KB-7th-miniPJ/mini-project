@@ -4,6 +4,8 @@
       "id": 1,
       "name": "일기림",
       "email": "qwe1@qwe.com",
+      "password": "$2a$10$MnGk3gGVoQ66Ch2kKIIPuu8R4Ju9vScoDOPMRdVOH4EjRi/d6/t42",
+      "joinTravelIds": ["travel1", "travel2"]
     },
     {
       "id": 2,
@@ -80,36 +82,61 @@
   ],
   "travels": [
     {
+      "id": 1,
+      "travelId": "travel1",
       "title": "오사카여행",
       "destination": "Osaka",
       "startDate": "2026-04-03",
-      "endDate": "2026-04-07",
-      "membersCount": 4,
-      "amount": 1300000,
+      "endDate": "2026-04-22",
+      "membersCount": 3,
+      "amount": 80000,
       "currency": "KRW",
-      "status": "완료",
-      "id": 1
+      "status": "예정"
     },
     {
-      "title": "qwewq",
+      "id": 2,
+      "travelId": "travel2",
+      "title": "테스트 22",
       "destination": "qweqweq",
       "startDate": "2026-04-09",
       "endDate": "2026-04-16",
-      "membersCount": 1,
+      "membersCount": 4,
       "amount": 1231230,
       "currency": "KRW",
-      "status": "예정",
-      "id": 2
+      "status": "예정"
     },
     {
+      "id": 3,
+      "travelId": "travel3",
       "title": "dfasdf",
       "travelType": "국내",
       "startDate": "2026-04-15",
       "endDate": "2026-04-16",
       "membersCount": 4,
       "amount": 1231230,
+      "currency": "KRW"
+    },
+    {
+      "id": 4,
+      "travelId": "travel4",
+      "title": "테스트",
+      "travelType": "국내",
+      "startDate": "2026-04-16",
+      "endDate": "2026-04-17",
+      "membersCount": 5,
+      "amount": 400000,
+      "currency": "KRW"
+    },
+    {
+      "title": "국내여행",
+      "travelType": "",
+      "startDate": "2026-04-22",
+      "endDate": "2026-04-24",
+      "membersCount": 4,
+      "amount": 50000,
       "currency": "KRW",
-      "id": 3
+      "id": 5,
+      "travelId": "travel5"
     }
   ],
   "settlements": [
@@ -167,32 +194,181 @@
   ],
   "expenses": [
     {
-      "id": 1,
-      "travelId": 1,
-      "payerId": 1,
+      "amount": 10000,
+      "id": 1
+    },
+    {
+      "date": "2026-04-09T08:50:51.879Z",
+      "category": "교통",
+      "place": "",
+      "amount": 100000,
+      "payer": "",
+      "participants": [],
+      "photos": [],
+      "id": 2
+    },
+    {
+      "date": "2026-04-09T09:05:17.363Z",
+      "category": "식비",
+      "place": "두찜",
+      "amount": 28000,
+      "payer": "",
+      "participants": [],
+      "photos": [],
+      "id": 3
+    },
+    {
+      "date": "2026-04-17T15:00:00.000Z",
+      "category": "관광",
+      "place": "투어",
+      "amount": 80000,
+      "payer": "",
+      "participants": [],
+      "photos": ["Pennguins.jpg.jpg"],
+      "id": 4
+    },
+    {
+      "travelId": "",
+      "date": "2026-04-22T15:00:00.000Z",
+      "category": "식비",
+      "place": "테스트으으으",
+      "amount": 10000,
+      "payer": "",
+      "participants": [],
+      "photos": ["Pennguins.jpg.jpg"],
+      "id": 5
+    },
+    {
+      "travelId": "",
+      "date": "2026-04-09T15:42:22.104Z",
+      "category": "기타",
+      "place": "비상약",
+      "amount": 5000,
+      "payer": "",
+      "participants": [],
+      "photos": [],
+      "id": 6
+    },
+    {
+      "travelId": "travel2",
+      "date": "2026-04-17T15:00:00.000Z",
+      "category": "관광",
+      "place": "테스트 77",
       "amount": 60000,
-      "participants": [1, 2, 3, 4]
+      "payer": "",
+      "participants": [],
+      "photos": [],
+      "id": 7
     },
     {
-      "id": 2,
-      "travelId": 1,
-      "payerId": 2,
-      "amount": 40000,
-      "participants": [1, 2, 3, 4]
+      "travelId": "travel2",
+      "date": "2026-04-09T15:56:36.810Z",
+      "category": "교통",
+      "place": "테스트 88",
+      "amount": 70000,
+      "payer": "",
+      "participants": [],
+      "photos": [],
+      "id": 8
     },
     {
-      "id": 3,
-      "travelId": 1,
-      "payerId": 1,
-      "amount": 20000,
-      "participants": [1, 2]
+      "travelId": "travel3",
+      "date": "2026-04-09T16:01:37.812Z",
+      "category": "교통",
+      "place": "테스트99",
+      "amount": 50000,
+      "payer": "",
+      "participants": [],
+      "photos": [],
+      "id": 9
     },
     {
-      "id": 4,
-      "travelId": 1,
-      "payerId": 3,
+      "travelId": "travel4",
+      "date": "2026-04-09T16:03:01.713Z",
+      "category": "교통",
+      "place": "테스트10",
+      "amount": 8987,
+      "payer": "",
+      "participants": [],
+      "photos": [],
+      "id": 10
+    },
+    {
+      "travelId": "travel3",
+      "date": "2026-04-09T16:09:14.316Z",
+      "category": "교통",
+      "place": "테스트 11",
+      "amount": 202020,
+      "payer": "",
+      "participants": [],
+      "photos": [],
+      "id": 11
+    },
+    {
+      "travelId": "travel3",
+      "date": "2026-04-09T16:18:56.857Z",
+      "category": "식비",
+      "place": "테스트12",
       "amount": 30000,
-      "participants": [2, 3, 4]
+      "payer": "",
+      "participants": [],
+      "photos": [],
+      "id": 12
+    },
+    {
+      "travelId": "travel3",
+      "date": "2026-04-23T15:00:00.000Z",
+      "category": "식비",
+      "place": "테스트12",
+      "amount": 30000,
+      "payer": "",
+      "participants": [],
+      "photos": [],
+      "id": 13
+    },
+    {
+      "travelId": "travel3",
+      "date": "2026-04-09T16:22:47.530Z",
+      "category": "식비",
+      "place": "테스트 13",
+      "amount": 0,
+      "payer": "",
+      "participants": [],
+      "photos": [],
+      "id": 14
+    },
+    {
+      "travelId": "travel3",
+      "date": "2026-04-09T16:24:43.143Z",
+      "category": "교통",
+      "place": "테스트 14",
+      "amount": 123000,
+      "payer": "",
+      "participants": [],
+      "photos": [],
+      "id": 15
+    },
+    {
+      "travelId": "travel2",
+      "date": "2026-04-09T16:25:17.534Z",
+      "category": "식비",
+      "place": "테스트 15",
+      "amount": 150000,
+      "payer": "",
+      "participants": [],
+      "photos": [],
+      "id": 16
+    },
+    {
+      "travelId": "travel2",
+      "date": "2026-04-10T01:08:59.468Z",
+      "category": "관광",
+      "place": "테스트123",
+      "amount": 101010,
+      "payer": "",
+      "participants": [],
+      "photos": [],
+      "id": 17
     }
   ]
 }

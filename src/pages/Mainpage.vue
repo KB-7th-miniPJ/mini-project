@@ -63,8 +63,9 @@ const filters = [
 onMounted(() => { store.fetchTravels(); });
 
 const gomain2 = (travelNumId) => {
-  router.push({ name: 'TravelDetail', params: { id: travelNumId } });
+  router.push(`/travels/${travelNumId}`);
 };
+
 
 const badgeClass = (status) => {
   if (status === '예정') return 'badge-blue';
