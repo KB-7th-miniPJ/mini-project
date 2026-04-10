@@ -83,7 +83,11 @@
       "name": "ㄱㅎㅂ1",
       "joinTravelIds": [
         "4",
-        "3"
+        "3",
+        "4",
+        "3",
+        "3",
+        "1"
       ],
       "id": "HwKT18H"
     },
@@ -100,38 +104,14 @@
   ],
   "travels": [
     {
-      "title": "오사카여행",
-      "destination": "Osaka",
-      "startDate": "2026-04-03",
-      "endDate": "2026-04-07",
-      "membersCount": 4,
-      "amount": 1300000,
-      "currency": "KRW",
-      "status": "완료",
-      "id": 1
-    },
-    {
-      "title": "qwewq",
-      "destination": "qweqweq",
-      "startDate": "2026-04-09",
-      "endDate": "2026-04-16",
-      "membersCount": 1,
-      "amount": 1231230,
-      "currency": "KRW",
-      "status": "예정",
-      "id": 2
-    },
-    {
-      "title": "c4123c1c",
+      "title": "3ㅌ123ㅌ",
       "travelType": "국내",
       "startDate": "2026-04-11",
-      "endDate": "2026-04-15",
-      "membersCount": 2,
-      "amount": 200000,
-      "currency": "KRW",
-      "inviteCode": "Y5WU7S",
-      "id": 3,
-      "travelId": "travel3"
+      "endDate": "2026-04-13",
+      "membersCount": 1,
+      "inviteCode": "76OGNC",
+      "id": 1,
+      "travelId": "travel1"
     }
   ],
   "settlements": [
