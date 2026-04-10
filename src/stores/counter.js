@@ -19,6 +19,7 @@ export const useTravelStore = defineStore('travel', () => {
   });
 
   const getStatus = (startDate, endDate) => {
+    if (!startDate || !endDate) return '예정';
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     const [sy, sm, sd] = startDate.split('-').map(Number);
@@ -27,7 +28,7 @@ export const useTravelStore = defineStore('travel', () => {
     const end = new Date(ey, em - 1, ed);
     if (today < start) return '예정';
     if (today > end) return '완료';
-    if (start <= today && today <= end) return '진행 중';
+    return '진행 중';
   };
 
   const filteredTravels = computed(() => {
@@ -45,31 +46,48 @@ export const useTravelStore = defineStore('travel', () => {
   });
 
   const fetchTravels = async () => {
+    const authStore = useAuthStore();
+    const currentUser = authStore.user;
     const res = await getTravelList();
-    state.travels = res.data;
-  };
+    const allTravels = res.data;
 
-  // ✅ 수정: 생성된 객체 반환 + travelId 자동 생성해서 저장
-  const addTravel = async (travel) => {
-    // 1단계: POST /travels → json-server가 id 자동 부여 (예: id=5)
-    const res = await createTravel(travel);
-    const created = res.data; // { id: 5, title: "...", ... }
-
-    // 2단계: id 기반으로 travelId 생성 → PATCH /travels/5
-    // "travel" + 5 = "travel5"
-    if (created?.id) {
-      await patchTravel(created.id, { travelId: `travel${created.id}` });
+    if (!currentUser) {
+      state.travels = [];
+      return;
     }
 
-    // 3단계: 목록 갱신
-    await fetchTravels();
+    const joinedIds = Array.isArray(currentUser.joinTravelIds)
+      ? currentUser.joinTravelIds.map(String)
+      : [];
 
-    return created; // ✅ 생성된 객체 반환 (id 포함)
+    state.travels = allTravels.filter(t => joinedIds.includes(String(t.id)));
+  };
+ 
+  const addTravel = async (travel) => {
+    const res = await createTravel(travel);
+    const created = res.data;
+
+    if (created?.id) {
+      await patchTravel(created.id, { travelId: `travel${created.id}` });
+
+      const authStore = useAuthStore();
+      const currentUser = authStore.user;
+      if (currentUser) {
+        const currentIds = Array.isArray(currentUser.joinTravelIds) ? currentUser.joinTravelIds : [];
+        const updatedIds = [...currentIds, String(created.id)];
+        authStore.setUser({ ...currentUser, joinTravelIds: updatedIds });
+        try { await patchUser(currentUser.id, { joinTravelIds: updatedIds }); } catch {}
+      }
+    }
+
+    await fetchTravels();
+    return created;
   };
 
   const removeTravel = async (id) => {
     await deleteTravel(id);
-    await fetchTravels();
+    state.travels = state.travels.filter(t => t.id !== id);
+    try { await fetchTravels(); } catch {}
   };
 
   const joinByInviteCode = async (code) => {
@@ -81,22 +99,17 @@ export const useTravelStore = defineStore('travel', () => {
 
     const authStore = useAuthStore();
     const currentUser = authStore.user;
-    if (!currentUser)
-      return { success: false, message: '로그인이 필요합니다.' };
+    if (!currentUser) return { success: false, message: '로그인이 필요합니다.' };
 
-    const currentIds = Array.isArray(currentUser.joinTravelIds)
-      ? currentUser.joinTravelIds
-      : [];
+    const currentIds = Array.isArray(currentUser.joinTravelIds) ? currentUser.joinTravelIds : [];
     const travelId = String(travel.id);
-    if (currentIds.includes(travelId))
-      return { success: false, message: '이미 참가한 여행입니다.' };
+    if (currentIds.includes(travelId)) return { success: false, message: '이미 참가한 여행입니다.' };
 
     const updatedIds = [...currentIds, travelId];
-    await patchUser(currentUser.id, { joinTravelIds: updatedIds });
     authStore.setUser({ ...currentUser, joinTravelIds: updatedIds });
-
-    await updateTravelMembers(travel.id, travel.membersCount + 1);
-    await fetchTravels();
+    try { await patchUser(currentUser.id, { joinTravelIds: updatedIds }); } catch {}
+    try { await updateTravelMembers(travel.id, (travel.membersCount || 0) + 1); } catch {}
+    try { await fetchTravels(); } catch {}
     return { success: true, travel };
   };
 

@@ -19,3 +19,5 @@ export const deleteMyAccount = () => apiClient.delete('/users');
 // USER-05 유저전체조회
 export const getUsers = () => apiClient.get('/users');
 
+// USER-06 특정 유저 정보 수정
+export const patchUser = (id, payload) => apiClient.patch(`/users/${id}`, payload);

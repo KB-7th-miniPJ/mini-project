@@ -24,8 +24,7 @@
           </div>
           <button class="btn-delete" @click.stop="removeTravel(travel.id)">삭제</button>
         </div>
-        <p class="text-sm text-gray">{{ travel.destination }}</p>
-        <p class="text-sm">{{ travel.startDate }} ~ {{ travel.endDate }} | {{ travel.membersCount }}명 | {{ formatAmount(travel.amount, travel.currency) }}</p>
+        <p class="text-sm">{{ travel.startDate }} ~ {{ travel.endDate }} | {{ travel.membersCount }}명 | {{ formatAmount(travel.amount, travel.currency) }} | 초대코드 : {{travel.inviteCode}}</p>
       </div>
 
       <button class="btn-add" @click="router.push({ name: 'TravelsNew' })">+ 새 여행</button>
@@ -80,7 +79,7 @@ const removeTravel = async (id) => {
 };
 
 const formatAmount = (amount, currency) => {
-  return amount.toLocaleString() + ' ' + currency;
+  return (amount ?? 0).toLocaleString() + ' ' + (currency || '');
 };
 </script>
 
