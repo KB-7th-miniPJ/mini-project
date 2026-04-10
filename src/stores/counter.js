@@ -6,6 +6,7 @@ import {
   deleteTravel,
   getTravelByInviteCode,
   updateTravelMembers,
+  patchTravel,
 } from '@/api/main';
 import { patchUser } from '@/api/userApi';
 import { useAuthStore } from '@/stores/auth';
