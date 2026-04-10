@@ -167,6 +167,17 @@
         "Pennguins.jpg.jpg"
       ],
       "id": 4
+    },
+    {
+      "travelId": "",
+      "date": "2026-04-10T06:37:59.399Z",
+      "category": "교통",
+      "place": "",
+      "amount": 0,
+      "payer": "",
+      "participants": [],
+      "photos": [],
+      "id": 5
     }
   ]
 }
