@@ -10,6 +10,7 @@
       <select
         v-model="selectedPayer"
         class="select"
+        
         @change="handlePayerChange"
       >
         <option value="" disabled>결제자를 선택해주세요</option>
@@ -18,9 +19,8 @@
         </option>
       </select>
     </div>
-
-    <div class="section">
-      <p class="label">그룹멤버 {{ members.length }}명</p>
+<p class="label">그룹멤버 {{ members.length }}명</p>
+    <div class="section member-section">
       <div
         v-for="member in members"
         :key="member.id"
@@ -169,11 +169,18 @@ const goBack = () => {
 .title {
   text-align: center;
   font-size: 18px;
-  font-weight: 500;
+  font-weight: 700;
   margin-bottom: 1.5rem;
 }
 .section {
   margin-bottom: 1.25rem;
+}
+.member-section {
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 8px 12px;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
 }
 .label {
   font-size: 13px;
@@ -187,6 +194,7 @@ const goBack = () => {
   border-radius: 8px;
   font-size: 14px;
   appearance: none;
+  color: #aaa;
   background: url("data:image/svg+xml;charset=UTF-8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><path d='M2 4l4 4 4-4' stroke='%23999' stroke-width='1.5' fill='none' stroke-linecap='round'/></svg>")
     no-repeat right 12px center;
 }
@@ -218,9 +226,11 @@ const goBack = () => {
   display: flex;
   align-items: center;
   gap: 6px;
+
 }
 .member-name {
   font-size: 15px;
+  font-weight: 00;
 }
 .badge-me {
   font-size: 11px;
@@ -255,5 +265,12 @@ const goBack = () => {
   font-size: 16px;
   font-weight: 700;
   cursor: pointer;
+}
+.select option {
+  color: #111; 
+}
+
+.select option[disabled] {
+  color: #aaa; 
 }
 </style>
