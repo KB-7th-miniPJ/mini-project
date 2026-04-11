@@ -11,8 +11,8 @@
 ### AUTH (인증)
 | 화면 ID | 화면명 | 와이어프레임 |
 |---------|--------|------------|
-| auth-01 | 로그인 | ![로그인](https://github.com/user-attachments/assets/1189bddd-ba74-444f-b8ce-e25a090558db) |
-| auth-02 | 회원가입 | ![회원가입](https://github.com/user-attachments/assets/b2095a0b-b5fc-46b8-9eb9-7cf76e6bb5b8) |
+| auth-01 | 로그인 | <img src="https://github.com/user-attachments/assets/1189bddd-ba74-444f-b8ce-e25a090558db" width="300"/> |
+| auth-02 | 회원가입 | <img src="https://github.com/user-attachments/assets/b2095a0b-b5fc-46b8-9eb9-7cf76e6bb5b8" width="300"/> |
 
 ### MAIN (메인)
 | 화면 ID | 화면명 | 와이어프레임 |
@@ -24,7 +24,7 @@
 ### EXPENSES (지출)
 | 화면 ID | 화면명 | 와이어프레임 |
 |---------|--------|------------|
-| expenses-01 | 지출내역 | ![지출내역](이미지링크) |
+| expenses-01 | 지출내역 | ![지출내역]<img src="https://github.com/user-attachments/assets/4b8c3f90-9a1a-48d8-85d6-e640df91c243" width="300" />|
 | expenses-02 | 정산멤버 | ![정산멤버](이미지링크) |
 | expenseslist | 지출목록 | ![지출목록](이미지링크) |
 

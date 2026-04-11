@@ -10,7 +10,7 @@
       <select
         v-model="selectedPayer"
         class="select"
-        
+        :style="{ color: selectedPayer ? '#111' : '#aaa' }"
         @change="handlePayerChange"
       >
         <option value="" disabled>결제자를 선택해주세요</option>
@@ -127,7 +127,7 @@ const handleComplete = () => {
     selectedParticipants.value.length,
   );
 
-  router.back();
+  router.push(`/travels/${travelId}/expenses/new`);
 };
 
 onMounted(async () => {
@@ -141,7 +141,7 @@ onMounted(async () => {
 });
 
 const goBack = () => {
-  router.back();
+  router.push(`/travels/${travelId}/expenses/new`);
 };
 </script>
 

@@ -1,4 +1,3 @@
-
 <template>
   <div style="padding: 20px; text-align: center;">
     <h2>인원 선택 페이지 (준비 중)</h2>

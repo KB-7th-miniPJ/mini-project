@@ -4,22 +4,22 @@ import SignInMain from '../pages/auth/SignInMain.vue';
 import SignUp from '../pages/auth/SignUp.vue';
 import MainPage from '../pages/Mainpage.vue';
 import TravelsNew from '../pages/Travelsnew.vue';
-import Main2        from "@/pages/Main2.vue"
-import Expenseslist from "@/pages/Expenseslist.vue"
+import Main2 from '@/pages/Main2.vue';
+import Expenseslist from '@/pages/Expenseslist.vue';
 import Settlements from '@/pages/Settlements.vue';
-import ExpenseRecord from '@/pages/expenses/ExpenseRecord.vue' 
-import ExpenseMembers from '@/pages/ExpenseMembers.vue'
+import ExpenseRecord from '@/pages/expenses/ExpenseRecord.vue';
+import ExpenseMembers from '@/pages/ExpenseMembers.vue';
 
 const routes = [
   {
     path: '/',
     name: 'Main',
-    component: MainPage
+    component: MainPage,
   },
   {
     path: '/travels-new',
     name: 'TravelsNew',
-    component: TravelsNew
+    component: TravelsNew,
   },
   // {
   //   path: '/travels/:id',
@@ -29,13 +29,13 @@ const routes = [
    { path: '/signin', name: 'signin', component: SignInMain },
    { path: '/signup', name: 'signup', component: SignUp },
    {
-      path: "/travels/:id",
+      path: "/travels/:travelId",
       name: "main2",
       component: Main2,
     },
 
     {
-      path: "/travels/:id/expenseslist",
+      path: "/travels/:travelId/expenseslist", //!경로 변경!
       name: "expenseslist",
       component: Expenseslist,
     },
@@ -43,44 +43,30 @@ const routes = [
     path: '/travels/:travelId/settlement',
     name: 'travel-settlements',
     component: Settlements,
-  },    
+  },
   {
-      path: '/expenses/new',
+      path: '/travels/:travelId/expenses/new',
       name: 'ExpenseRecord',
       component: ExpenseRecord,
-    },  
+  },
+  // ✅ 추가: 지출 수정페이지 (같은 ExpenseRecord 컴포넌트, expenseId 파라미터 추가)
+  // {
+  //   path: '/travels/:travelId/expenses/:expenseId/edit',
+  //   name: 'ExpenseEdit',
+  //   component: ExpenseRecord,},
+
       {
     path: '/expense/:travelId/members',
     name: 'expensemembers',
     component: ExpenseMembers,
-  },  
-    // {
-    //   path: '/expensemembers',
-    //   name: 'expensemembers',
-    //   component: Expensemembers, // 연결 완료
-    // },
-    // {
-    //  // 예림님 파일 생기면 주석 해제
-    // {
-    //   path: '/travels/:id/expenseslist',
-    //   name: 'expenseslist',
-    //   component: () => import('@/pages/expenses/Expenseslist.vue'),
-    // },
-    // },
-    // {
-    //   path: "/travels/:id",
-    //   name: "main2",
-    //   component: () => import('@/pages/Main2.vue'),
-    // },
+  },
 
-
-
-      { path: '/:pathMatch(.*)*', redirect: { name: 'signin' } },
+  { path: '/:pathMatch(.*)*', redirect: { name: 'signin' } },
 ];
 
 const router = createRouter({
   history: createWebHistory(),
-  routes 
+  routes,
 });
 
 const publicNames = ['signin', 'signup'];
