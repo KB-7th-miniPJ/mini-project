@@ -89,18 +89,20 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { useExpense } from "@/hooks/useExpense";
 import CategorySelector from "@/components/expense/CategorySelector.vue";
 import DatePicker from "@/components/expense/DatePicker.vue";
 import MemberChip from "@/components/expense/MemberChip.vue";
 import ReceiptUploader from "@/components/expense/ReceiptUploader.vue";
+import { useExpensedetailsStore } from "@/stores/expensedetail";
 
 const router = useRouter();
 const route = useRoute();
 const travelNumId = route.params.travelId;
 const showCalendar = ref(false);
+const detailStore = useExpensedetailsStore() 
 
 const {
   categories,
@@ -119,7 +121,17 @@ const {
 const formatDate = (d) =>
   `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')}`;
 
-const handleMemberSelect = () => router.push(`/expense/${travelNumId}/members`);
+const handleMemberSelect = () => {
+  detailStore.setdetailsData({
+    date:date.value,
+    category:category.value,
+    place:place.value,
+    amount:amount.value,
+    photos:photos.value
+  })
+
+  router.push(`/expense/${travelNumId}/members`);
+}
 
 const handleComplete = async () => {
   try {
@@ -130,6 +142,22 @@ const handleComplete = async () => {
     alert("저장에 실패했습니다.");
   }
 };
+
+onMounted(()=>{
+  const detail = detailStore.getdetailsData();
+  if(detail){
+    date.value=detail.date;
+    // category.value= detail.category;
+    place.value=detail.place;
+    amount.value=detail.amount;
+    photos.value=detail.photos;
+      setTimeout(() => {
+      category.value = detail.category;
+      console.log('최종 category:', category.value);
+    }, 100);  // 100ms 지연
+    detailStore.resetdetailData()
+  }
+})
 </script>
 
 <style scoped>
