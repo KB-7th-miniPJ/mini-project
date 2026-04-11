@@ -2,7 +2,12 @@
   <div class="page-container">
     <div class="mobile-frame">
       <div class="header">
-        <button class="back-icon" @click="router.push(`/travels/${travelNumId}`)">‹</button>
+        <button
+          class="back-icon"
+          @click="router.push(`/travels/${travelNumId}`)"
+        >
+          ‹
+        </button>
         <span class="header-text">지출 기록</span>
       </div>
 
@@ -39,7 +44,10 @@
           <button class="member-select-btn" @click="handleMemberSelect">
             인원 선택
           </button>
-          <div v-if="members && members.length > 0" class="member-chip-container">
+          <div
+            v-if="members && members.length > 0"
+            class="member-chip-container"
+          >
             <MemberChip v-for="m in members" :key="m.id" :member="m" />
           </div>
         </div>
@@ -89,18 +97,22 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-import { useRouter, useRoute } from "vue-router";
-import { useExpense } from "@/hooks/useExpense";
-import CategorySelector from "@/components/expense/CategorySelector.vue";
-import DatePicker from "@/components/expense/DatePicker.vue";
-import MemberChip from "@/components/expense/MemberChip.vue";
-import ReceiptUploader from "@/components/expense/ReceiptUploader.vue";
+import { ref } from 'vue';
+import { useRouter, useRoute, onBeforeRouteLeave } from 'vue-router';
+import { useExpense } from '@/hooks/useExpense';
+import { useMembersStore } from '@/stores/members';
+import CategorySelector from '@/components/expense/CategorySelector.vue';
+import DatePicker from '@/components/expense/DatePicker.vue';
+import MemberChip from '@/components/expense/MemberChip.vue';
+import ReceiptUploader from '@/components/expense/ReceiptUploader.vue';
 
 const router = useRouter();
 const route = useRoute();
 const travelNumId = route.params.travelId;
 const showCalendar = ref(false);
+const membersStore = useMembersStore();
+
+onBeforeRouteLeave(() => membersStore.reset());
 
 const {
   categories,
@@ -124,10 +136,11 @@ const handleMemberSelect = () => router.push(`/expense/${travelNumId}/members`);
 const handleComplete = async () => {
   try {
     await saveExpense();
+    membersStore.reset();
     router.push(`/travels/${travelNumId}`);
   } catch (err) {
     console.error('저장 실패 원인:', err);
-    alert("저장에 실패했습니다.");
+    alert('저장에 실패했습니다.');
   }
 };
 </script>
@@ -167,8 +180,12 @@ const handleComplete = async () => {
   font-weight: 600;
   color: #111827;
 }
-.main-content { padding: 0 20px; }
-.input-section { margin-bottom: 20px; }
+.main-content {
+  padding: 0 20px;
+}
+.input-section {
+  margin-bottom: 20px;
+}
 .section-label {
   font-size: 13px;
   color: #6b7280;
@@ -196,7 +213,9 @@ const handleComplete = async () => {
   outline: none;
   box-sizing: border-box;
 }
-.place-input:focus { border-color: #22c55e; }
+.place-input:focus {
+  border-color: #22c55e;
+}
 .amount-input-wrapper {
   display: flex;
   align-items: center;

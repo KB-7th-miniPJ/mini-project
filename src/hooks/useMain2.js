@@ -30,12 +30,10 @@ export function useExpense(travelNumId) {
       const travelRes = await getTravel(travelNumId);
       travel.value = travelRes.data;
 
-      // 2단계: travelId 추출해서 expenses 조회
-      // db.json: travels[0].travelId = "travel1"
-      const tid = travel.value.travelId; // "travel1"
+      const tid = travel.value.id;
 
       const [expRes, recentRes, catRes] = await Promise.all([
-        getExpensesByTravelId(tid), // GET /expenses?travelId=travel1
+        getExpensesByTravelId(tid),
         getRecentExpenses(tid, 3),
         getCategories(),
       ]);
@@ -55,7 +53,7 @@ export function useExpense(travelNumId) {
     try {
       const travelRes = await getTravel(travelNumId);
       travel.value = travelRes.data;
-      const tid = travel.value.travelId; // "travel1"
+      const tid = travel.value.id;
 
       const [expRes, catRes] = await Promise.all([
         getExpenses(tid),
@@ -112,6 +110,14 @@ export function useExpense(travelNumId) {
     if (!travel.value?.endDate) return 0;
     const diff = new Date(travel.value.endDate) - new Date();
     return Math.max(0, Math.ceil(diff / 86400000));
+  });
+
+  // ── computed: 정산 확정 여부 ─────────────────────
+  const isConfirmed = computed(() => {
+    if (!travel.value?.endDate) return false;
+    const confirmDate = new Date(travel.value.endDate);
+    confirmDate.setDate(confirmDate.getDate() + 2);
+    return new Date() > confirmDate;
   });
 
   // ── computed: 카테고리별 합산 ────────────────────
@@ -229,6 +235,7 @@ export function useExpense(travelNumId) {
     perPersonExpense,
     dDay,
     daysLeft,
+    isConfirmed,
     byCategory,
     filtered,
     grouped,

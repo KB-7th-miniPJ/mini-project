@@ -1,7 +1,7 @@
 <script setup>
-import { onMounted } from "vue";
-import { useRoute, useRouter } from "vue-router";
-import { useExpense } from "@/hooks/useMain2";
+import { onMounted } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { useExpense } from '@/hooks/useMain2';
 
 const route = useRoute();
 const router = useRouter();
@@ -9,6 +9,7 @@ const travelNumId = route.params.travelId;
 
 const {
   isLoading,
+  isConfirmed,
   categories,
   selectedCat,
   filtered,
@@ -30,18 +31,19 @@ const {
 
 onMounted(() => loadExpenses());
 
-
 const onDelete = async (id) => {
-  if (!confirm("삭제할까요?")) return;
+  if (isConfirmed.value) return alert('정산이 확정된 여행은 삭제할 수 없습니다.');
+  if (!confirm('삭제할까요?')) return;
   await removeExpense(id);
 };
 
 const onEdit = async (expense) => {
+  if (isConfirmed.value) return alert('정산이 확정된 여행은 수정할 수 없습니다.');
   const input = prompt(
     `금액 수정 (현재: ${Number(expense.amount).toLocaleString()}원)`,
-    expense.amount
+    expense.amount,
   );
-  if (input === null || input === "") return;
+  if (input === null || input === '') return;
   await editExpense(expense.id, { amount: Number(input) });
 };
 </script>
@@ -49,7 +51,6 @@ const onEdit = async (expense) => {
 <template>
   <div v-if="isLoading">로딩 중...</div>
   <div v-else class="list-wrap">
-
     <!-- 헤더 -->
     <div class="list-hdr">
       <RouterLink :to="`/travels/${travelNumId}`" class="back">‹</RouterLink>
@@ -67,8 +68,8 @@ const onEdit = async (expense) => {
       <button
         v-for="cat in categories"
         :key="cat.id"
-        :class="['tab', { active: selectedCat === cat.id }]"
-        @click="selectedCat = cat.id"
+        :class="['tab', { active: selectedCat === cat.name }]"
+        @click="selectedCat = cat.name"
       >
         {{ cat.icon }} {{ cat.name }}
       </button>
@@ -95,8 +96,9 @@ const onEdit = async (expense) => {
               {{ getCatInfo(e.category).icon }}
               {{ getCatInfo(e.category).name }}
             </span>
-            <!-- payerId: "1" → "1번 결제" -->
-            <span class="chip">{{ e.payerId }}번 결제</span>
+            <!-- payer: "1" → "1번 결제" -->
+            <!-- payerId 처럼 뒤에 Id 가 오는 속성명은 위험, 수정 -->
+            <span class="chip">{{ e.payer }}번 결제</span>
 
             <!-- 메모 아이콘 -->
             <span
@@ -112,7 +114,9 @@ const onEdit = async (expense) => {
             <span
               v-if="e.photoUrl"
               class="photo-icon"
-              :class="{ active: isPhotoModalOpen && selectedPhoto === e.photoUrl }"
+              :class="{
+                active: isPhotoModalOpen && selectedPhoto === e.photoUrl,
+              }"
               @click="togglePhotoModal(e.photoUrl)"
             >
               📷
@@ -132,18 +136,18 @@ const onEdit = async (expense) => {
 
     <!-- 빈 상태 -->
     <div v-if="filtered.length === 0" class="empty">
-      {{ selectedCat === "전체" ? "지출 내역이 없어요" : "해당 카테고리 지출이 없어요" }}
+      {{
+        selectedCat === '전체'
+          ? '지출 내역이 없어요'
+          : '해당 카테고리 지출이 없어요'
+      }}
     </div>
 
     <!-- 메모 모달 (list-wrap 밖으로 빼야 fixed가 제대로 동작) -->
   </div>
 
   <!-- ✅ 모달을 최상위로 이동 — v-if 안에서 fixed가 잘리는 문제 해결 -->
-  <div
-    v-if="isModalOpen"
-    class="modal-overlay"
-    @click.self="closeModal"
-  >
+  <div v-if="isModalOpen" class="modal-overlay" @click.self="closeModal">
     <div class="modal-content">
       <h3>📝 메모 내용</h3>
       <p class="memo-text">{{ selectedMemo }}</p>
@@ -179,7 +183,15 @@ const onEdit = async (expense) => {
   background: white;
   z-index: 10;
 }
-.back-icon { position: absolute; left: 20px; background: none; border: none; font-size: 22px; cursor: pointer; color: #374151; }
+.back-icon {
+  position: absolute;
+  left: 20px;
+  background: none;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  color: #374151;
+}
 .list-hdr h2 {
   font-size: 16px;
   font-weight: 600;
@@ -203,9 +215,9 @@ const onEdit = async (expense) => {
   cursor: pointer;
 }
 .tab.active {
-  background:  #22c55e;
+  background: #22c55e;
   color: white;
-  border-color:  #22c55e;
+  border-color: #22c55e;
 }
 .total-bar {
   display: flex;
@@ -281,8 +293,8 @@ const onEdit = async (expense) => {
 .btn-edit {
   font-size: 11px;
   padding: 3px 10px;
-  border: 1px solid  #22c55e;
-  color:  #22c55e;
+  border: 1px solid #22c55e;
+  color: #22c55e;
   border-radius: 6px;
   background: white;
   cursor: pointer;

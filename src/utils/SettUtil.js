@@ -34,11 +34,11 @@ function calcMinSettlements(expenses) {
   const debtors = []; // { userId, amount }
 
   for (const [userId, amt] of Object.entries(balance)) {
-    const rounded = Math.round(amt);
-    if (rounded > 0)
-      creditors.push({ userId: Number(userId), amount: rounded });
-    else if (rounded < 0)
-      debtors.push({ userId: Number(userId), amount: -rounded });
+    const floored = amt > 0 ? Math.floor(amt) : Math.ceil(amt);
+    if (floored > 0)
+      creditors.push({ userId: Number(userId), amount: floored });
+    else if (floored < 0)
+      debtors.push({ userId: Number(userId), amount: -floored });
   }
 
   // 3. Greedy 매칭: 채무자가 채권자에게 순서대로 상환
