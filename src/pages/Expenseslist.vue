@@ -30,7 +30,7 @@ const {
 
 onMounted(() => loadExpenses());
 
-
+//!!!!!!!!!!이거 delete가 expenses 객체 전부다 지워버림 expensesId 파라미터 추가해서 구분 필요
 const onDelete = async (id) => {
   if (!confirm("삭제할까요?")) return;
   await removeExpense(id);

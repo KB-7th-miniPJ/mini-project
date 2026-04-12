@@ -1,84 +1,127 @@
 <template>
   <div class="container p-3">
     <h2>
-      <button @click="router.push({ name: 'Main' })" class="btn-back">←</button>
+      <button
+        @click="router.push({ name: 'Main' })"
+        class="btn-back"
+      >
+        ←
+      </button>
       새 여행 만들기
     </h2>
 
     <!-- 라디오 버튼으로 국내/해외 여행 타입 선택 -->
     <div class="radio-group">
-      <label><input type="radio" value="국내" v-model="travelType"/> 국내여행</label>
-      <label><input type="radio" value="해외" v-model="travelType"/> 해외여행</label>
+      <label
+        ><input
+          type="radio"
+          value="국내"
+          v-model="travelType"
+        />
+        국내여행</label
+      >
+      <label
+        ><input
+          type="radio"
+          value="해외"
+          v-model="travelType"
+        />
+        해외여행</label
+      >
     </div>
 
     <div>
       <div class="form-group">
         <label>여행 이름</label>
-        <input v-model="title" placeholder="여행 이름을 입력하세요" />
+        <input
+          v-model="title"
+          placeholder="여행 이름을 입력하세요"
+        />
       </div>
 
       <!-- 출발/도착 날짜 -->
       <div class="form-row">
         <div class="form-group half">
           <label>출발날짜</label>
-          <input type="date" v-model="startDate" />
+          <input
+            type="date"
+            v-model="startDate"
+          />
         </div>
         <div class="form-group half">
           <label>도착날짜</label>
-          <input type="date" v-model="endDate" />
+          <input
+            type="date"
+            v-model="endDate"
+          />
         </div>
       </div>
 
+      <button
+        class="btn-submit"
+        @click="addTravel"
+      >
+        여행 만들기
+      </button>
+      <div
+        v-if="invitedCode"
+        class="invite-box"
+      >
+        <p class="invite-label">초대코드</p>
+        <strong class="invite-code">{{ invitedCode }}</strong>
+      </div>
+    </div>
+
+    <hr />
+
+    <div class="section">
+      <h3>초대코드로 참가</h3>
       <div class="form-group">
-        <label>참여 인원</label>
-        <div>
-          <button @click="decrement" :disabled="membersCount <= 1">−</button>
-          <strong> {{ membersCount }}명 </strong>
-          <button @click="increment">＋</button>
-        </div>
-      </div>
+        <input
+          v-model="inputCode"
+          placeholder="초대코드 6자리를 입력하세요"
+          style="text-transform: uppercase"/>
 
-      <div class="form-group">
-        <label>총 예산</label>
-        <div class="form-row">
-          <input type="number" v-model.number="amount" placeholder="0" class="half" />
-          <select v-model="currency" class="half">
-            <option value="KRW">KRW</option>
-            <option value="USD">USD</option>
-            <option value="EUR">EUR</option>
-            <option value="JPY">JPY</option>
-          </select>
-        </div>
       </div>
-
-      <button class="btn-submit" @click="addTravel">여행 만들기</button>
+      <button
+        class="btn-submit"
+        @click="joinTravel"
+      >
+        참가하기
+      </button>
+      <p
+        v-if="joinMessage"
+        class="join-message"
+      >
+        {{ joinMessage }}
+      </p>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
-import { useTravelStore } from '@/stores/counter';
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+import { useTravelStore } from "@/stores/counter";
 
 const router = useRouter();
 const store = useTravelStore();
-const travelType = ref('');
-const title = ref('');
-const startDate = ref('');
-const endDate = ref('');
+const travelType = ref("");
+const title = ref("");
+const startDate = ref("");
+const endDate = ref("");
 const membersCount = ref(1);
-const amount = ref(0);
-const currency = ref('KRW');
+const invitedCode = ref(''); // 호빈님 추가부분
+const inputCode = ref('');
+const joinMessage = ref('');
 
-// 참여인원 증가/감소
-const increment = () => { membersCount.value++; };
-const decrement = () => { if (membersCount.value > 1) membersCount.value--; };
+const inviteInviteCode = () => Math.random().toString(36).substring(2, 8).toUpperCase();
+
 
 // 여행 생성
 const addTravel = async () => {
   if (!title.value || !startDate.value || !endDate.value) {
-    alert('모든 항목을 입력해주세요.');
+    alert("모든 항목을 입력해주세요.");
     return;
   }
 
@@ -90,24 +133,87 @@ const addTravel = async () => {
     startDate: startDate.value,
     endDate: endDate.value,
     membersCount: membersCount.value,
-    amount: amount.value,
-    currency: currency.value,
+    inviteCode: code,
   });
+  invitedCode.value = code;
+  alert("여행이 만들어졌습니다.");
+};
 
-  router.push({ name: 'Main' });
+const joinTravel = async () => {
+  if (!inputCode.value) return;
+  try {
+    const result = await store.joinByInviteCode(inputCode.value.toUpperCase());
+    if (result.success) {
+      joinMessage.value = `"${result.travel.title}" 여행에 참가했습니다!`;
+      inputCode.value = "";
+      setTimeout(() => router.push({ name: "Main" }), 1000);
+    } else {
+      joinMessage.value = result.message;
+    }
+  } catch (e) {
+    joinMessage.value = "참가 중 오류가 발생했습니다.";
+  }
 };
 </script>
 
 <style scoped>
-.container { max-width: 500px; margin: 0 auto; }
-.p-3 { padding: 12px; }
-.form-group { margin-bottom: 10px; }
-.form-group label { display: block; font-size: 13px; font-weight: bold; margin-bottom: 4px; }
-.form-group input, .form-group select { padding: 8px; border: 1px solid #ccc; font-size: 14px; width: 100%; box-sizing: border-box; }
-.form-row { display: flex; gap: 8px; }
-.half { flex: 1; }
-.btn-back { border: 1px solid #ccc; background: #fff; cursor: pointer; padding: 2px 8px; margin-right: 5px; }
-.radio-group { display: flex; gap: 15px; margin-bottom: 10px; }
-.radio-group label { display: inline; font-size: 13px; font-weight: bold; }
-.btn-submit { width: 100%; padding: 12px; background: #333; color: #fff; border: none; font-size: 15px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+.container {
+  max-width: 500px;
+  margin: 0 auto;
+}
+.p-3 {
+  padding: 12px;
+}
+.form-group {
+  margin-bottom: 10px;
+}
+.form-group label {
+  display: block;
+  font-size: 13px;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+.form-group input,
+.form-group select {
+  padding: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  width: 100%;
+  box-sizing: border-box;
+}
+.form-row {
+  display: flex;
+  gap: 8px;
+}
+.half {
+  flex: 1;
+}
+.btn-back {
+  border: 1px solid #ccc;
+  background: #fff;
+  cursor: pointer;
+  padding: 2px 8px;
+  margin-right: 5px;
+}
+.radio-group {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 10px;
+}
+.radio-group label {
+  display: inline;
+  font-size: 13px;
+  font-weight: bold;
+}
+.btn-submit {
+  width: 100%;
+  padding: 12px;
+  background: #333;
+  color: #fff;
+  border: none;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px;
+}
 </style>
