@@ -74,9 +74,9 @@ export function useExpense() {
       date: date.value,
       category: category.value,
       place: place.value,
-      amount: Number(amount.value.toString().replace(/,/g, '')),
-      payer: '',
-      participants: members.value,
+      amount: Number(amount.value.toString().replace(/,/g, "")),
+      payer: memberStore.payer ?? "",
+      participants: memberStore.participants,
       photos: photos.value,
     };
     console.log('payload:', payload);
