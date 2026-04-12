@@ -20,8 +20,6 @@ const {
   editExpense,
   removeExpense,
   isModalOpen,
-  selectedMemo,
-  toggleMemoModal,
   closeModal,
   isPhotoModalOpen,
   selectedPhoto,
@@ -102,17 +100,7 @@ const users = ref([]);
             </span>
             <span class="chip">{{ (e.payer).name }}결제/{{ e.participants.length }}명</span>
 
-            <!-- 메모 아이콘 -->
-            <span
-              v-if="e.memo"
-              class="memo-icon"
-              :class="{ active: isModalOpen && selectedMemo === e.memo }"
-              @click="toggleMemoModal(e.memo)"
-            >
-              📝
-            </span>
-
-            <!-- 사진 아이콘 -->
+              <!-- 사진 아이콘 -->
             <span
               v-if="e.photos"
               class="photo-icon"
@@ -145,17 +133,9 @@ const users = ref([]);
       }}
     </div>
 
-    <!-- 메모 모달 (list-wrap 밖으로 빼야 fixed가 제대로 동작) -->
   </div>
 
   <!-- ✅ 모달을 최상위로 이동 — v-if 안에서 fixed가 잘리는 문제 해결 -->
-  <div v-if="isModalOpen" class="modal-overlay" @click.self="closeModal">
-    <div class="modal-content">
-      <h3>📝 메모 내용</h3>
-      <p class="memo-text">{{ selectedMemo }}</p>
-      <button class="modal-close-btn" @click="closeModal">닫기</button>
-    </div>
-  </div>
 
   <div
     v-if="isPhotoModalOpen"
@@ -316,15 +296,13 @@ const users = ref([]);
   color: #aaa;
   font-size: 14px;
 }
-/* 메모/사진 아이콘 */
-.memo-icon,
+/* 사진 아이콘 */
 .photo-icon {
   cursor: pointer;
   font-size: 14px;
   transition: transform 0.2s;
   display: inline-block;
 }
-.memo-icon.active,
 .photo-icon.active {
   transform: scale(1.3);
 }
@@ -352,12 +330,7 @@ const users = ref([]);
   flex-direction: column;
   gap: 12px;
 }
-.memo-text {
-  font-size: 15px;
-  color: #333;
-  line-height: 1.6;
-  white-space: pre-wrap;
-}
+
 .photo-box {
   width: 320px;
 }
