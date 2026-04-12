@@ -116,6 +116,7 @@ const membersStore = useMembersStore();
 
 onBeforeRouteLeave(() => membersStore.reset());
 const detailStore = useExpensedetailsStore() 
+const detailStore = useExpensedetailsStore() 
 
 const {
   categories,
@@ -145,6 +146,17 @@ const handleMemberSelect = () => {
 
   router.push(`/expense/${travelNumId}/members`);
 }
+const handleMemberSelect = () => {
+  detailStore.setdetailsData({
+    date:date.value,
+    category:category.value,
+    place:place.value,
+    amount:amount.value,
+    photos:photos.value
+  })
+
+  router.push(`/expense/${travelNumId}/members`);
+}
 
 const handleComplete = async () => {
   try {
@@ -156,6 +168,22 @@ const handleComplete = async () => {
     alert('저장에 실패했습니다.');
   }
 };
+
+onMounted(()=>{
+  const detail = detailStore.getdetailsData();
+  if(detail){
+    date.value=detail.date;
+    // category.value= detail.category;
+    place.value=detail.place;
+    amount.value=detail.amount;
+    photos.value=detail.photos;
+      setTimeout(() => {
+      category.value = detail.category;
+      console.log('최종 category:', category.value);
+    }, 100);  // 100ms 지연
+    detailStore.resetdetailData()
+  }
+})
 
 onMounted(()=>{
   const detail = detailStore.getdetailsData();

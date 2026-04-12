@@ -70,9 +70,9 @@ if (catData.length > 0 && !category.value) {
   };
 
   const saveExpense = async () => {
-    console.log('저장할 travelId:', travel.value?.id);
+    console.log('저장할 travelId:', travel.value?.travelId);
     const payload = {
-      travelId: travel.value?.id ?? '',
+      travelId: travel.value?.travelId ?? '',
       date: date.value,
       category: category.value,
       place: place.value,

@@ -202,7 +202,7 @@ const loadMembers = async () => {
 
 const toSettInput = (expenses) =>
   expenses.map((e) => ({
-    payerId: e.payer ? Number(e.payer) : null,
+    payerId: e.payer ? Number(e.payer.id) : null,
     amount: e.amount,
     participants: e.participants.map((p) => p.id),
   }));
