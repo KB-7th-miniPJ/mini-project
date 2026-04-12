@@ -11,7 +11,7 @@ export const getExpenses = (travelId) =>
 // 지출 수정 // 이부분은 expenses 페이지 따와서 put할예정
 // PATCH /expenses/1  (expenses.id = 1 숫자)
 export const updateExpense = (expenseId, data) =>
-  api.put(`/expenses/${expenseId}`, data)
+  api.patch(`/expenses/${expenseId}`, data)
 
 // 지출 삭제
 // DELETE /expenses/1

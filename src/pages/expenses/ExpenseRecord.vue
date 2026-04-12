@@ -2,9 +2,12 @@
   <div class="page-container">
     <div class="mobile-frame">
       <div class="header">
-        <button class="back-icon " @click="router.push(`/travels/${travelNumId}`)"> ‹</button>
-         <!-- ✅ 뒤로가기 버튼 router.back에서 해당여행방의 main2 페이지로 이동하게 주소로 설정 -->
-
+        <button
+          class="back-icon"
+          @click="router.push(`/travels/${travelNumId}`)"
+        >
+          ‹
+        </button>
         <span class="header-text">지출 기록</span>
       </div>
 
@@ -26,7 +29,6 @@
           />
         </div>
 
-        <!-- 장소 입력 추가 -->
         <div class="input-section">
           <div class="section-label">장소</div>
           <input
@@ -37,6 +39,20 @@
           />
         </div>
 
+        <!-- 인원 선택 -->
+        <div class="input-section">
+          <button class="member-select-btn" @click="handleMemberSelect">
+            인원 선택
+          </button>
+          <div
+            v-if="members && members.length > 0"
+            class="member-chip-container"
+          >
+            <MemberChip v-for="m in members" :key="m.id" :member="m" />
+          </div>
+        </div>
+
+        <!-- 총액 -->
         <div class="input-section">
           <div class="section-label">총액</div>
           <div class="amount-input-wrapper">
@@ -52,18 +68,6 @@
         </div>
 
         <div class="input-section">
-          <button class="member-select-btn" @click="handleMemberSelect">
-            인원 선택
-          </button>
-          <div
-            v-if="members && members.length > 0"
-            class="member-chip-container"
-          >
-            <MemberChip v-for="m in members" :key="m.id" :member="m" />
-          </div>
-        </div>
-
-        <div class="input-section">
           <div class="section-label">영수증 업로드</div>
           <ReceiptUploader
             :photos="photos"
@@ -72,8 +76,13 @@
           />
         </div>
 
+        <!-- ✅ 잔돈 안내 문구 -->
+        <div v-if="perPerson.remainder > 0" class="remainder-notice">
+          여행 가계에서 {{ perPerson.remainder }}원을 지원합니다!
+        </div>
+
         <button class="submit-action-btn" @click="handleComplete">
-          완료 1인당 {{ perPerson }}원
+          완료 1인당 {{ perPerson.adjusted }}원
         </button>
       </div>
     </div>
@@ -88,19 +97,22 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-import { useRouter, useRoute } from "vue-router"; // ✅ useRoute 추가
-import { useExpense } from "@/hooks/useExpense";
-import CategorySelector from "@/components/expense/CategorySelector.vue";
-import DatePicker from "@/components/expense/DatePicker.vue";
-import MemberChip from "@/components/expense/MemberChip.vue";
-import ReceiptUploader from "@/components/expense/ReceiptUploader.vue";
+import { ref } from 'vue';
+import { useRouter, useRoute, onBeforeRouteLeave } from 'vue-router';
+import { useExpense } from '@/hooks/useExpense';
+import { useMembersStore } from '@/stores/members';
+import CategorySelector from '@/components/expense/CategorySelector.vue';
+import DatePicker from '@/components/expense/DatePicker.vue';
+import MemberChip from '@/components/expense/MemberChip.vue';
+import ReceiptUploader from '@/components/expense/ReceiptUploader.vue';
 
 const router = useRouter();
-const route = useRoute();                           // ✅ 추가
-const travelNumId = route.params.travelId;          // ✅ 추가 
+const route = useRoute();
+const travelNumId = route.params.travelId;
 const showCalendar = ref(false);
+const membersStore = useMembersStore();
 
+onBeforeRouteLeave(() => membersStore.reset());
 
 const {
   categories,
@@ -119,15 +131,16 @@ const {
 const formatDate = (d) =>
   `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')}`;
 
-const handleMemberSelect = () => router.push('/expensemembers');
+const handleMemberSelect = () => router.push(`/expense/${travelNumId}/members`);
 
 const handleComplete = async () => {
   try {
     await saveExpense();
-     router.push(`/travels/${travelNumId}`);  // ✅ expenseslist 말고 대시보드로
+    membersStore.reset();
+    router.push(`/travels/${travelNumId}`);
   } catch (err) {
-    console.error('저장 실패 원인:', err);   // ✅ 원인 확인용
-    alert("저장에 실패했습니다.");
+    console.error('저장 실패 원인:', err);
+    alert('저장에 실패했습니다.');
   }
 };
 </script>
@@ -143,7 +156,7 @@ const handleComplete = async () => {
   width: 100%;
   max-width: 480px;
   background: #fff;
-  min-height: 100vh;
+  min-height: fit-content;
   box-shadow: 0 0 40px rgba(0, 0, 0, 0.08);
 }
 .header {
@@ -235,6 +248,13 @@ const handleComplete = async () => {
   flex-wrap: wrap;
   gap: 8px;
   margin-top: 12px;
+}
+.remainder-notice {
+  text-align: center;
+  font-size: 12px;
+  color: #3b82f6;
+  margin-bottom: 8px;
+  font-weight: 500;
 }
 .submit-action-btn {
   width: 100%;

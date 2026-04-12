@@ -12,4 +12,15 @@ export const settApi = {
   // 3. SET-03 정산 상태 변경
   patchSettStatus: (settId, status) =>
     apiClient.patch(`/settlements/${settId}`, { status }),
+
+  // 4. SET-04 정산 데이터 초기화
+  resetSettByTravel: async (travelId) => {
+    const res = await apiClient.get(`/settlements/?travelId=${travelId}`);
+    const target = res.data;
+    if (target.length === 0) return;
+    const deletePromises = target.map((s) =>
+      apiClient.delete(`/settlements/${s.id}`),
+    );
+    await Promise.all(deletePromises);
+  },
 };

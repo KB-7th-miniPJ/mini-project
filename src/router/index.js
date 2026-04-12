@@ -45,11 +45,6 @@ const routes = [
     component: Settlements,
   },
   {
-    path: '/expenses/new',
-    name: 'ExpenseRecord',
-    component: ExpenseRecord,
-  },
-  {
       path: '/travels/:travelId/expenses/new',
       name: 'ExpenseRecord',
       component: ExpenseRecord,
