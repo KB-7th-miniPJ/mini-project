@@ -3,7 +3,7 @@ import { ref, onMounted, } from 'vue'; //
 import { useRoute, useRouter } from 'vue-router';
 import { useExpense } from '@/hooks/useMain2';
 import { settApi } from '@/api/settlementsApi';
-import { getUsers } from '@/api/userApi.js';
+import { useMembersStore } from '@/stores/members';
 
 const route = useRoute();
 const router = useRouter();
@@ -105,24 +105,6 @@ const goToAddExpense = () => {
   router.push(`/travels/${travelNumId}/expenses/new`);
 };
 
-//--- payer 값으로 유저 name적용하기
-
-const props = defineProps(['expenses']);
-const users = ref([]);
-
-onMounted(() => {
-  getUsers()
-    .then((res) => {
-      users.value = res.data;
-    })
-    .catch((err) => {
-    });
-});
-
-const getPayerName = (id) => {
-  const user = users.value.find(u => u.id == id);
-  return user ? user.name : `미등록(${id})`;
-};
 
 </script>
 
@@ -201,7 +183,7 @@ const getPayerName = (id) => {
             <p class="meta">
               {{ getCatInfo(e.category).icon }}
               {{ getCatInfo(e.category).name }}
-              · {{ getPayerName(e.payer) }}결제/{{ e.participants.length }}명
+              · {{ (e.payer).name }}결제/{{ e.participants.length }}명
             </p>
           </div>
           <span class="amt">{{ Number(e.amount).toLocaleString() }}원</span>

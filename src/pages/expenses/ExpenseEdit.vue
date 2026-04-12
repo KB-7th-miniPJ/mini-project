@@ -132,7 +132,7 @@ const handleEditComplete = async () => {
       place: place.value,
       amount: Number(amount.value),
       participants: members.value,
-      payer: membersStore.payer?.id || null
+      payer: membersStore.payer?.name || null
     };
 
     await axios.patch(`http://localhost:3000/expenses/${expenseId}`, payload);
