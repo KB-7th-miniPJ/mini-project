@@ -223,11 +223,10 @@ const init = async () => {
     } else {
       const res = await getExpenses(travelId);
       const calculated = calcMinSettlements(toSettInput(res.data));
-      await Promise.all(
-        calculated.map((s) =>
-          settApi.postSett({ travelId, ...s, status: 'pending' }),
-        ),
-      );
+      // 변경
+      for (const s of calculated) {
+        await settApi.postSett({ travelId, ...s, status: 'pending' });
+      }
       const freshSett = await settApi.getSettByTravel(travelId);
       minSett.value = freshSett.data;
     }
