@@ -34,6 +34,10 @@ export function useExpense() {
       categories.value = catData;
       if (catData.length > 0) category.value = catData[0].name;
 
+if (catData.length > 0 && !category.value) { 
+      category.value = catData[0].name;
+    }
+
       travel.value = travelData;
       console.log('travel.id:', travel.value?.id);
     } catch (e) {

@@ -183,7 +183,7 @@ const goToAddExpense = () => {
             <p class="meta">
               {{ getCatInfo(e.category).icon }}
               {{ getCatInfo(e.category).name }}
-              · {{ (e.payer).name }}결제/{{ e.participants.length }}명
+              · {{ e.payer?.name }} 결제 / {{ e.participants?.length || 0 }}명
             </p>
           </div>
           <span class="amt">{{ Number(e.amount).toLocaleString() }}원</span>

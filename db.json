@@ -8,6 +8,15 @@
         "1"
       ],
       "id": 1
+    },
+    {
+      "email": "34@naver.com",
+      "password": "$2a$10$DRtwblnFnDD.pH7Fkk.z/u90dMd.HtaSff9.Vq5PbsdvAy.GYdPSm",
+      "name": "예림",
+      "joinTravelIds": [
+        "1"
+      ],
+      "id": 2
     }
   ],
   "travels": [
@@ -16,7 +25,7 @@
       "travelType": "",
       "startDate": "2026-04-19",
       "endDate": "2026-04-20",
-      "membersCount": 1,
+      "membersCount": 2,
       "inviteCode": "BRZHIP",
       "id": 1,
       "amount": 1000000
@@ -53,41 +62,26 @@
   "expenses": [
     {
       "travelId": 1,
-      "date": "2026-04-12T10:57:59.957Z",
-      "category": "교통",
-      "place": "테스트 1",
-      "amount": 10000,
-      "payer": {
-        "id": 1,
-        "name": "기림"
-      },
-      "participants": [
-        {
-          "id": 1,
-          "name": "기림"
-        }
-      ],
-      "photos": [],
-      "id": 1
-    },
-    {
-      "travelId": 1,
       "date": "2026-04-14T15:00:00.000Z",
-      "category": "식비",
-      "place": "결제1 수정 ",
-      "amount": 20000,
+      "category": "교통",
+      "place": "결제 1",
+      "amount": 50000,
       "payer": {
-        "id": 1,
-        "name": "기림"
+        "id": 2,
+        "name": "예림"
       },
       "participants": [
+        {
+          "id": 2,
+          "name": "예림"
+        },
         {
           "id": 1,
           "name": "기림"
         }
       ],
       "photos": [],
-      "id": 2
+      "id": 3
     }
   ]
 }
