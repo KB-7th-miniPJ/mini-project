@@ -9,6 +9,7 @@ import Expenseslist from '@/pages/Expenseslist.vue';
 import Settlements from '@/pages/Settlements.vue';
 import ExpenseRecord from '@/pages/expenses/ExpenseRecord.vue';
 import ExpenseMembers from '@/pages/ExpenseMembers.vue';
+import ExpenseEdit from '@/pages/expenses/ExpenseEdit.vue';
 
 const routes = [
   {
@@ -54,10 +55,12 @@ const routes = [
       component: ExpenseRecord,
   },
   // ✅ 추가: 지출 수정페이지 (같은 ExpenseRecord 컴포넌트, expenseId 파라미터 추가)
-  // {
-  //   path: '/travels/:travelId/expenses/:expenseId/edit',
-  //   name: 'ExpenseEdit',
-  //   component: ExpenseRecord,},
+  // 
+  // 
+  {
+    path: '/travels/:travelId/expenses/:id/edit',
+    name: 'ExpenseEdit',
+    component: ExpenseEdit,},
 
   {
     path: '/expense/:travelId/members',

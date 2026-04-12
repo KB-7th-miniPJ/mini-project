@@ -35,7 +35,7 @@ export function useExpense() {
       if (catData.length > 0) category.value = catData[0].name;
 
       travel.value = travelData;
-      console.log('travel.travelId:', travel.value?.travelId);
+      console.log('travel.id:', travel.value?.id);
     } catch (e) {
       console.error('데이터를 불러오지 못했습니다.', e);
     }
@@ -49,17 +49,15 @@ export function useExpense() {
   // ✅ 잔돈 처리 포함한 perPerson
   const perPerson = computed(() => {
     const totalMembers = members.value.length;
+    // 잔돈 지원로직오류있었음, 수정
     if (totalMembers === 0) return { amount: '0', remainder: 0, adjusted: '0' };
     const totalAmount = Number(amount.value.toString().replace(/,/g, '')) || 0;
+    const base = Math.floor(totalAmount / totalMembers);
     const remainder = totalAmount % totalMembers;
-    const adjustedPerPerson =
-      remainder > 0
-        ? Math.ceil(totalAmount / totalMembers)
-        : Math.floor(totalAmount / totalMembers);
     return {
-      amount: Math.floor(totalAmount / totalMembers).toLocaleString(),
+      amount: base.toLocaleString(),
       remainder,
-      adjusted: adjustedPerPerson.toLocaleString(),
+      adjusted: base.toLocaleString(),
     };
   });
 

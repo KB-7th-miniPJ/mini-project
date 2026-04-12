@@ -1,7 +1,12 @@
 <template>
   <div class="container p-3">
     <h2>
-      <button @click="router.push({ name: 'Main' })" class="btn-back">←</button>
+      <button
+        @click="router.push({ name: 'Main' })"
+        class="btn-back"
+      >
+        ←
+      </button>
       새 여행 만들기
     </h2>
 
@@ -14,18 +19,27 @@
 
       <div class="form-group">
         <label>여행 이름</label>
-        <input v-model="title" placeholder="여행 이름을 입력하세요" />
+        <input
+          v-model="title"
+          placeholder="여행 이름을 입력하세요"
+        />
       </div>
 
       <!-- 출발/도착 날짜 -->
       <div class="form-row">
         <div class="form-group half">
           <label>출발날짜</label>
-          <input type="date" v-model="startDate" />
+          <input
+            type="date"
+            v-model="startDate"
+          />
         </div>
         <div class="form-group half">
           <label>도착날짜</label>
-          <input type="date" v-model="endDate" />
+          <input
+            type="date"
+            v-model="endDate"
+          />
         </div>
       </div>
 
@@ -52,16 +66,16 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
-import { useTravelStore } from '@/stores/counter';
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+import { useTravelStore } from "@/stores/counter";
 
 const router = useRouter();
 const store = useTravelStore();
-const travelType = ref('');
-const title = ref('');
-const startDate = ref('');
-const endDate = ref('');
+const travelType = ref("");
+const title = ref("");
+const startDate = ref("");
+const endDate = ref("");
 const membersCount = ref(1);
 const invitedCode = ref('');
 const inputCode = ref('');
@@ -71,7 +85,7 @@ const inviteInviteCode = () => Math.random().toString(36).substring(2, 8).toUppe
 
 const addTravel = async () => {
   if (!title.value || !startDate.value || !endDate.value) {
-    alert('모든 항목을 입력해주세요.');
+    alert("모든 항목을 입력해주세요.");
     return;
   }
   const code = inviteInviteCode();

@@ -1,7 +1,8 @@
 <script setup>
-import { onMounted } from "vue";
-import { useRoute, useRouter } from "vue-router";
-import { useExpense } from "@/hooks/useMain2";
+import { ref, onMounted } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { useExpense } from '@/hooks/useMain2';
+import { getUsers } from '@/api/userApi.js';
 
 const route = useRoute();
 const router = useRouter();
@@ -9,6 +10,7 @@ const travelNumId = route.params.travelId;
 
 const {
   isLoading,
+  isConfirmed,
   categories,
   selectedCat,
   filtered,
@@ -30,26 +32,54 @@ const {
 
 onMounted(() => loadExpenses());
 
-
 const onDelete = async (id) => {
-  if (!confirm("삭제할까요?")) return;
+  if (isConfirmed.value) return alert('정산이 확정된 여행은 삭제할 수 없습니다.');
+  if (!confirm('삭제할까요?')) return;
   await removeExpense(id);
 };
 
-const onEdit = async (expense) => {
-  const input = prompt(
-    `금액 수정 (현재: ${Number(expense.amount).toLocaleString()}원)`,
-    expense.amount
-  );
-  if (input === null || input === "") return;
-  await editExpense(expense.id, { amount: Number(input) });
+const onEdit = (expenseId) => {
+  router.push({
+    name: 'ExpenseEdit',
+    params: { 
+      travelId: props.travelId, // props에서 가져온 여행 ID
+      id: expenseId            // 클릭한 지출 항목의 ID
+    }
+  });
+};
+
+const props = defineProps(['expenses, travelId']);
+const users = ref([]);
+
+// 1. 유저 명단을 가져옵니다.
+onMounted(() => {
+  // 1. 일단 요청을 보냅니다. (기다리지 않고 바로 다음 코드로 넘어감)
+  getUsers()
+    .then((res) => {
+      // 2. 응답이 성공적으로 도착했을 때 실행될 약속(Promise)입니다.
+      users.value = res.data;
+      console.log("유저 로드 완료!");
+    })
+    .catch((err) => {
+      // 3. 만약 서버 에러가 났을 때 실행됩니다.
+      console.error("유저 로드 실패:", err);
+    });
+});
+
+// 2. 이름을 찾아주는 함수 ( == 연산자를 써서 타입 문제를 원천 차단)
+const getPayerName = (id) => {
+  // users에 데이터가 아직 없으면 바로 리턴
+  if (users.value.length === 0) return '로딩 중...';
+  
+  // == 를 쓰면 숫자 1과 문자 "1"을 똑같이 취급해서 잘 찾아집니다.
+  const user = users.value.find(u => u.id == id);
+  return user ? user.name : `미등록(${id})`;
 };
 </script>
 
 <template>
   <div v-if="isLoading">로딩 중...</div>
   <div v-else class="list-wrap">
-
     <!-- 헤더 -->
     <div class="list-hdr">
       <RouterLink :to="`/travels/${travelNumId}`" class="back">‹</RouterLink>
@@ -67,8 +97,8 @@ const onEdit = async (expense) => {
       <button
         v-for="cat in categories"
         :key="cat.id"
-        :class="['tab', { active: selectedCat === cat.id }]"
-        @click="selectedCat = cat.id"
+        :class="['tab', { active: selectedCat === cat.name }]"
+        @click="selectedCat = cat.name"
       >
         {{ cat.icon }} {{ cat.name }}
       </button>
@@ -95,8 +125,7 @@ const onEdit = async (expense) => {
               {{ getCatInfo(e.category).icon }}
               {{ getCatInfo(e.category).name }}
             </span>
-            <!-- payerId: "1" → "1번 결제" -->
-            <span class="chip">{{ e.payerId }}번 결제</span>
+            <span class="chip">{{ getPayerName(e.payer) }}결제/{{ e.participants.length }}명</span>
 
             <!-- 메모 아이콘 -->
             <span
@@ -110,10 +139,12 @@ const onEdit = async (expense) => {
 
             <!-- 사진 아이콘 -->
             <span
-              v-if="e.photoUrl"
+              v-if="e.photos"
               class="photo-icon"
-              :class="{ active: isPhotoModalOpen && selectedPhoto === e.photoUrl }"
-              @click="togglePhotoModal(e.photoUrl)"
+              :class="{
+                active: isPhotoModalOpen && selectedPhoto === e.photos,
+              }"
+              @click="togglePhotoModal(e.photos)"
             >
               📷
             </span>
@@ -123,7 +154,7 @@ const onEdit = async (expense) => {
         <div class="exp-right">
           <span class="exp-amt">{{ Number(e.amount).toLocaleString() }}원</span>
           <div class="exp-actions">
-            <button class="btn-edit" @click="onEdit(e)">수정</button>
+            <button class="btn-edit" @click="onEdit(e.id)">수정</button>
             <button class="btn-del" @click="onDelete(e.id)">삭제</button>
           </div>
         </div>
@@ -132,18 +163,18 @@ const onEdit = async (expense) => {
 
     <!-- 빈 상태 -->
     <div v-if="filtered.length === 0" class="empty">
-      {{ selectedCat === "전체" ? "지출 내역이 없어요" : "해당 카테고리 지출이 없어요" }}
+      {{
+        selectedCat === '전체'
+          ? '지출 내역이 없어요'
+          : '해당 카테고리 지출이 없어요'
+      }}
     </div>
 
     <!-- 메모 모달 (list-wrap 밖으로 빼야 fixed가 제대로 동작) -->
   </div>
 
   <!-- ✅ 모달을 최상위로 이동 — v-if 안에서 fixed가 잘리는 문제 해결 -->
-  <div
-    v-if="isModalOpen"
-    class="modal-overlay"
-    @click.self="closeModal"
-  >
+  <div v-if="isModalOpen" class="modal-overlay" @click.self="closeModal">
     <div class="modal-content">
       <h3>📝 메모 내용</h3>
       <p class="memo-text">{{ selectedMemo }}</p>
@@ -179,7 +210,15 @@ const onEdit = async (expense) => {
   background: white;
   z-index: 10;
 }
-.back-icon { position: absolute; left: 20px; background: none; border: none; font-size: 22px; cursor: pointer; color: #374151; }
+.back-icon {
+  position: absolute;
+  left: 20px;
+  background: none;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  color: #374151;
+}
 .list-hdr h2 {
   font-size: 16px;
   font-weight: 600;
@@ -203,9 +242,9 @@ const onEdit = async (expense) => {
   cursor: pointer;
 }
 .tab.active {
-  background:  #22c55e;
+  background: #22c55e;
   color: white;
-  border-color:  #22c55e;
+  border-color: #22c55e;
 }
 .total-bar {
   display: flex;
@@ -281,8 +320,8 @@ const onEdit = async (expense) => {
 .btn-edit {
   font-size: 11px;
   padding: 3px 10px;
-  border: 1px solid  #22c55e;
-  color:  #22c55e;
+  border: 1px solid #22c55e;
+  color: #22c55e;
   border-radius: 6px;
   background: white;
   cursor: pointer;

@@ -1,8 +1,8 @@
 <template>
-  <div class="wrap">
+  <div class="wrap" v-if="!isLoading">
     <button
       class="btn-back"
-      @click="router.push({ name: 'main2', params: { id: travelId } })"
+      @click="router.push({ name: 'main2', params: { travelId: travelId } })"
     >
       ←
     </button>
@@ -18,7 +18,7 @@
       <span class="hero-label">보낼 금액</span>
     </div>
     <div v-else class="hero hero-neutral">
-      <span class="hero-tag">깔끔하게 정산 완료!</span>
+      <span class="hero-tag">정산할 데이터가 없습니다</span>
       <span class="hero-amount">0원</span>
       <span class="hero-label">정산 없음</span>
     </div>
@@ -31,7 +31,6 @@
     <!-- 중간: 내 정산 리스트 -->
     <section class="sec">
       <h3 class="sec-title">내 정산</h3>
-      <div>테스트</div>
       <ul v-if="mySett.length > 0" class="sett-list">
         <li v-for="(s, i) in mySett" :key="i" class="sett-item">
           <!-- 왼쪽: 아바타 + 이름 + 상태 -->
@@ -59,15 +58,21 @@
               >
                 송금했어요
               </button>
-              <span v-else-if="s.status === 'sent'" class="badge-waiting"
+              <span
+                v-else-if="isConfirmed && s.status === 'sent'"
+                class="badge-waiting"
                 >확인 대기중</span
               >
-              <span v-else-if="s.status === 'completed'" class="badge-done"
+              <span
+                v-else-if="isConfirmed && s.status === 'completed'"
+                class="badge-done"
                 >완료</span
               >
             </template>
             <template v-else-if="s.toUserId === myId">
-              <span v-if="s.status === 'pending'" class="badge-pending"
+              <span
+                v-if="isConfirmed && s.status === 'pending'"
+                class="badge-pending"
                 >미송금</span
               >
               <button
@@ -77,7 +82,9 @@
               >
                 수령확인
               </button>
-              <span v-else-if="s.status === 'completed'" class="badge-done"
+              <span
+                v-else-if="isConfirmed && s.status === 'completed'"
+                class="badge-done"
                 >완료</span
               >
             </template>
@@ -117,6 +124,7 @@
       <p v-else class="empty">다른 팀원 간 정산이 없습니다.</p>
     </section>
   </div>
+  <div v-else>로딩중</div>
 </template>
 
 <script setup>
@@ -138,6 +146,7 @@ const authStore = useAuthStore();
 const travel = ref(null);
 const minSett = ref(null);
 const members = ref([]);
+const isLoading = ref(true);
 
 // ── 파생 데이터 ────────────────────────────
 const travelId = parseInt(route.params.travelId);
@@ -155,7 +164,9 @@ const statusOrder = { sent: 0, pending: 1, completed: 2 };
 const mySett = computed(() =>
   (minSett.value ?? [])
     .filter((s) => s.fromUserId === myId || s.toUserId === myId)
-    .sort((a, b) => (statusOrder[a.status] ?? 1) - (statusOrder[b.status] ?? 1)),
+    .sort(
+      (a, b) => (statusOrder[a.status] ?? 1) - (statusOrder[b.status] ?? 1),
+    ),
 );
 
 const otherSetts = computed(() =>
@@ -184,30 +195,46 @@ const loadTravel = async () => {
 
 const loadMembers = async () => {
   const res = await getUsers();
-  members.value = res.data.filter((u) => u.joinTravelIds.includes(travelId));
+  members.value = res.data.filter((u) =>
+    u.joinTravelIds.includes(String(travelId)),
+  );
 };
 
+const toSettInput = (expenses) =>
+  expenses.map((e) => ({
+    payerId: e.payer ? Number(e.payer) : null,
+    amount: e.amount,
+    participants: e.participants.map((p) => p.id),
+  }));
+
 const init = async () => {
-  await Promise.all([loadTravel(), loadMembers()]);
+  try {
+    await Promise.all([loadTravel(), loadMembers()]);
 
-  if (!isConfirmed.value) {
-    const res = await getExpenses(travelId);
-    minSett.value = calcMinSettlements(res.data);
-    return;
-  }
+    if (!isConfirmed.value) {
+      const res = await getExpenses(travelId);
+      minSett.value = calcMinSettlements(toSettInput(res.data));
+      return;
+    }
 
-  const saved = await settApi.getSettByTravel(travelId);
-  if (saved.data.length > 0) {
-    minSett.value = saved.data;
-  } else {
-    const res = await getExpenses(travelId);
-    const calculated = calcMinSettlements(res.data);
-    await Promise.all(
-      calculated.map((s) =>
-        settApi.postSett({ travelId, ...s, status: 'pending' }),
-      ),
-    );
-    minSett.value = calculated;
+    const saved = await settApi.getSettByTravel(travelId);
+    if (saved.data.length > 0) {
+      minSett.value = saved.data;
+    } else {
+      const res = await getExpenses(travelId);
+      const calculated = calcMinSettlements(toSettInput(res.data));
+      await Promise.all(
+        calculated.map((s) =>
+          settApi.postSett({ travelId, ...s, status: 'pending' }),
+        ),
+      );
+      const freshSett = await settApi.getSettByTravel(travelId);
+      minSett.value = freshSett.data;
+    }
+  } catch (e) {
+    console.log(e);
+  } finally {
+    isLoading.value = false;
   }
 };
 
@@ -221,6 +248,7 @@ const getCounterpart = (s) =>
   s.fromUserId === myId ? s.toUserId : s.fromUserId;
 
 const getStatusText = (s) => {
+  if (!isConfirmed.value) return '정산 확정 전';
   if (s.fromUserId === myId) {
     if (s.status === 'pending') return '송금 전';
     if (s.status === 'sent') return '송금 완료';
@@ -288,7 +316,7 @@ onMounted(init);
   background: #e24b4a;
 }
 .hero-neutral {
-  background: #aaa;
+  background: black;
 }
 .hero-tag {
   font-size: 13px;
