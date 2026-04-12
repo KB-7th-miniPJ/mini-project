@@ -14,6 +14,10 @@ import ExpenseEdit from '@/pages/expenses/ExpenseEdit.vue';
 const routes = [
   {
     path: '/',
+    redirect: { name: 'signin' },
+  },
+  {
+    path: '/main',
     name: 'Main',
     component: MainPage,
   },
@@ -27,20 +31,20 @@ const routes = [
   //   name: 'TravelDetail',
   //   component: MainPage
   // },
-   { path: '/signin', name: 'signin', component: SignInMain },
-   { path: '/signup', name: 'signup', component: SignUp },
-   {
-      path: "/travels/:travelId",
-      name: "main2",
-      component: Main2,
-    },
+  { path: '/signin', name: 'signin', component: SignInMain },
+  { path: '/signup', name: 'signup', component: SignUp },
+  {
+    path: '/travels/:travelId',
+    name: 'main2',
+    component: Main2,
+  },
 
-    {
-      path: "/travels/:travelId/expenseslist", //!경로 변경!
-      name: "expenseslist",
-      component: Expenseslist,
-    },
-    {
+  {
+    path: '/travels/:travelId/expenseslist', //!경로 변경!
+    name: 'expenseslist',
+    component: Expenseslist,
+  },
+  {
     path: '/travels/:travelId/settlement',
     name: 'travel-settlements',
     component: Settlements,
@@ -58,7 +62,7 @@ const routes = [
     name: 'ExpenseEdit',
     component: ExpenseEdit,},
 
-      {
+  {
     path: '/expense/:travelId/members',
     name: 'expensemembers',
     component: ExpenseMembers,
@@ -74,7 +78,6 @@ const router = createRouter({
 
 const publicNames = ['signin', 'signup'];
 export default router;
-
 
 // const router = createRouter({
 //   history: createWebHistory(import.meta.env.BASE_URL),
@@ -108,13 +111,11 @@ export default router;
 //   { path: '/:pathMatch(.*)*', redirect: { name: 'signin' } },
 // ];
 
-
- router.beforeEach((to) => {
-   const authStore = useAuthStore();
-   if (!publicNames.includes(to.name) && !authStore.isLoggedIn) {
+router.beforeEach((to) => {
+  const authStore = useAuthStore();
+  const isAuthed = !!authStore.user?.id;
+  if (!publicNames.includes(String(to.name)) && !isAuthed) {
     alert('로그인이 필요합니다.'); // 로그인 필요 알림 추가
-     return { name: 'signin', query: { fromname: to.name } };
-   }
- });
-
-
+    return { name: 'signin', query: { fromname: to.name } };
+  }
+});

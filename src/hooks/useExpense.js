@@ -66,19 +66,23 @@ export function useExpense() {
   };
 
   const saveExpense = async () => {
-    console.log('저장할 travelId:', travel.value?.id);
+    console.log('저장할 travelId:', travel.value?.travelId);
     const payload = {
-      travelId: travel.value?.id ?? '',
+      travelId: travel.value?.travelId ?? '',
       date: date.value,
       category: category.value,
       place: place.value,
-      amount: Number(amount.value.toString().replace(/,/g, '')),
-      payer: memberStore.payer?.id ?? '',
-      participants: members.value,
+      amount: Number(amount.value.toString().replace(/,/g, "")),
+      payer: memberStore.payer ?? "",
+      participants: memberStore.participants,
       photos: photos.value,
     };
     console.log('payload:', payload);
-    return await createExpense(payload);
+    // return await createExpense(payload);
+    const result = await createExpense(payload);
+    memberStore.reset();
+
+    return result;
   };
 
   return {

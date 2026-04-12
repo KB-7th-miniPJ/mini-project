@@ -1,28 +1,9 @@
 {
   "users": [
-    {
-      "email": "12@naver.com",
-      "password": "$2a$10$wixkoi4A2dv5pANCm7DskOckw5WgJCbtEFL1S6pKayuW3tPZLDkvy",
-      "name": "예림",
-      "joinTravelIds": [],
-      "id": 1
-    },
-    {
-      "email": "34@naver.com",
-      "password": "$2a$10$Dt6G..JIK909x8PM6bfhDOfX0y/noxojdjEQgtqZoxwEf6.DJp8rG",
-      "name": "에스더",
-      "joinTravelIds": [],
-      "id": 2
-    },
-    {
-      "email": "56@naver.com",
-      "password": "$2a$10$FJFdQFAvSUXAcI6jc6eNQetV5N2y4n0VKDQfSabgzP0QAoFRiKeEu",
-      "name": "호빈",
-      "joinTravelIds": [],
-      "id": 3
-    }
   ],
-  "travels": [],
+  "travels": [
+   
+  ],
   "settlements": [],
   "categories": [
     {
@@ -51,5 +32,7 @@
       "icon": "📦"
     }
   ],
-  "expenses": []
+  "expenses": [
+   
+  ]
 }
