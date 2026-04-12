@@ -307,9 +307,9 @@ const goToAddExpense = () => {
 .add-expense {
   cursor: pointer;
   position: absolute;
-  top: 80px;
+  top: 73px;
   right: 16px;
-  font-size: 55px;
+  font-size: 40px;
   line-height: 1;
   color: #ffffff;
   display: flex;
