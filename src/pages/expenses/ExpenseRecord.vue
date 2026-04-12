@@ -116,7 +116,6 @@ const membersStore = useMembersStore();
 
 onBeforeRouteLeave(() => membersStore.reset());
 const detailStore = useExpensedetailsStore() 
-const detailStore = useExpensedetailsStore() 
 
 const {
   categories,
@@ -135,17 +134,6 @@ const {
 const formatDate = (d) =>
   `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')}`;
 
-const handleMemberSelect = () => {
-  detailStore.setdetailsData({
-    date:date.value,
-    category:category.value,
-    place:place.value,
-    amount:amount.value,
-    photos:photos.value
-  })
-
-  router.push(`/expense/${travelNumId}/members`);
-}
 const handleMemberSelect = () => {
   detailStore.setdetailsData({
     date:date.value,
