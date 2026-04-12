@@ -49,14 +49,9 @@ const routes = [
     component: Settlements,
   },
   {
-    path: '/expenses/new',
-    name: 'ExpenseRecord',
-    component: ExpenseRecord,
-  },
-  {
-    path: '/travels/:travelId/expenses/new',
-    name: 'ExpenseRecord',
-    component: ExpenseRecord,
+      path: '/travels/:travelId/expenses/new',
+      name: 'ExpenseRecord',
+      component: ExpenseRecord,
   },
   // ✅ 추가: 지출 수정페이지 (같은 ExpenseRecord 컴포넌트, expenseId 파라미터 추가)
   // {
