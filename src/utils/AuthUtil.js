@@ -1,11 +1,11 @@
-import { getUserByCredentials } from '@/api/userApi.js'
+import { login } from "@/api/authApi"
 
 // 참고: AuthUtil.js의 loginProcess — staticUsers.find() 대신 API 호출
 const loginProcess = async (email, password, successCallback, failCallback) => {
-    const res = await getUserByCredentials(email, password)
-    if (res.data.length > 0) {
-        successCallback(res.data[0])
-    } else {
+    try {
+        const res = await login({ email, password })
+        successCallback(res.data.user)
+    } catch {
         if (failCallback) failCallback()
     }
 }

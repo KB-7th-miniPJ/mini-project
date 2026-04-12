@@ -19,4 +19,3 @@ export const deleteMyAccount = () => apiClient.delete('/users');
 // USER-05 유저전체조회
 export const getUsers = () => apiClient.get('/users');
 
-
