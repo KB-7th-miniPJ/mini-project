@@ -51,17 +51,14 @@ const onEdit = (expenseId) => {
 const props = defineProps(['expenses, travelId']);
 const users = ref([]);
 
-// 1. 유저 명단을 가져옵니다.
+// 1. 유저 명단 가져오기------------------------------------------
 onMounted(() => {
-  // 1. 일단 요청을 보냅니다. (기다리지 않고 바로 다음 코드로 넘어감)
   getUsers()
     .then((res) => {
-      // 2. 응답이 성공적으로 도착했을 때 실행될 약속(Promise)입니다.
       users.value = res.data;
       console.log("유저 로드 완료!");
     })
-    .catch((err) => {
-      // 3. 만약 서버 에러가 났을 때 실행됩니다.
+    .catch((err) => { //서버 오류시 출력
       console.error("유저 로드 실패:", err);
     });
 });

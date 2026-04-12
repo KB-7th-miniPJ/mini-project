@@ -4,25 +4,51 @@
       "email": "12@naver.com",
       "password": "$2a$10$wixkoi4A2dv5pANCm7DskOckw5WgJCbtEFL1S6pKayuW3tPZLDkvy",
       "name": "예림",
-      "joinTravelIds": [],
+      "joinTravelIds": [
+        "1"
+      ],
       "id": 1
     },
     {
       "email": "34@naver.com",
       "password": "$2a$10$Dt6G..JIK909x8PM6bfhDOfX0y/noxojdjEQgtqZoxwEf6.DJp8rG",
       "name": "에스더",
-      "joinTravelIds": [],
+      "joinTravelIds": [
+        "1"
+      ],
       "id": 2
     },
     {
       "email": "56@naver.com",
       "password": "$2a$10$FJFdQFAvSUXAcI6jc6eNQetV5N2y4n0VKDQfSabgzP0QAoFRiKeEu",
       "name": "호빈",
-      "joinTravelIds": [],
+      "joinTravelIds": [
+        "1"
+      ],
       "id": 3
+    },
+    {
+      "email": "78@naver.com",
+      "password": "$2a$10$gg1TrMMevxYRTfOsLDCgze2OGsFr9ZBPNMOC6R65J8rlA52t36KGW",
+      "name": "동욱",
+      "joinTravelIds": [
+        "1"
+      ],
+      "id": 4
     }
   ],
-  "travels": [],
+  "travels": [
+    {
+      "title": "ㄹㄹ",
+      "travelType": "",
+      "startDate": "2026-04-16",
+      "endDate": "2026-04-17",
+      "membersCount": 4,
+      "inviteCode": "4U90J7",
+      "id": 1,
+      "amount": 1200000
+    }
+  ],
   "settlements": [],
   "categories": [
     {
@@ -51,5 +77,138 @@
       "icon": "📦"
     }
   ],
-  "expenses": []
+  "expenses": [
+    {
+      "travelId": 1,
+      "date": "2026-04-12T05:06:51.633Z",
+      "category": "교통",
+      "place": "",
+      "amount": 30000,
+      "payer": 3,
+      "participants": [
+        {
+          "id": 3,
+          "name": "호빈"
+        }
+      ],
+      "photos": [],
+      "id": 1
+    },
+    {
+      "travelId": 1,
+      "date": "2026-04-10T15:00:00.000Z",
+      "category": "교통",
+      "place": "동욱 호빈 ",
+      "amount": 20000,
+      "payer": 4,
+      "participants": [
+        {
+          "id": 4,
+          "name": "동욱"
+        },
+        {
+          "id": 3,
+          "name": "호빈"
+        }
+      ],
+      "photos": [],
+      "id": 2
+    },
+    {
+      "travelId": 1,
+      "date": "2026-04-16T15:00:00.000Z",
+      "category": "기타",
+      "place": "동욱 호빈 예림",
+      "amount": 60000,
+      "payer": 1,
+      "participants": [
+        {
+          "id": 1,
+          "name": "예림"
+        },
+        {
+          "id": 4,
+          "name": "동욱"
+        },
+        {
+          "id": 3,
+          "name": "호빈"
+        }
+      ],
+      "photos": [],
+      "id": 3
+    },
+    {
+      "travelId": 1,
+      "date": "2026-04-12T09:57:33.986Z",
+      "category": "교통",
+      "place": "예림 결제 /호빈 동욱",
+      "amount": 90000,
+      "payer": 1,
+      "participants": [
+        {
+          "id": 3,
+          "name": "호빈"
+        },
+        {
+          "id": 4,
+          "name": "동욱"
+        }
+      ],
+      "photos": [],
+      "id": 4
+    },
+    {
+      "travelId": 1,
+      "date": "2026-04-12T09:58:32.805Z",
+      "category": "교통",
+      "place": "4인결제",
+      "amount": 80000,
+      "payer": 2,
+      "participants": [
+        {
+          "id": 2,
+          "name": "에스더"
+        },
+        {
+          "id": 1,
+          "name": "예림"
+        },
+        {
+          "id": 3,
+          "name": "호빈"
+        },
+        {
+          "id": 4,
+          "name": "동욱"
+        }
+      ],
+      "photos": [],
+      "id": 5
+    },
+    {
+      "travelId": 1,
+      "date": "2026-04-12T10:00:12.789Z",
+      "category": "교통",
+      "place": "테스트 ",
+      "amount": 90000,
+      "payer": 2,
+      "participants": [
+        {
+          "id": 4,
+          "name": "동욱"
+        },
+        {
+          "id": 2,
+          "name": "에스더"
+        },
+        {
+          "id": 3,
+          "name": "호빈"
+        }
+      ],
+      "photos": [],
+      "id": 6
+    }
+  ]
 }
