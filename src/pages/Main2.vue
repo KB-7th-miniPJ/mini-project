@@ -1,8 +1,10 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, } from 'vue'; //
 import { useRoute, useRouter } from 'vue-router';
 import { useExpense } from '@/hooks/useMain2';
 import { settApi } from '@/api/settlementsApi';
+import { getUsers } from '@/api/userApi.js';
+
 const route = useRoute();
 const router = useRouter();
 
@@ -35,7 +37,6 @@ const newMembersCount = ref(1);
 const openInfoModal = () => {
   if (isConfirmed.value) return alert('정산이 확정된 여행은 수정할 수 없습니다.');
   newTitle.value = travel.value?.title ?? '';
-  newMembersCount.value = travel.value?.membersCount ?? 1;
   showInfoModal.value = true;
 };
 
@@ -44,13 +45,9 @@ const saveInfo = async () => {
     alert('여행 이름을 입력해주세요.');
     return;
   }
-  if (newMembersCount.value < 1) {
-    alert('인원수는 1명 이상이어야 합니다.');
-    return;
-  }
+
   await editTravel({
     title: newTitle.value.trim(),
-    membersCount: Number(newMembersCount.value),
   });
   showInfoModal.value = false;
 };
@@ -107,6 +104,26 @@ const goToAddExpense = () => {
   if (isConfirmed.value) return alert('정산이 확정된 여행은 지출을 추가할 수 없습니다.');
   router.push(`/travels/${travelNumId}/expenses/new`);
 };
+
+//--- payer 값으로 유저 name적용하기
+
+const props = defineProps(['expenses']);
+const users = ref([]);
+
+onMounted(() => {
+  getUsers()
+    .then((res) => {
+      users.value = res.data;
+    })
+    .catch((err) => {
+    });
+});
+
+const getPayerName = (id) => {
+  const user = users.value.find(u => u.id == id);
+  return user ? user.name : `미등록(${id})`;
+};
+
 </script>
 
 <template>
@@ -184,7 +201,7 @@ const goToAddExpense = () => {
             <p class="meta">
               {{ getCatInfo(e.category).icon }}
               {{ getCatInfo(e.category).name }}
-              · {{ e.payer }}번 결제
+              · {{ getPayerName(e.payer) }}결제/{{ e.participants.length }}명
             </p>
           </div>
           <span class="amt">{{ Number(e.amount).toLocaleString() }}원</span>
@@ -214,19 +231,6 @@ const goToAddExpense = () => {
 
         <label>여행 이름</label>
         <input v-model="newTitle" type="text" placeholder="여행 이름 입력" />
-
-        <label>인원수</label>
-        <div class="member-row">
-          <button
-            class="count-btn"
-            @click="newMembersCount > 1 && newMembersCount--"
-            :disabled="newMembersCount <= 1"
-          >
-            −
-          </button>
-          <span class="count-val">{{ newMembersCount }}명</span>
-          <button class="count-btn" @click="newMembersCount++">+</button>
-        </div>
 
         <div class="modal-btns">
           <button @click="showInfoModal = false">취소</button>

@@ -1,7 +1,8 @@
 <script setup>
-import { onMounted } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useExpense } from '@/hooks/useMain2';
+import { getUsers } from '@/api/userApi.js';
 
 const route = useRoute();
 const router = useRouter();
@@ -37,14 +38,42 @@ const onDelete = async (id) => {
   await removeExpense(id);
 };
 
-const onEdit = async (expense) => {
-  if (isConfirmed.value) return alert('정산이 확정된 여행은 수정할 수 없습니다.');
-  const input = prompt(
-    `금액 수정 (현재: ${Number(expense.amount).toLocaleString()}원)`,
-    expense.amount,
-  );
-  if (input === null || input === '') return;
-  await editExpense(expense.id, { amount: Number(input) });
+const onEdit = (expenseId) => {
+  router.push({
+    name: 'ExpenseEdit',
+    params: { 
+      travelId: props.travelId, // props에서 가져온 여행 ID
+      id: expenseId            // 클릭한 지출 항목의 ID
+    }
+  });
+};
+
+const props = defineProps(['expenses, travelId']);
+const users = ref([]);
+
+// 1. 유저 명단을 가져옵니다.
+onMounted(() => {
+  // 1. 일단 요청을 보냅니다. (기다리지 않고 바로 다음 코드로 넘어감)
+  getUsers()
+    .then((res) => {
+      // 2. 응답이 성공적으로 도착했을 때 실행될 약속(Promise)입니다.
+      users.value = res.data;
+      console.log("유저 로드 완료!");
+    })
+    .catch((err) => {
+      // 3. 만약 서버 에러가 났을 때 실행됩니다.
+      console.error("유저 로드 실패:", err);
+    });
+});
+
+// 2. 이름을 찾아주는 함수 ( == 연산자를 써서 타입 문제를 원천 차단)
+const getPayerName = (id) => {
+  // users에 데이터가 아직 없으면 바로 리턴
+  if (users.value.length === 0) return '로딩 중...';
+  
+  // == 를 쓰면 숫자 1과 문자 "1"을 똑같이 취급해서 잘 찾아집니다.
+  const user = users.value.find(u => u.id == id);
+  return user ? user.name : `미등록(${id})`;
 };
 </script>
 
@@ -96,9 +125,7 @@ const onEdit = async (expense) => {
               {{ getCatInfo(e.category).icon }}
               {{ getCatInfo(e.category).name }}
             </span>
-            <!-- payer: "1" → "1번 결제" -->
-            <!-- payerId 처럼 뒤에 Id 가 오는 속성명은 위험, 수정 -->
-            <span class="chip">{{ e.payer }}번 결제</span>
+            <span class="chip">{{ getPayerName(e.payer) }}결제/{{ e.participants.length }}명</span>
 
             <!-- 메모 아이콘 -->
             <span
@@ -112,12 +139,12 @@ const onEdit = async (expense) => {
 
             <!-- 사진 아이콘 -->
             <span
-              v-if="e.photoUrl"
+              v-if="e.photos"
               class="photo-icon"
               :class="{
-                active: isPhotoModalOpen && selectedPhoto === e.photoUrl,
+                active: isPhotoModalOpen && selectedPhoto === e.photos,
               }"
-              @click="togglePhotoModal(e.photoUrl)"
+              @click="togglePhotoModal(e.photos)"
             >
               📷
             </span>
@@ -127,7 +154,7 @@ const onEdit = async (expense) => {
         <div class="exp-right">
           <span class="exp-amt">{{ Number(e.amount).toLocaleString() }}원</span>
           <div class="exp-actions">
-            <button class="btn-edit" @click="onEdit(e)">수정</button>
+            <button class="btn-edit" @click="onEdit(e.id)">수정</button>
             <button class="btn-del" @click="onDelete(e.id)">삭제</button>
           </div>
         </div>
