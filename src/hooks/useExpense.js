@@ -34,6 +34,10 @@ export function useExpense() {
       categories.value = catData;
       if (catData.length > 0) category.value = catData[0].name;
 
+if (catData.length > 0 && !category.value) { 
+      category.value = catData[0].name;
+    }
+
       travel.value = travelData;
       console.log('travel.id:', travel.value?.id);
     } catch (e) {
@@ -66,9 +70,9 @@ export function useExpense() {
   };
 
   const saveExpense = async () => {
-    console.log('저장할 travelId:', travel.value?.travelId);
+    console.log('저장할 travelId:', travel.value?.travelid);
     const payload = {
-      travelId: travel.value?.travelId ?? '',
+      travelId: travel.value?.id ?? '',
       date: date.value,
       category: category.value,
       place: place.value,

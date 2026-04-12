@@ -98,13 +98,15 @@
 
 <script setup>
 import { onMounted, ref } from "vue";
-import { useRouter, useRoute } from "vue-router";
+import { useRouter, useRoute, onBeforeRouteLeave } from "vue-router";
 import { useExpense } from "@/hooks/useExpense";
 import CategorySelector from "@/components/expense/CategorySelector.vue";
 import DatePicker from "@/components/expense/DatePicker.vue";
 import MemberChip from "@/components/expense/MemberChip.vue";
 import ReceiptUploader from "@/components/expense/ReceiptUploader.vue";
 import { useExpensedetailsStore } from "@/stores/expensedetail";
+import { useMembersStore } from "@/stores/members";
+
 
 const router = useRouter();
 const route = useRoute();
@@ -154,6 +156,22 @@ const handleComplete = async () => {
     alert('저장에 실패했습니다.');
   }
 };
+
+onMounted(()=>{
+  const detail = detailStore.getdetailsData();
+  if(detail){
+    date.value=detail.date;
+    // category.value= detail.category;
+    place.value=detail.place;
+    amount.value=detail.amount;
+    photos.value=detail.photos;
+      setTimeout(() => {
+      category.value = detail.category;
+      console.log('최종 category:', category.value);
+    }, 100);  // 100ms 지연
+    detailStore.resetdetailData()
+  }
+})
 
 onMounted(()=>{
   const detail = detailStore.getdetailsData();

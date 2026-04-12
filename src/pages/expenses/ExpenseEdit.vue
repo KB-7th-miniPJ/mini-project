@@ -2,7 +2,7 @@
   <div class="page-container">
     <div class="mobile-frame">
       <div class="header">
-        <button class="back-icon" @click="router.back()"> ‹ </button>
+        <button class="back-icon" @click="router.push(`/travels/${travelNumId}`)"> ‹ </button>
         <span class="header-text">지출 수정</span>
       </div>
 
@@ -17,10 +17,10 @@
 
         <div class="input-section">
           <div class="section-label">카테고리</div>
-          <CategorySelector 
-            :categories="categories" 
-            :selected="category" 
-            @update:selected="category = $event" 
+          <CategorySelector
+            :categories="categories"
+            :selected="category"
+            @update:selected="category = $event"
           />
         </div>
 
@@ -52,11 +52,20 @@
           </div>
         </div>
 
+        <div class="input-section">
+          <div class="section-label">영수증 업로드</div>
+          <ReceiptUploader
+            :photos="photos"
+            @add="(files) => photos.push(...files)"
+            @remove="(i) => photos.splice(i, 1)"
+          />
+        </div>
+
         <div v-if="perPerson.remainder > 0" class="remainder-notice">
           여행 가계에서 {{ perPerson.remainder }}원을 지원합니다!
         </div>
 
-        <button class="submit-action-btn" @click="handleEditComplete">
+        <button class="submit-action-btn" @click="handleUpdate">
           수정 완료 (1인당 {{ perPerson.adjusted }}원)
         </button>
       </div>
@@ -72,72 +81,124 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
-import { useRouter, useRoute } from 'vue-router';
-import { useExpense } from '@/hooks/useExpense';
-import { useMembersStore } from '@/stores/members';
+import { onMounted, ref } from "vue";
+import { useRouter, useRoute, onBeforeRouteLeave } from "vue-router";
 import axios from 'axios';
-
-// 컴포넌트들 import (기존과 동일)
-import CategorySelector from '@/components/expense/CategorySelector.vue';
-import DatePicker from '@/components/expense/DatePicker.vue';
-import MemberChip from '@/components/expense/MemberChip.vue';
+import { useExpense } from "@/hooks/useExpense";
+import CategorySelector from "@/components/expense/CategorySelector.vue";
+import DatePicker from "@/components/expense/DatePicker.vue";
+import MemberChip from "@/components/expense/MemberChip.vue";
+import ReceiptUploader from "@/components/expense/ReceiptUploader.vue";
+import { useExpensedetailsStore } from "@/stores/expensedetail";
+import { useMembersStore } from "@/stores/members";
 
 const router = useRouter();
 const route = useRoute();
 const travelNumId = route.params.travelId;
-const expenseId = route.params.id; // 라우트에서 지출 ID 가져오기
+const expenseId = route.params.id; // 수정할 지출 ID
 const showCalendar = ref(false);
-const membersStore = useMembersStore();
 
+const membersStore = useMembersStore();
+const detailStore = useExpensedetailsStore();
+
+// useExpense 훅 사용 (saveExpense는 사용하지 않음)
 const {
-  categories, date, category, amount, place, members,
+  categories, date, category, amount, place, members, photos,
   formattedAmount, perPerson, setAmount
 } = useExpense();
 
-// 1. 기존 데이터 불러오기
-onMounted(async () => {
-  try {
-    const response = await axios.get(`http://localhost:3000/expenses/${expenseId}`);
-    const data = response.data;
-
-    // 불러온 데이터를 useExpense의 상태값에 채워넣음
-    date.value = new Date(data.date);
-    category.value = data.category;
-    place.value = data.place;
-    setAmount(String(data.amount));
-    
-    // participants를 membersStore 혹은 members ref에 동기화
-    membersStore.setmembers(data.participants); 
-    members.value = data.participants;
-
-  } catch (err) {
+// 페이지 떠날 때 리셋 (인원 선택하러 갈 때는 제외하고 싶다면 조건 추가 필요)
+onBeforeRouteLeave((to) => {
+  if (!to.path.includes('/members')) {
+    membersStore.reset();
   }
 });
 
 const formatDate = (d) =>
   `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')}`;
 
+// ✅ 1. 데이터 불러오기 (초기 로드)
+onMounted(async () => {
+  // A. 먼저 스토어에 임시 저장된 데이터가 있는지 확인 (인원 선택 후 돌아온 경우)
+  const savedDetail = detailStore.getdetailsData();
+
+  if (savedDetail) {
+    // 인원 선택 후 돌아왔을 때: 스토어의 데이터를 화면에 채움
+    date.value = new Date(savedDetail.date);
+    place.value = savedDetail.place;
+    setAmount(String(savedDetail.amount));
+    photos.value = savedDetail.photos || [];
+    
+    // 카테고리는 훅의 기본값 세팅을 기다린 후 덮어쓰기
+    setTimeout(() => {
+      category.value = savedDetail.category;
+    }, 150);
+
+    // 복구가 끝났으니 임시 데이터는 삭제
+    detailStore.resetdetailData();
+  } else {
+    // B. 스토어에 데이터가 없다면 처음 진입한 것이므로 DB에서 데이터를 가져옴
+    try {
+      const res = await axios.get(`http://localhost:3000/expenses/${expenseId}`);
+      const data = res.data;
+
+      date.value = new Date(data.date);
+      place.value = data.place;
+      setAmount(String(data.amount));
+      photos.value = data.photos || [];
+
+      setTimeout(() => {
+        category.value = data.category;
+      }, 150);
+
+      // DB에서 가져온 참여자 정보를 스토어에 세팅
+      membersStore.setParticipants(data.participants || []);
+      if (data.payer) {
+        membersStore.setPayer(data.payer);
+      }
+    } catch (err) {
+      console.error("데이터 로드 실패:", err);
+    }
+  }
+});
+
+
+
+// ✅  인원 선택 화면으로 이동 (수정 모드임을 명시)
 const handleMemberSelect = () => {
-  // 인원 선택 페이지로 이동할 때 현재 travelId 전달
-  router.push(`/expense/${travelNumId}/members`);
+  //추가부분
+detailStore.setdetailsData({
+    date: date.value,
+    category: category.value,
+    place: place.value,
+    amount: amount.value,
+    photos: photos.value
+  });
+
+  router.push({
+    path: `/expense/${travelNumId}/members`,
+    query: { mode: 'edit', id: expenseId } // 쿼리 추가
+  });
 };
 
-// 2. 수정 실행 (PATCH)
-const handleEditComplete = async () => {
+// ✅ 3. 수정 완료 실행 (PATCH)
+const handleUpdate = async () => {
   try {
+    // 훅의 saveExpense를 쓰지 않고 여기서 직접 PATCH를 날려야 중복 생성이 안 됩니다.
     const payload = {
+      travelId: Number(travelNumId),
       date: date.value.toISOString(),
       category: category.value,
       place: place.value,
       amount: Number(amount.value),
-      participants: members.value,
-      payer: membersStore.payer?.id || null
+      participants: membersStore.participants,
+      payer: membersStore.payer || null,
+      photos: photos.value
     };
 
     await axios.patch(`http://localhost:3000/expenses/${expenseId}`, payload);
     
-    alert('수정되었습니다.');
+    alert('수정이 완료되었습니다.');
     membersStore.reset();
     router.push(`/travels/${travelNumId}`);
   } catch (err) {

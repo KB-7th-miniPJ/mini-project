@@ -2,7 +2,6 @@
 import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useExpense } from '@/hooks/useMain2';
-import { getUsers } from '@/api/userApi.js';
 
 const route = useRoute();
 const router = useRouter();
@@ -51,30 +50,6 @@ const onEdit = (expenseId) => {
 const props = defineProps(['expenses, travelId']);
 const users = ref([]);
 
-// 1. 유저 명단을 가져옵니다.
-onMounted(() => {
-  // 1. 일단 요청을 보냅니다. (기다리지 않고 바로 다음 코드로 넘어감)
-  getUsers()
-    .then((res) => {
-      // 2. 응답이 성공적으로 도착했을 때 실행될 약속(Promise)입니다.
-      users.value = res.data;
-      console.log("유저 로드 완료!");
-    })
-    .catch((err) => {
-      // 3. 만약 서버 에러가 났을 때 실행됩니다.
-      console.error("유저 로드 실패:", err);
-    });
-});
-
-// 2. 이름을 찾아주는 함수 ( == 연산자를 써서 타입 문제를 원천 차단)
-const getPayerName = (id) => {
-  // users에 데이터가 아직 없으면 바로 리턴
-  if (users.value.length === 0) return '로딩 중...';
-  
-  // == 를 쓰면 숫자 1과 문자 "1"을 똑같이 취급해서 잘 찾아집니다.
-  const user = users.value.find(u => u.id == id);
-  return user ? user.name : `미등록(${id})`;
-};
 </script>
 
 <template>
@@ -125,7 +100,7 @@ const getPayerName = (id) => {
               {{ getCatInfo(e.category).icon }}
               {{ getCatInfo(e.category).name }}
             </span>
-            <span class="chip">{{ getPayerName(e.payer) }}결제/{{ e.participants.length }}명</span>
+            <span class="chip">{{ (e.payer).name }}결제/{{ e.participants.length }}명</span>
 
             <!-- 메모 아이콘 -->
             <span
