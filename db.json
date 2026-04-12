@@ -1,21 +1,56 @@
 {
   "users": [
     {
-      "email": "qwe123@naver.com",
-      "password": "$2a$10$JxAXWGiXGYkqtDBW3FhEfubltUW1pQqZ.t/YCGL/L1HkPcmjSf3vm",
+      "email": "qwe@qwe.com",
+      "password": "$2a$10$jQ9c30pJBUyxBKW.3jQ.VOhdnEXk7iUpb458NvYom5gZDy.WcVXle",
       "name": "ㅎㅂ",
-      "joinTravelIds": [],
+      "joinTravelIds": [
+        "4",
+        "5",
+        "6",
+        "7"
+      ],
       "id": 1
-    },
-    {
-      "email": "qwer1234@naver.com",
-      "password": "$2a$10$XCRsDC9MSbBlDadnUwb/P.b0TggyKVDF0FXzUW4DSRvFuGPv/OUqC",
-      "name": "ㅎㅂ1",
-      "joinTravelIds": [],
-      "id": 2
     }
   ],
-  "travels": [],
+  "travels": [
+    {
+      "title": "광주",
+      "travelType": "국내",
+      "startDate": "2026-04-11",
+      "endDate": "2026-04-14",
+      "membersCount": 1,
+      "inviteCode": "1FACWB",
+      "id": 4
+    },
+    {
+      "title": "일본",
+      "travelType": "해외",
+      "startDate": "2026-04-04",
+      "endDate": "2026-04-08",
+      "membersCount": 1,
+      "inviteCode": "NTGOON",
+      "id": 5
+    },
+    {
+      "title": "제주도",
+      "travelType": "국내",
+      "startDate": "2026-04-15",
+      "endDate": "2026-04-18",
+      "membersCount": 1,
+      "inviteCode": "TJZ76P",
+      "id": 6
+    },
+    {
+      "title": "오사카",
+      "travelType": "해외",
+      "startDate": "2026-04-13",
+      "endDate": "2026-04-16",
+      "membersCount": 1,
+      "inviteCode": "KH5WZU",
+      "id": 7
+    }
+  ],
   "settlements": [],
   "categories": [
     {
