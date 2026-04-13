@@ -1,5 +1,5 @@
 <template>
-  <div class="container p-3">
+  <div class="container">
     <h2>
       <button
         @click="router.push({ name: 'Main' })"
@@ -44,7 +44,7 @@
       </div>
 
 
-      <button class="btn-submit" @click="addTravel">여행 만들기</button>
+      <button class="btn-add" @click="addTravel">여행 만들기</button>
 
       <div v-if="invitedCode" class="invite-box">
         <p class="invite-label">초대코드</p>
@@ -59,7 +59,7 @@
       <div class="form-group">
         <input v-model="inputCode" placeholder="초대코드 6자리를 입력하세요" style="text-transform:uppercase" />
       </div>
-      <button class="btn-submit" @click="joinTravel">참가하기</button>
+      <button class="btn-add" @click="joinTravel">참가하기</button>
       <p v-if="joinMessage" class="join-message">{{ joinMessage }}</p>
     </div>
   </div>
@@ -119,13 +119,96 @@ const joinTravel = async () => {
 </script>
 
 <style scoped>
-.container { max-width: 500px; margin: 0 auto; }
-.p-3 { padding: 12px; }
-.section { margin-bottom: 10px; }
-hr { margin: 20px 0; border: none; border-top: 1px solid #ddd; }
-.form-group { margin-bottom: 10px; }
-.form-group label { display: block; font-size: 13px; font-weight: bold; margin-bottom: 4px; }
-.form-group input, .form-group select { padding: 8px; border: 1px solid #ccc; font-size: 14px; width: 100%; box-sizing: border-box; }
+.container {
+  max-width: 480px;
+  margin: 0 auto;
+  background: #fff;
+  min-height: 100vh;
+  box-shadow: 0 0 40px rgba(0,0,0,0.08);
+  font-family: 'Pretendard', sans-serif;
+  padding: 54px 20px 20px;
+}
+
+h2 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+h3 {
+  font-size: 15px;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 12px;
+}
+
+.section { margin-bottom: 8px; }
+
+hr {
+  margin: 20px 0;
+  border: none;
+  border-top: 1px solid #e5e7eb;
+}
+
+.radio-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.radio-group label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #374151;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 20px;
+  padding: 5px 12px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.radio-group label:hover { border-color: #22c55e; color: #16a34a; }
+input[type="radio"] { accent-color: #22c55e; }
+
+.form-group { margin-bottom: 12px; }
+
+.form-group label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 6px;
+  background: none;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  cursor: default;
+}
+.form-group label:hover { border-color: transparent; color: #374151; }
+
+.form-group input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  font-size: 14px;
+  color: #111827;
+  background: #fff;
+  box-sizing: border-box;
+  transition: border-color 0.15s;
+  outline: none;
+}
+.form-group input:focus { border-color: #22c55e; }
+.form-group input::placeholder { color: #9ca3af; }
+
 .form-row { display: flex; gap: 8px; }
 .half { flex: 1; }
 .radio-group { display: flex; gap: 15px; margin-bottom: 10px; }
@@ -136,4 +219,17 @@ hr { margin: 20px 0; border: none; border-top: 1px solid #ddd; }
 .invite-label { font-size: 13px; color: #666; margin-bottom: 6px; }
 .invite-code { display: block; font-size: 32px; letter-spacing: 6px; color: #0055cc; margin-bottom: 10px; }
 .join-message { margin-top: 8px; font-size: 13px; color: #333; text-align: center; }
+.btn-add {
+width: 100%;
+padding: 14px;
+background: #22c55e;
+color: #fff;
+border: none;
+border-radius: 12px;
+cursor: pointer;
+margin-top: 12px;
+font-size: 15px;
+font-weight: 600;
+transition: background-color 0.2s;
+}
 </style>
