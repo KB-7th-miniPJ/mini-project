@@ -1,7 +1,12 @@
 <template>
   <div class="container">
     <h2>
-      <button @click="router.push({ name: 'Main' })" class="btn-back">←</button>
+      <button
+        @click="router.push({ name: 'Main' })"
+        class="btn-back"
+      >
+        ←
+      </button>
       새 여행 만들기
     </h2>
 
@@ -14,18 +19,27 @@
 
       <div class="form-group">
         <label>여행 이름</label>
-        <input v-model="title" placeholder="여행 이름을 입력하세요" />
+        <input
+          v-model="title"
+          placeholder="여행 이름을 입력하세요"
+        />
       </div>
 
       <!-- 출발/도착 날짜 -->
       <div class="form-row">
         <div class="form-group half">
           <label>출발날짜</label>
-          <input type="date" v-model="startDate" />
+          <input
+            type="date"
+            v-model="startDate"
+          />
         </div>
         <div class="form-group half">
           <label>도착날짜</label>
-          <input type="date" v-model="endDate" />
+          <input
+            type="date"
+            v-model="endDate"
+          />
         </div>
       </div>
 
@@ -52,16 +66,16 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
-import { useTravelStore } from '@/stores/counter';
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+import { useTravelStore } from "@/stores/counter";
 
 const router = useRouter();
 const store = useTravelStore();
-const travelType = ref('');
-const title = ref('');
-const startDate = ref('');
-const endDate = ref('');
+const travelType = ref("");
+const title = ref("");
+const startDate = ref("");
+const endDate = ref("");
 const membersCount = ref(1);
 const invitedCode = ref('');
 const inputCode = ref('');
@@ -71,7 +85,7 @@ const inviteInviteCode = () => Math.random().toString(36).substring(2, 8).toUppe
 
 const addTravel = async () => {
   if (!title.value || !startDate.value || !endDate.value) {
-    alert('모든 항목을 입력해주세요.');
+    alert("모든 항목을 입력해주세요.");
     return;
   }
   const code = inviteInviteCode();
@@ -197,60 +211,12 @@ input[type="radio"] { accent-color: #22c55e; }
 
 .form-row { display: flex; gap: 8px; }
 .half { flex: 1; }
-
-.btn-back {
-  border: 1.5px solid #e5e7eb;
-  background: #fff;
-  cursor: pointer;
-  padding: 4px 10px;
-  border-radius: 8px;
-  font-size: 16px;
-  color: #374151;
-  transition: all 0.15s;
-}
-.btn-back:hover { border-color: #22c55e; color: #16a34a; }
-
-.btn-submit {
-  width: 100%;
-  padding: 14px;
-  background: #22c55e;
-  color: #fff;
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
-  margin-top: 12px;
-  font-size: 15px;
-  font-weight: 600;
-  transition: background-color 0.2s;
-}
-.btn-submit:hover { background: #16a34a; }
-
-.invite-box {
-  margin-top: 16px;
-  padding: 16px;
-  background: #f0fdf4;
-  border: 1px solid #bbf7d0;
-  border-radius: 12px;
-  text-align: center;
-}
-.invite-label {
-  font-size: 13px;
-  color: #6b7280;
-  margin-bottom: 6px;
-}
-.invite-code {
-  display: block;
-  font-size: 32px;
-  letter-spacing: 6px;
-  color: #16a34a;
-  font-weight: 700;
-  margin-bottom: 4px;
-}
-
-.join-message {
-  margin-top: 8px;
-  font-size: 13px;
-  color: #374151;
-  text-align: center;
-}
+.radio-group { display: flex; gap: 15px; margin-bottom: 10px; }
+.radio-group label { display: inline; font-size: 13px; font-weight: bold; }
+.btn-back { border: 1px solid #ccc; background: #fff; cursor: pointer; padding: 2px 8px; margin-right: 5px; }
+.btn-submit { width: 100%; padding: 12px; background: #333; color: #fff; border: none; font-size: 15px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+.invite-box { margin-top: 16px; padding: 16px; background: #f0f8ff; border: 1px solid #99ccff; text-align: center; }
+.invite-label { font-size: 13px; color: #666; margin-bottom: 6px; }
+.invite-code { display: block; font-size: 32px; letter-spacing: 6px; color: #0055cc; margin-bottom: 10px; }
+.join-message { margin-top: 8px; font-size: 13px; color: #333; text-align: center; }
 </style>

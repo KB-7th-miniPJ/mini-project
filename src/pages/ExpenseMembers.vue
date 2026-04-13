@@ -127,7 +127,18 @@ const handleComplete = () => {
     selectedParticipants.value.length,
   );
 
-  router.back();
+// ✅ ExpenseEdit일떄랑 ExpenseRecord 일때랑 경로 구분필요해서 추가
+
+const mode = route.query.mode;
+  const expenseId = route.query.id;
+
+  if (mode === 'edit' && expenseId) {
+    // 수정 모드일 때는 해당 지출 ID를 포함해서 수정 페이지로 복귀
+    router.push(`/travels/${travelId}/expenses/${expenseId}/edit`);
+  } else {
+    // 등록 모드일 때
+    router.push(`/travels/${travelId}/expenses/new`);
+  }
 };
 
 onMounted(async () => {
@@ -141,8 +152,8 @@ onMounted(async () => {
 });
 
 const goBack = () => {
-  router.back();
-};
+  router.push(`/travels/${travelId}/expenses/new`);
+}
 </script>
 
 <style scoped>

@@ -79,42 +79,5 @@
       "icon": "📦"
     }
   ],
-  "expenses": [
-    {
-      "amount": 10000,
-      "id": 1
-    },
-    {
-      "date": "2026-04-09T08:50:51.879Z",
-      "category": "교통",
-      "place": "",
-      "amount": 100000,
-      "payer": "",
-      "participants": [],
-      "photos": [],
-      "id": 2
-    },
-    {
-      "date": "2026-04-09T09:05:17.363Z",
-      "category": "식비",
-      "place": "두찜",
-      "amount": 28000,
-      "payer": "",
-      "participants": [],
-      "photos": [],
-      "id": 3
-    },
-    {
-      "date": "2026-04-17T15:00:00.000Z",
-      "category": "관광",
-      "place": "투어",
-      "amount": 80000,
-      "payer": "",
-      "participants": [],
-      "photos": [
-        "Pennguins.jpg.jpg"
-      ],
-      "id": 4
-    }
-  ]
+  "expenses": []
 }

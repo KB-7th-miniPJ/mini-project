@@ -1,39 +1,60 @@
 <template>
-  <div class="wrap">
+  <div
+    class="wrap"
+    v-if="!isLoading"
+  >
     <button
       class="btn-back"
-      @click="router.push({ name: 'main2', params: { id: travelId } })"
+      @click="router.push({ name: 'main2', params: { travelId: travelId } })"
     >
       ←
     </button>
     <!-- 상단 히어로 카드 -->
-    <div v-if="totalToReceive > 0" class="hero hero-receive">
+    <div
+      v-if="totalToReceive > 0"
+      class="hero hero-receive"
+    >
       <span class="hero-tag">당신은 부르주아입니다</span>
       <span class="hero-amount">{{ totalToReceive.toLocaleString() }}원</span>
       <span class="hero-label">받을 금액</span>
     </div>
-    <div v-else-if="totalToSend > 0" class="hero hero-send">
+    <div
+      v-else-if="totalToSend > 0"
+      class="hero hero-send"
+    >
       <span class="hero-tag">당신은 빚쟁이입니다</span>
       <span class="hero-amount">{{ totalToSend.toLocaleString() }}원</span>
       <span class="hero-label">보낼 금액</span>
     </div>
-    <div v-else class="hero hero-neutral">
-      <span class="hero-tag">깔끔하게 정산 완료!</span>
+    <div
+      v-else
+      class="hero hero-neutral"
+    >
+      <span class="hero-tag">정산할 데이터가 없습니다</span>
       <span class="hero-amount">0원</span>
       <span class="hero-label">정산 없음</span>
     </div>
 
     <!-- 확정 전 안내 -->
-    <p v-if="!isConfirmed" class="notice">
+    <p
+      v-if="!isConfirmed"
+      class="notice"
+    >
       여행 종료 후 2일 뒤 정산이 확정됩니다.
     </p>
 
     <!-- 중간: 내 정산 리스트 -->
     <section class="sec">
       <h3 class="sec-title">내 정산</h3>
-      <div>테스트</div>
-      <ul v-if="mySett.length > 0" class="sett-list">
-        <li v-for="(s, i) in mySett" :key="i" class="sett-item">
+      <ul
+        v-if="mySett.length > 0"
+        class="sett-list"
+      >
+        <li
+          v-for="(s, i) in mySett"
+          :key="i"
+          class="sett-item"
+        >
           <!-- 왼쪽: 아바타 + 이름 + 상태 -->
           <div class="sett-left">
             <div class="avatar">{{ getInitial(getCounterpart(s)) }}</div>
@@ -48,7 +69,7 @@
               class="sett-amount"
               :class="s.toUserId === myId ? 'amount-receive' : 'amount-send'"
             >
-              {{ s.toUserId === myId ? '+' : '-'
+              {{ s.toUserId === myId ? "+" : "-"
               }}{{ s.amount.toLocaleString() }}원
             </span>
             <template v-if="s.fromUserId === myId">
@@ -59,15 +80,21 @@
               >
                 송금했어요
               </button>
-              <span v-else-if="s.status === 'sent'" class="badge-waiting"
+              <span
+                v-else-if="isConfirmed && s.status === 'sent'"
+                class="badge-waiting"
                 >확인 대기중</span
               >
-              <span v-else-if="s.status === 'completed'" class="badge-done"
+              <span
+                v-else-if="isConfirmed && s.status === 'completed'"
+                class="badge-done"
                 >완료</span
               >
             </template>
             <template v-else-if="s.toUserId === myId">
-              <span v-if="s.status === 'pending'" class="badge-pending"
+              <span
+                v-if="isConfirmed && s.status === 'pending'"
+                class="badge-pending"
                 >미송금</span
               >
               <button
@@ -77,14 +104,21 @@
               >
                 수령확인
               </button>
-              <span v-else-if="s.status === 'completed'" class="badge-done"
+              <span
+                v-else-if="isConfirmed && s.status === 'completed'"
+                class="badge-done"
                 >완료</span
               >
             </template>
           </div>
         </li>
       </ul>
-      <p v-else class="empty">나와 관련된 정산이 없습니다.</p>
+      <p
+        v-else
+        class="empty"
+      >
+        나와 관련된 정산이 없습니다.
+      </p>
     </section>
 
     <div class="divider" />
@@ -92,8 +126,15 @@
     <!-- 하단: 팀 전체 정산 현황 -->
     <section class="sec">
       <h3 class="sec-title">팀 정산 현황</h3>
-      <ul v-if="otherSetts.length > 0" class="sett-list">
-        <li v-for="(s, i) in otherSetts" :key="i" class="sett-item dimmed">
+      <ul
+        v-if="otherSetts.length > 0"
+        class="sett-list"
+      >
+        <li
+          v-for="(s, i) in otherSetts"
+          :key="i"
+          class="sett-item dimmed"
+        >
           <div class="sett-left">
             <div class="team-avatars">
               <div class="avatar avatar-from">
@@ -109,25 +150,39 @@
           </div>
           <div class="sett-right">
             <span class="sett-amount">{{ s.amount.toLocaleString() }}원</span>
-            <span v-if="s.status === 'completed'" class="badge-done">완료</span>
-            <span v-else-if="isConfirmed" class="badge-pending">미완료</span>
+            <span
+              v-if="s.status === 'completed'"
+              class="badge-done"
+              >완료</span
+            >
+            <span
+              v-else-if="isConfirmed"
+              class="badge-pending"
+              >미완료</span
+            >
           </div>
         </li>
       </ul>
-      <p v-else class="empty">다른 팀원 간 정산이 없습니다.</p>
+      <p
+        v-else
+        class="empty"
+      >
+        다른 팀원 간 정산이 없습니다.
+      </p>
     </section>
   </div>
+  <div v-else>로딩중</div>
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
-import { getTravelDetail } from '@/api/travelApi';
-import { getExpenses } from '@/api/expenseslistApi';
-import { getUsers } from '@/api/userApi';
-import { useAuthStore } from '@/stores/auth';
-import { settApi } from '@/api/settlementsApi';
-import { calcMinSettlements } from '@/utils/SettUtil';
+import { ref, computed, onMounted } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import { getTravelDetail } from "@/api/travelApi";
+import { getExpenses } from "@/api/expenseslistApi";
+import { getUsers } from "@/api/userApi";
+import { useAuthStore } from "@/stores/auth";
+import { settApi } from "@/api/settlementsApi";
+import { calcMinSettlements } from "@/utils/SettUtil";
 
 // ── 외부 의존성 ────────────────────────────
 const route = useRoute();
@@ -138,6 +193,7 @@ const authStore = useAuthStore();
 const travel = ref(null);
 const minSett = ref(null);
 const members = ref([]);
+const isLoading = ref(true);
 
 // ── 파생 데이터 ────────────────────────────
 const travelId = parseInt(route.params.travelId);
@@ -155,7 +211,9 @@ const statusOrder = { sent: 0, pending: 1, completed: 2 };
 const mySett = computed(() =>
   (minSett.value ?? [])
     .filter((s) => s.fromUserId === myId || s.toUserId === myId)
-    .sort((a, b) => (statusOrder[a.status] ?? 1) - (statusOrder[b.status] ?? 1)),
+    .sort(
+      (a, b) => (statusOrder[a.status] ?? 1) - (statusOrder[b.status] ?? 1),
+    ),
 );
 
 const otherSetts = computed(() =>
@@ -184,30 +242,44 @@ const loadTravel = async () => {
 
 const loadMembers = async () => {
   const res = await getUsers();
-  members.value = res.data.filter((u) => u.joinTravelIds.includes(travelId));
+  members.value = res.data.filter((u) =>
+    u.joinTravelIds.includes(String(travelId)),
+  );
 };
 
+const toSettInput = (expenses) =>
+  expenses.map((e) => ({
+    payerId: e.payer ? Number(e.payer.id) : null,
+    amount: e.amount,
+    participants: e.participants.map((p) => p.id),
+  }));
+
 const init = async () => {
-  await Promise.all([loadTravel(), loadMembers()]);
+  try {
+    await Promise.all([loadTravel(), loadMembers()]);
 
-  if (!isConfirmed.value) {
-    const res = await getExpenses(travelId);
-    minSett.value = calcMinSettlements(res.data);
-    return;
-  }
+    if (!isConfirmed.value) {
+      const res = await getExpenses(travelId);
+      minSett.value = calcMinSettlements(toSettInput(res.data));
+      return;
+    }
 
-  const saved = await settApi.getSettByTravel(travelId);
-  if (saved.data.length > 0) {
-    minSett.value = saved.data;
-  } else {
-    const res = await getExpenses(travelId);
-    const calculated = calcMinSettlements(res.data);
-    await Promise.all(
-      calculated.map((s) =>
-        settApi.postSett({ travelId, ...s, status: 'pending' }),
-      ),
-    );
-    minSett.value = calculated;
+    const saved = await settApi.getSettByTravel(travelId);
+    if (saved.data.length > 0) {
+      minSett.value = saved.data;
+    } else {
+      const res = await getExpenses(travelId);
+      const calculated = calcMinSettlements(toSettInput(res.data));
+      for (const s of calculated) {
+        await settApi.postSett({ travelId, ...s, status: "pending" });
+      }
+      const freshSett = await settApi.getSettByTravel(travelId);
+      minSett.value = freshSett.data;
+    }
+  } catch (e) {
+    console.log(e);
+  } finally {
+    isLoading.value = false;
   }
 };
 
@@ -215,38 +287,39 @@ const init = async () => {
 const getName = (userId) =>
   members.value.find((u) => u.id === userId)?.name ?? userId;
 
-const getInitial = (userId) => getName(userId)?.[0] ?? '?';
+const getInitial = (userId) => getName(userId)?.[0] ?? "?";
 
 const getCounterpart = (s) =>
   s.fromUserId === myId ? s.toUserId : s.fromUserId;
 
 const getStatusText = (s) => {
+  if (!isConfirmed.value) return "정산 확정 전";
   if (s.fromUserId === myId) {
-    if (s.status === 'pending') return '송금 전';
-    if (s.status === 'sent') return '송금 완료';
-    return '정산 완료';
+    if (s.status === "pending") return "송금 전";
+    if (s.status === "sent") return "송금 완료";
+    return "정산 완료";
   } else {
-    if (s.status === 'pending') return '송금 대기중';
-    if (s.status === 'sent') return '수령 확인 필요';
-    return '정산 완료';
+    if (s.status === "pending") return "송금 대기중";
+    if (s.status === "sent") return "수령 확인 필요";
+    return "정산 완료";
   }
 };
 
 // ── 이벤트 핸들러 ─────────────────────────
 const onSend = async (s) => {
   try {
-    await settApi.patchSettStatus(s.id, 'sent');
-    s.status = 'sent';
+    await settApi.patchSettStatus(s.id, "sent");
+    s.status = "sent";
   } catch (e) {
-    alert('처리 중 오류가 발생했습니다.');
+    alert("처리 중 오류가 발생했습니다.");
   }
 };
 const onReceive = async (s) => {
   try {
-    await settApi.patchSettStatus(s.id, 'completed');
-    s.status = 'completed';
+    await settApi.patchSettStatus(s.id, "completed");
+    s.status = "completed";
   } catch (e) {
-    alert('처리 중 오류가 발생했습니다.');
+    alert("처리 중 오류가 발생했습니다.");
   }
 };
 
@@ -288,7 +361,7 @@ onMounted(init);
   background: #e24b4a;
 }
 .hero-neutral {
-  background: #aaa;
+  background: black;
 }
 .hero-tag {
   font-size: 13px;

@@ -7,7 +7,7 @@ import { useAuthStore } from '@/stores/auth';
 export const useTravelStore = defineStore('travel', () => {
   const state = reactive({
     travels: [],
-    activeFilters: ['예정', '진행 중', '완료'],
+    activeFilters: ["예정", "진행 중", "완료"],
     showDomestic: true,
     showOverseas: true,
   });
@@ -62,8 +62,6 @@ export const useTravelStore = defineStore('travel', () => {
     const created = res.data;
 
     if (created?.id) {
-      await patchTravel(created.id, { travelId: `travel${created.id}` });
-
       const authStore = useAuthStore();
       const currentUser = authStore.user;
       if (currentUser) {
