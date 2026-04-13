@@ -44,7 +44,7 @@
       </div>
 
 
-      <button class="btn-submit" @click="addTravel">여행 만들기</button>
+      <button class="btn-add" @click="addTravel">여행 만들기</button>
 
       <div v-if="invitedCode" class="invite-box">
         <p class="invite-label">초대코드</p>
@@ -59,7 +59,7 @@
       <div class="form-group">
         <input v-model="inputCode" placeholder="초대코드 6자리를 입력하세요" style="text-transform:uppercase" />
       </div>
-      <button class="btn-submit" @click="joinTravel">참가하기</button>
+      <button class="btn-add" @click="joinTravel">참가하기</button>
       <p v-if="joinMessage" class="join-message">{{ joinMessage }}</p>
     </div>
   </div>
@@ -219,4 +219,17 @@ input[type="radio"] { accent-color: #22c55e; }
 .invite-label { font-size: 13px; color: #666; margin-bottom: 6px; }
 .invite-code { display: block; font-size: 32px; letter-spacing: 6px; color: #0055cc; margin-bottom: 10px; }
 .join-message { margin-top: 8px; font-size: 13px; color: #333; text-align: center; }
+.btn-add {
+width: 100%;
+padding: 14px;
+background: #22c55e;
+color: #fff;
+border: none;
+border-radius: 12px;
+cursor: pointer;
+margin-top: 12px;
+font-size: 15px;
+font-weight: 600;
+transition: background-color 0.2s;
+}
 </style>
