@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch, computed} from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useExpense } from '@/hooks/useMain2';
 
@@ -13,19 +13,52 @@ const {
   categories,
   selectedCat,
   filtered,
-  grouped,
   filteredTotal,
   loadExpenses,
   getCatInfo,
-  editExpense,
-  removeExpense,
-  isModalOpen,
-  closeModal,
+  removeExpense, 
   isPhotoModalOpen,
   selectedPhoto,
   togglePhotoModal,
   closePhotoModal,
 } = useExpense(travelNumId);
+
+// --- 페이지네이션 관련 상태 ---
+const currentPage = ref(1);
+const itemsPerPage = 10;
+
+// 카테고리가 바뀌면 페이지를 1로 리셋
+watch(selectedCat, () => {
+  currentPage.value = 1;
+});
+
+// 1. 현재 페이지에 보여줄 데이터 슬라이싱
+const paginatedFiltered = computed(() => {
+  const start = (currentPage.value - 1) * itemsPerPage;
+  const end = start + itemsPerPage;
+  return filtered.value.slice(start, end);
+});
+
+// 2. 슬라이싱된 데이터를 날짜별로 그룹화 (기존 grouped 로직을 현재 페이지 데이터에만 적용)
+const paginatedGrouped = computed(() => {
+  const groups = {};
+  paginatedFiltered.value.forEach((item) => {
+    // 날짜 변환 로직 추가
+    const dateObj = new Date(item.date);
+    const month = dateObj.getMonth() + 1; // getMonth()는 0부터 시작하므로 +1
+    const day = dateObj.getDate();
+    const dateLabel = `${month}월 ${day}일`; // "4월 12일" 형식으로 생성
+
+    if (!groups[dateLabel]) groups[dateLabel] = [];
+    groups[dateLabel].push(item);
+  });
+  return groups;
+});
+
+// 3. 전체 페이지 수 계산
+const totalPages = computed(() => {
+  return Math.ceil(filtered.value.length / itemsPerPage) || 1;
+});
 
 onMounted(() => loadExpenses());
 
@@ -46,7 +79,6 @@ const onEdit = (expenseId) => {
 };
 
 const props = defineProps(['expenses, travelId']);
-const users = ref([]);
 
 </script>
 
@@ -84,11 +116,7 @@ const users = ref([]);
     </div>
 
     <!-- 날짜별 그룹 -->
-    <div
-      v-for="(list, dateLabel) in grouped"
-      :key="dateLabel"
-      class="date-group"
-    >
+    <div v-for="(list, dateLabel) in paginatedGrouped" :key="dateLabel" class="date-group">
       <p class="date-lbl">{{ dateLabel }}</p>
       <div v-for="e in list" :key="e.id" class="exp-row">
         <div class="exp-left">
@@ -133,8 +161,27 @@ const users = ref([]);
       }}
     </div>
 
+    <div v-if="filtered.length > 0" class="pagination">
+      <button 
+        class="p-btn" 
+        :disabled="currentPage === 1" 
+        @click="currentPage--"
+      >
+        이전
+      </button>
+      <span class="p-info">{{ currentPage }} / {{ totalPages }}</span>
+      <button 
+        class="p-btn" 
+        :disabled="currentPage === totalPages" 
+        @click="currentPage++"
+      >
+        다음
+      </button>
+    </div>
   </div>
 
+
+  
   <!-- ✅ 모달을 최상위로 이동 — v-if 안에서 fixed가 잘리는 문제 해결 -->
 
   <div
@@ -348,4 +395,30 @@ const users = ref([]);
   font-size: 13px;
   cursor: pointer;
 }
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin: 30px 0;
+}
+.p-btn {
+  padding: 8px 16px;
+  border: 1px solid #cbd5e1;
+  background: white;
+  border-radius: 8px;
+  color: #272d35;
+  cursor: pointer;
+}
+.p-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.p-info {
+  font-size: 16px;
+  color: #334155;
+  font-weight: 500;
+}
+
 </style>

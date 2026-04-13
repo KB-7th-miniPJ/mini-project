@@ -181,7 +181,7 @@ export function useExpense(travelNumId) {
     );
   };
 
-  // ── 메모 모달 ────────────────────────────────────
+  // 모달 ────────────────────────────────────
   const isModalOpen = ref(false);
   const selectedMemo = ref("");
 

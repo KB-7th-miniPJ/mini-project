@@ -1,6 +1,64 @@
 {
-  "users": [],
-  "travels": [],
+  "users": [
+    {
+      "email": "12@naver.com",
+      "password": "$2a$10$iTLofqyVxAExxbwFL8V.q.OuSLXlXriyvr/GyyZX9aOQepppZVIVC",
+      "name": "예림",
+      "joinTravelIds": [
+        "1",
+        "2"
+      ],
+      "id": 1
+    },
+    {
+      "email": "34@naver.com",
+      "password": "$2a$10$HzHswDP2hk9KsJPULztM4ORfJKGG7CuvCjamVwxW7IDqQE3TbMof6",
+      "name": "에스더",
+      "joinTravelIds": [
+        "1"
+      ],
+      "id": 2
+    },
+    {
+      "email": "56@naver.com",
+      "password": "$2a$10$tjo1p3CDZEcJT9/JiqppCu0g2KXHSbZ/ws23QDFkgPerbPgYm1fZm",
+      "name": "호빈",
+      "joinTravelIds": [
+        "1"
+      ],
+      "id": 3
+    },
+    {
+      "email": "78@naver.com",
+      "password": "$2a$10$XydiGG8J3aN2il7bGaLbKebBK4E.NGgxyahNZvOYHY9QsPwQQGW2W",
+      "name": "동욱",
+      "joinTravelIds": [
+        "1"
+      ],
+      "id": 4
+    }
+  ],
+  "travels": [
+    {
+      "title": "상하이여행 모임",
+      "travelType": "",
+      "startDate": "2026-04-14",
+      "endDate": "2026-04-17",
+      "membersCount": 4,
+      "inviteCode": "3FZ5TK",
+      "id": 1,
+      "amount": 1600000
+    },
+    {
+      "title": "도쿄여행",
+      "travelType": "",
+      "startDate": "2026-04-27",
+      "endDate": "2026-04-30",
+      "membersCount": 1,
+      "inviteCode": "04DPTS",
+      "id": 2
+    }
+  ],
   "settlements": [],
   "categories": [
     {
@@ -29,5 +87,358 @@
       "icon": "📦"
     }
   ],
-  "expenses": []
+  "expenses": [
+    {
+      "travelId": 1,
+      "date": "2026-04-13T15:00:00.000Z",
+      "category": "숙박",
+      "place": "1박 숙소 에어비앤비",
+      "amount": 200000,
+      "payer": {
+        "id": 1,
+        "name": "예림"
+      },
+      "participants": [
+        {
+          "id": 1,
+          "name": "예림"
+        },
+        {
+          "id": 2,
+          "name": "에스더"
+        },
+        {
+          "id": 3,
+          "name": "호빈"
+        },
+        {
+          "id": 4,
+          "name": "동욱"
+        }
+      ],
+      "photos": [
+        "Pennguins.jpg.jpg"
+      ],
+      "id": 1
+    },
+    {
+      "travelId": 1,
+      "date": "2026-04-12T13:08:41.320Z",
+      "category": "숙박",
+      "place": "2박 숙소 아고다",
+      "amount": 300000,
+      "payer": {
+        "id": 1,
+        "name": "예림"
+      },
+      "participants": [
+        {
+          "id": 1,
+          "name": "예림"
+        },
+        {
+          "id": 4,
+          "name": "동욱"
+        },
+        {
+          "id": 3,
+          "name": "호빈"
+        },
+        {
+          "id": 2,
+          "name": "에스더"
+        }
+      ],
+      "photos": [],
+      "id": 2
+    },
+    {
+      "travelId": 1,
+      "date": "2026-04-12T13:09:12.637Z",
+      "category": "교통",
+      "place": "4일 교통패스 4개",
+      "amount": 60000,
+      "payer": {
+        "id": 2,
+        "name": "에스더"
+      },
+      "participants": [
+        {
+          "id": 2,
+          "name": "에스더"
+        },
+        {
+          "id": 4,
+          "name": "동욱"
+        },
+        {
+          "id": 3,
+          "name": "호빈"
+        },
+        {
+          "id": 1,
+          "name": "예림"
+        }
+      ],
+      "photos": [],
+      "id": 3
+    },
+    {
+      "travelId": 1,
+      "date": "2026-04-12T13:10:06.390Z",
+      "category": "관광",
+      "place": "투어 4인 예약",
+      "amount": 100000,
+      "payer": {
+        "id": 4,
+        "name": "동욱"
+      },
+      "participants": [
+        {
+          "id": 4,
+          "name": "동욱"
+        },
+        {
+          "id": 3,
+          "name": "호빈"
+        },
+        {
+          "id": 2,
+          "name": "에스더"
+        },
+        {
+          "id": 1,
+          "name": "예림"
+        }
+      ],
+      "photos": [],
+      "id": 4
+    },
+    {
+      "travelId": 1,
+      "date": "2026-04-14T15:00:00.000Z",
+      "category": "식비",
+      "place": "차백도 2인",
+      "amount": 6000,
+      "payer": {
+        "id": 2,
+        "name": "에스더"
+      },
+      "participants": [
+        {
+          "id": 2,
+          "name": "에스더"
+        },
+        {
+          "id": 1,
+          "name": "예림"
+        }
+      ],
+      "photos": [],
+      "id": 5
+    },
+    {
+      "travelId": 1,
+      "date": "2026-04-12T21:25:11.035Z",
+      "category": "기타",
+      "place": "길거리 기념품",
+      "amount": 20000,
+      "payer": {
+        "id": 3,
+        "name": "호빈"
+      },
+      "participants": [
+        {
+          "id": 4,
+          "name": "동욱"
+        },
+        {
+          "id": 3,
+          "name": "호빈"
+        }
+      ],
+      "photos": [],
+      "id": 6
+    },
+    {
+      "travelId": 1,
+      "date": "2026-04-12T21:43:49.831Z",
+      "category": "식비",
+      "place": "저녁 딤섬집",
+      "amount": 100000,
+      "payer": {
+        "id": 2,
+        "name": "에스더"
+      },
+      "participants": [
+        {
+          "id": 1,
+          "name": "예림"
+        },
+        {
+          "id": 3,
+          "name": "호빈"
+        },
+        {
+          "id": 4,
+          "name": "동욱"
+        },
+        {
+          "id": 2,
+          "name": "에스더"
+        }
+      ],
+      "photos": [],
+      "id": 7
+    },
+    {
+      "travelId": 1,
+      "date": "2026-04-12T21:44:01.975Z",
+      "category": "교통",
+      "place": "didi 택시비 ",
+      "amount": 7000,
+      "payer": {
+        "id": 3,
+        "name": "호빈"
+      },
+      "participants": [
+        {
+          "id": 4,
+          "name": "동욱"
+        },
+        {
+          "id": 3,
+          "name": "호빈"
+        },
+        {
+          "id": 2,
+          "name": "에스더"
+        },
+        {
+          "id": 1,
+          "name": "예림"
+        }
+      ],
+      "photos": [],
+      "id": 8
+    },
+    {
+      "travelId": 1,
+      "date": "2026-04-12T21:44:35.876Z",
+      "category": "교통",
+      "place": "야식 배달",
+      "amount": 30000,
+      "payer": {
+        "id": 4,
+        "name": "동욱"
+      },
+      "participants": [
+        {
+          "id": 4,
+          "name": "동욱"
+        },
+        {
+          "id": 3,
+          "name": "호빈"
+        },
+        {
+          "id": 2,
+          "name": "에스더"
+        },
+        {
+          "id": 1,
+          "name": "예림"
+        }
+      ],
+      "photos": [],
+      "id": 9
+    },
+    {
+      "travelId": 1,
+      "date": "2026-04-14T15:00:00.000Z",
+      "category": "기타",
+      "place": "헤이티 ",
+      "amount": 5000,
+      "payer": {
+        "id": 4,
+        "name": "동욱"
+      },
+      "participants": [
+        {
+          "id": 2,
+          "name": "에스더"
+        },
+        {
+          "id": 4,
+          "name": "동욱"
+        }
+      ],
+      "photos": [
+        "Pennguins.jpg.jpg"
+      ],
+      "id": 10
+    },
+    {
+      "travelId": 1,
+      "date": "2026-04-10T15:00:00.000Z",
+      "category": "기타",
+      "place": "여행자보험",
+      "amount": 78800,
+      "payer": {
+        "id": 4,
+        "name": "동욱"
+      },
+      "participants": [
+        {
+          "id": 4,
+          "name": "동욱"
+        },
+        {
+          "id": 3,
+          "name": "호빈"
+        },
+        {
+          "id": 2,
+          "name": "에스더"
+        },
+        {
+          "id": 1,
+          "name": "예림"
+        }
+      ],
+      "photos": [],
+      "id": 11
+    },
+    {
+      "travelId": 1,
+      "date": "2026-04-10T15:00:00.000Z",
+      "category": "식비",
+      "place": "유심",
+      "amount": 50000,
+      "payer": {
+        "id": 1,
+        "name": "예림"
+      },
+      "participants": [
+        {
+          "id": 1,
+          "name": "예림"
+        },
+        {
+          "id": 2,
+          "name": "에스더"
+        },
+        {
+          "id": 3,
+          "name": "호빈"
+        },
+        {
+          "id": 4,
+          "name": "동욱"
+        }
+      ],
+      "photos": [],
+      "id": 12
+    }
+  ]
 }
